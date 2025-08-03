@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { HiBars3BottomRight, HiBars3 } from "react-icons/hi2";
 
 const StyledHeader = styled.header`
   padding: 1.2rem 4.8rem;
@@ -20,12 +21,12 @@ const StyledHeader = styled.header`
   }
 `;
 
-function Header({ onToggleSidebar }) {
+function Header({ isSidebarOpen, onToggleSidebar }) {
   return (
     <StyledHeader>
       <span>header</span>
       <button onClick={onToggleSidebar} className="toggle-button">
-        ☰
+        {isSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
       </button>
     </StyledHeader>
   );

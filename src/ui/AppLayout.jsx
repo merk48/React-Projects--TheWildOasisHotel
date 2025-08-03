@@ -26,7 +26,10 @@ function AppLayout() {
 
   return (
     <StyledAppLayout>
-      <Header onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+      />
       <Sidebar isOpen={isSidebarOpen} />
       <Main>
         <Outlet />
