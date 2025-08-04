@@ -50,6 +50,7 @@ function CabinRow({ cabin }) {
 
   //TODO create custom hook
   const { isPending, mutate } = useMutation({
+    //TODO create constants for strings keys
     mutationKey: ["delete-cabin"],
     // mutationFn: (id) => deleteCabin(id),
     mutationFn: deleteCabin,
@@ -58,6 +59,7 @@ function CabinRow({ cabin }) {
 
       // refetch data => invalidating cache => stale
       queryClient.invalidateQueries({
+        //TODO create constants for strings keys
         queryKey: ["cabins"],
       });
     },

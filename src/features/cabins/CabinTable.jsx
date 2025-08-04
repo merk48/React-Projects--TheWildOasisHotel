@@ -32,8 +32,10 @@ function CabinTable() {
   const {
     isLoading,
     data: cabins,
+    //TODO handle error
     error,
   } = useQuery({
+    //TODO create constants for strings keys
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
