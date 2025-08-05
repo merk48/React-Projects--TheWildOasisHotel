@@ -1,8 +1,12 @@
-import { cabinsBucketStorage } from "../features/cabins/constants";
-import supabase, { supabaseUrl } from "./supabase";
+import {
+  cabinsBucketStorage,
+  cabinsTableName,
+} from "../features/cabins/constants";
+import { createFilePath, getFilenameFromUrl } from "./helper";
+import supabase from "./supabase";
 
 export async function readCabins() {
-  const { data, error } = await supabase.from("Cabins").select("*");
+  const { data, error } = await supabase.from(cabinsTableName).select("*");
 
   if (error) {
     console.error(error);
@@ -28,7 +32,7 @@ export async function createCabin(newCabin, isCopy = false) {
 
   // 1. Create cabin
   const { data, error } = await supabase
-    .from("Cabins")
+    .from(cabinsTableName)
     .insert([{ ...newCabin, image: imagePath }])
     .select()
     .single();
@@ -41,7 +45,7 @@ export async function createCabin(newCabin, isCopy = false) {
   // 2. Upload image only if it's a new file (not a copy)
   if (!isCopy && typeof newCabin.image !== "string") {
     const { error: storageError } = await uploadFile(
-      "cabin-images",
+      cabinsBucketStorage,
       imageName,
       newCabin.image
     );
@@ -73,7 +77,7 @@ export async function updateCabin(updatedCabin, id) {
 
   // 1. Update the cabin
   const { data, error } = await supabase
-    .from("Cabins")
+    .from(cabinsTableName)
     .update({ ...updatedCabin, image: imagePath })
     .eq("id", id)
     .select()
@@ -89,7 +93,7 @@ export async function updateCabin(updatedCabin, id) {
     const imageName = imagePath.split("/").at(-1);
 
     const { error: storageError } = await uploadFile(
-      "cabin-images",
+      cabinsBucketStorage,
       imageName,
       updatedCabin.image
     );
@@ -100,25 +104,13 @@ export async function updateCabin(updatedCabin, id) {
         `Cabin image could not be uploaded, but the cabin was updated`
       );
     }
+
+    // then delete old one:
+    const oldName = getFilenameFromUrl(updatedCabin.image);
+    await supabase.storage.from(cabinsBucketStorage).remove([oldName]);
   }
 
   return data;
-}
-
-function createFilePath(cabinsBucketStorage, file) {
-  const fileName = `${Math.random()}-${file.name}`.replaceAll("/", "");
-
-  const filePath = `${supabaseUrl}/storage/v1/object/public/${cabinsBucketStorage}/${fileName}`;
-
-  return { fileName, filePath };
-}
-
-async function uploadFile(cabinsBucketStorage, fileName, file) {
-  const { data, error } = await supabase.storage
-    .from(cabinsBucketStorage)
-    .upload(fileName, file);
-
-  return { data, error };
 }
 
 export async function deleteCabin(id) {
@@ -128,4 +120,12 @@ export async function deleteCabin(id) {
     console.error(error);
     throw new Error(`Cabin with id ${id} could not be deleted`);
   }
+}
+
+async function uploadFile(bucketStorageName, fileName, file) {
+  const { data, error } = await supabase.storage
+    .from(bucketStorageName)
+    .upload(fileName, file);
+
+  return { data, error };
 }
