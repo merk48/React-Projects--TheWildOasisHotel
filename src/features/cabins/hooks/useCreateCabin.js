@@ -1,21 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { createCabinKey, readCabinsKey } from "../constants";
+import { createCabin as createCabinApi } from "../../../services/apiCabins";
 
-const useCreateCabin = function () {
+export const useCreateCabin = function () {
   const queryClient = useQueryClient();
   const { isPending: isCreating, mutate: createCabin } = useMutation({
-    //TODO create constants for strings keys
-    mutationKey: ["create-cabin"],
-    mutationFn: createCabin,
+    mutationKey: [createCabinKey],
+    mutationFn: createCabinApi,
     onSuccess: () => {
       toast.success("New cabin successfully created");
       // refetch data => invalidating cache => stale
       queryClient.invalidateQueries({
-        //TODO create constants for strings keys
-        queryKey: ["cabins"],
+        queryKey: [readCabinsKey],
       });
-
-      reset();
     },
     onError: (err) => toast.error(err.message),
   });

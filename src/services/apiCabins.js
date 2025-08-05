@@ -1,6 +1,5 @@
+import { cabinsBucketStorage } from "../features/cabins/constants";
 import supabase, { supabaseUrl } from "./supabase";
-
-const storageBucket = "cabin-images";
 
 export async function getCabins() {
   const { data, error } = await supabase.from("Cabins").select("*");
@@ -14,15 +13,8 @@ export async function getCabins() {
 }
 
 export async function createCabin(newCabin) {
-  // const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
-  //   "/",
-  //   ""
-  // );
-
-  // const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-
   const { filePath: imagePath, fileName: imageName } = createFilePath(
-    storageBucket,
+    cabinsBucketStorage,
     newCabin.image
   );
 
@@ -65,12 +57,10 @@ export async function updateCabin(updatedCabin, id) {
 
   if (isNewImage) {
     ({ filePath: imagePath } = createFilePath(
-      storageBucket,
+      cabinsBucketStorage,
       updatedCabin.image
     ));
-  } else {
-    imagePath = updatedCabin.image; // already a string URL from previous upload
-  }
+  } else imagePath = updatedCabin.image;
 
   // 1. Update the cabin
   const { data, error } = await supabase
@@ -106,17 +96,17 @@ export async function updateCabin(updatedCabin, id) {
   return data;
 }
 
-function createFilePath(storageBucket, file) {
+function createFilePath(cabinsBucketStorage, file) {
   const fileName = `${Math.random()}-${file.name}`.replaceAll("/", "");
 
-  const filePath = `${supabaseUrl}/storage/v1/object/public/${storageBucket}/${fileName}`;
+  const filePath = `${supabaseUrl}/storage/v1/object/public/${cabinsBucketStorage}/${fileName}`;
 
   return { fileName, filePath };
 }
 
-async function uploadFile(storageBucket, fileName, file) {
+async function uploadFile(cabinsBucketStorage, fileName, file) {
   const { data, error } = await supabase.storage
-    .from(storageBucket)
+    .from(cabinsBucketStorage)
     .upload(fileName, file);
 
   return { data, error };
