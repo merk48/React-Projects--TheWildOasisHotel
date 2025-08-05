@@ -13,7 +13,7 @@ function UpdateSettingsForm() {
     maxBookingLength,
     maxGuestsLengthPerBooking,
     breakfastPrice,
-  } = settings;
+  } = isLoading ? {} : settings;
 
   const { isUpdating, updateSetting } = useUpdateSetting();
 

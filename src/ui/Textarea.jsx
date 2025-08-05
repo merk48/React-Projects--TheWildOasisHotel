@@ -1,3 +1,4 @@
+// Textarea.js
 import styled from "styled-components";
 
 const Textarea = styled.textarea`
@@ -8,6 +9,16 @@ const Textarea = styled.textarea`
   box-shadow: var(--shadow-sm);
   width: 100%;
   height: 8rem;
+
+  @media (max-width: 768px) {
+    padding: 0.6rem 1rem;
+    height: 6rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.5rem 0.8rem;
+    height: 5rem;
+  }
 `;
 
 export default Textarea;

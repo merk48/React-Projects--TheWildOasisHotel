@@ -7,16 +7,46 @@ const sizes = {
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    @media (max-width: 640px) {
+      font-size: 1rem;
+      padding: 0.2rem 0.5rem;
+    }
   `,
   medium: css`
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;
+
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+      padding: 1rem 1.2rem;
+    }
+
+    @media (max-width: 640px) {
+      font-size: 1.2rem;
+      padding: 0.8rem 1rem;
+    }
   `,
   large: css`
     font-size: 1.6rem;
     padding: 1.2rem 2.4rem;
     font-weight: 500;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+    }
+
+    @media (max-width: 640px) {
+      font-size: 1.4rem;
+      padding: 0.8rem 1.6rem;
+    }
   `,
 };
 

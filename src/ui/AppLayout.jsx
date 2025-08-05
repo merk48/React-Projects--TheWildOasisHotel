@@ -29,6 +29,16 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
+const Backdrop = styled.div`
+  @media (max-width: 640px) {
+    display: block;
+    position: fixed;
+    inset: 0; /* top/right/bottom/left: 0 */
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 40;
+  }
+`;
+
 function AppLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -36,9 +46,10 @@ function AppLayout() {
     <StyledAppLayout>
       <Header
         isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        onToggleSidebar={setIsSidebarOpen}
       />
       <Sidebar isOpen={isSidebarOpen} />
+      {isSidebarOpen && <Backdrop onClick={() => setIsSidebarOpen(false)} />}
       <Main>
         <Container>
           <Outlet />

@@ -138,15 +138,14 @@ function CreateUpdateCabinForm({ cabinToEdit = {} }) {
         />
       </FormRow>
 
-      <div>
-        {/* type is an HTML attribute! */}
+      <FormRow>
         <Button variation="secondary" type="reset">
           Reset
         </Button>
         <Button disabled={isWorking}>
           {isEditSession ? "Edit cabin" : "Create new cabin"}
         </Button>
-      </div>
+      </FormRow>
     </Form>
   );
 }
