@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCabins } from "../../../services/apiCabins";
+import { readCabins } from "../../../services/apiCabins";
 import { readCabinsKey } from "../constants";
 
 export function useCabins() {
@@ -9,7 +9,7 @@ export function useCabins() {
     error,
   } = useQuery({
     queryKey: [readCabinsKey],
-    queryFn: getCabins,
+    queryFn: readCabins,
   });
 
   return { isLoading, cabins, error };

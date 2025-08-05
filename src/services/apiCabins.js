@@ -1,7 +1,7 @@
 import { cabinsBucketStorage } from "../features/cabins/constants";
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins() {
+export async function readCabins() {
   const { data, error } = await supabase.from("Cabins").select("*");
 
   if (error) {
@@ -12,11 +12,19 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin) {
-  const { filePath: imagePath, fileName: imageName } = createFilePath(
-    cabinsBucketStorage,
-    newCabin.image
-  );
+export async function createCabin(newCabin, isCopy = false) {
+  let imagePath;
+  let imageName;
+
+  if (typeof newCabin.image === "string") {
+    // It's a copy: use existing URL
+    imagePath = newCabin.image;
+  } else {
+    // New file uploaded
+    const fileData = createFilePath(cabinsBucketStorage, newCabin.image);
+    imagePath = fileData.filePath;
+    imageName = fileData.fileName;
+  }
 
   // 1. Create cabin
   const { data, error } = await supabase
@@ -30,23 +38,24 @@ export async function createCabin(newCabin) {
     throw new Error(`Cabin could not be created`);
   }
 
-  // 2. Upload image
-  const { error: storageError } = await uploadFile(
-    "cabin-images",
-    imageName,
-    newCabin.image
-  );
-
-  if (storageError) {
-    // 3. Delete the cabin
-    await deleteCabin(data.id);
-
-    console.error(error);
-    throw new Error(
-      `Cabin image could not be uploaded and the cabin was not created`
+  // 2. Upload image only if it's a new file (not a copy)
+  if (!isCopy && typeof newCabin.image !== "string") {
+    const { error: storageError } = await uploadFile(
+      "cabin-images",
+      imageName,
+      newCabin.image
     );
-  }
 
+    if (storageError) {
+      // 3. Delete the cabin
+      await deleteCabin(data.id);
+
+      console.error(storageError);
+      throw new Error(
+        `Cabin image could not be uploaded and the cabin was not created`
+      );
+    }
+  }
   return data;
 }
 

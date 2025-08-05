@@ -3,7 +3,7 @@ import CabinTable from "../features/cabins/CabinTable";
 import Button from "../ui/Button";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import CreateUpdateCabinForm from "../features/cabins/CreateUpdateCabinForm";
 
 function Cabins() {
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +18,7 @@ function Cabins() {
         <Button onClick={() => setShowForm((show) => !show)}>
           Add new cabin
         </Button>
-        {showForm && <CreateCabinForm />}
+        {showForm && <CreateUpdateCabinForm />}
       </Row>
     </>
   );

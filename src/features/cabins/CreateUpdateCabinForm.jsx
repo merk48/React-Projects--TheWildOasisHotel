@@ -8,7 +8,7 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateUpdateCabinForm({ cabinToEdit = {} }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, updateCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -151,4 +151,4 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   );
 }
 
-export default CreateCabinForm;
+export default CreateUpdateCabinForm;
