@@ -3,7 +3,7 @@ import { readCabinsKey, updateCabinKey } from "../constants";
 import { updateCabin as updateCabinApi } from "../../../services/apiCabins";
 import toast from "react-hot-toast";
 
-export const useEditCabin = function () {
+export const useUpdateCabin = function () {
   const queryClient = useQueryClient();
 
   const { isPending: isUpdating, mutate: updateCabin } = useMutation({
