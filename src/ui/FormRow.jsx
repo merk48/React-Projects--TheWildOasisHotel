@@ -29,7 +29,7 @@ const StyledFormRow = styled.div`
 
   @media (max-width: 640px) {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: stretch;
     gap: 0.8rem;
     border: none;

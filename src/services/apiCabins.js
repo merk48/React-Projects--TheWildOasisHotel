@@ -114,7 +114,7 @@ export async function updateCabin(updatedCabin, id) {
 }
 
 export async function deleteCabin(id) {
-  const { error } = await supabase.from("Cabins").delete().eq("id", id);
+  const { error } = await supabase.from(cabinsTableName).delete().eq("id", id);
 
   if (error) {
     console.error(error);

@@ -5,6 +5,10 @@ import { useCreateCabin } from "./hooks/useCreateCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { formatCurrency } from "./../../utils/helpers";
 import CreateUpdateCabinForm from "./CreateUpdateCabinForm";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import UpdateCabin from "./UpdateCabin";
+import DeleteCabin from "./DeleteCabin";
 
 export const TableRow = styled.div`
   display: grid;
@@ -70,8 +74,6 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
-  const [showForm, setShowForm] = useState(false);
-
   const { id, name, maxCapacity, image, discount, regularPrice } = cabin;
 
   const isWorking = isDeleting || isCreating;
@@ -99,18 +101,10 @@ function CabinRow({ cabin }) {
           <button onClick={handleDuplicate} disabled={isWorking}>
             <HiSquare2Stack />
           </button>
-          <button onClick={() => deleteCabin(id)} disabled={isWorking}>
-            <HiTrash />
-          </button>
-          <button
-            onClick={() => setShowForm((show) => !show)}
-            disabled={isWorking}
-          >
-            <HiPencil />
-          </button>
+          <UpdateCabin disabled={isWorking} cabin={cabin} />
+          <DeleteCabin disabled={isWorking} onConfirm={() => deleteCabin(id)} />
         </div>
       </TableRow>
-      {showForm && <CreateUpdateCabinForm cabinToEdit={cabin} />}
     </>
   );
 }
