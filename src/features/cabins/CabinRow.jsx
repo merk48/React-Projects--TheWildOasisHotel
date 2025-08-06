@@ -58,13 +58,21 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
-  const { id, name, maxCapacity, image, discount, regularPrice } = cabin;
+  const { id, name, maxCapacity, image, discount, description, regularPrice } =
+    cabin;
 
   const isWorking = isDeleting || isCreating;
 
   function handleDuplicate() {
     createCabin(
-      { maxCapacity, name: `${name}Copy`, image, discount, regularPrice },
+      {
+        maxCapacity,
+        name: `${name}Copy`,
+        image,
+        discount,
+        description,
+        regularPrice,
+      },
       true
     );
   }
@@ -91,10 +99,14 @@ function CabinRow({ cabin }) {
             >
               Duplicate
             </Menus.Button>
+
+            {/* // Modal open compound component */}
             <Modal.Open opens={`edit-cabin-form-${id}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             </Modal.Open>
+
+            {/* // Modal open compound component */}
             <Modal.Open opens={`delete-cabin-form-${id}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiTrash />} disabled={isWorking}>
@@ -102,6 +114,8 @@ function CabinRow({ cabin }) {
               </Menus.Button>
             </Modal.Open>
           </Menus.List>
+
+          {/* // Rest of modal compound component */}
           <Modal.Window name={`edit-cabin-form-${id}`}>
             <CreateUpdateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
@@ -121,7 +135,6 @@ function CabinRow({ cabin }) {
 
 export default CabinRow;
 //             <UpdateCabin id={id} disabled={isWorking} cabin={cabin} />
-
 // <DeleteCabin
 //               id={id}
 //               disabled={isWorking}

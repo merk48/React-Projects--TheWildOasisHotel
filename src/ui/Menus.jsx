@@ -31,13 +31,20 @@ const StyledToggle = styled.button`
 
 const StyledList = styled.ul`
   position: fixed;
-
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
-
   right: ${(props) => props.position.x}px;
   top: ${(props) => props.position.y}px;
+  min-width: 22rem;
+  max-width: 90vw;
+  z-index: 1000;
+
+  @media (max-width: 640px) {
+    font-size: 1.3rem;
+    min-width: 18rem;
+    padding: 0.4rem 0;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -62,6 +69,16 @@ const StyledButton = styled.button`
     height: 1.6rem;
     color: var(--color-grey-400);
     transition: all 0.3s;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1rem 1.6rem;
+    font-size: 1.3rem;
+
+    & svg {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
   }
 `;
 
