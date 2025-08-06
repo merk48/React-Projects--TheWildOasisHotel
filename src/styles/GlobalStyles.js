@@ -2,6 +2,17 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 :root {
+ /* Crimson Shades */
+--color-brand-50: #fdf2f2;   /* Soft blush */
+--color-brand-100: #fde8e8;  /* Gentle rose */
+--color-brand-200: #fbd5d5;  /* Light crimson */
+--color-brand-500: #dc2626;  /* Bold crimson core */
+--color-brand-600: #b91c1c;  /* Deep crimson */
+--color-brand-700: #991b1b;  /* Strong garnet */
+--color-brand-800: #7f1d1d;  /* Dark carmine */
+--color-brand-900: #641414;  /* Intense oxblood */
+
+
   /* Indigo */
   --color-brand-50: #eef2ff;
   --color-brand-100: #e0e7ff;
@@ -12,6 +23,8 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-800: #3730a3;
   --color-brand-900: #312e81;
 
+
+  
   /* Grey */
   --color-grey-0: #fff;
   --color-grey-50: #f9fafb;
