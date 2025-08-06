@@ -4,7 +4,7 @@ const Form = styled.form`
   overflow: hidden;
   font-size: 1.4rem;
   ${(props) =>
-    props.type !== "modal" &&
+    props.type === "regular" &&
     css`
       padding: 2.4rem 4rem;
       background-color: var(--color-grey-0);

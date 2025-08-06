@@ -8,6 +8,7 @@ const Overlay = styled.div`
   z-index: 1000;
   transition: all 0.5s;
   ${(props) => props.type === "small"}
+  overflow: scroll;
 `;
 
 export default Overlay;

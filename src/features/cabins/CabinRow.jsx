@@ -1,43 +1,23 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import { useCreateCabin } from "./hooks/useCreateCabin";
-import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { HiSquare2Stack } from "react-icons/hi2";
 import { formatCurrency } from "./../../utils/helpers";
-import CreateUpdateCabinForm from "./CreateUpdateCabinForm";
-import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
 import UpdateCabin from "./UpdateCabin";
 import DeleteCabin from "./DeleteCabin";
+import Table from "../../ui/Table";
 
-export const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
-  min-width: 600px;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 0.8fr 2fr 2fr 1fr 1fr 0.8fr;
-    padding: 1rem 1.6rem;
-  }
-
-  @media (max-width: 640px) {
-    padding: 0.8rem 1.2rem;
-  }
-`;
 export const Img = styled.img`
   display: block;
-  min-width: 6.4rem;
+  width: 6.4rem;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
   transform: scale(1.5) translateX(-7px);
+
+  @media (max-width: 640px) {
+    width: 5rem;
+  }
 `;
 
 export const Cabin = styled.div`
@@ -86,26 +66,24 @@ function CabinRow({ cabin }) {
   }
 
   return (
-    <>
-      <TableRow role="row">
-        <Img src={image} />
-        <Cabin>{name}</Cabin>
-        <Cabin>{maxCapacity}</Cabin>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <spam>-</spam>
-        )}
-        <div>
-          <button onClick={handleDuplicate} disabled={isWorking}>
-            <HiSquare2Stack />
-          </button>
-          <UpdateCabin disabled={isWorking} cabin={cabin} />
-          <DeleteCabin disabled={isWorking} onConfirm={() => deleteCabin(id)} />
-        </div>
-      </TableRow>
-    </>
+    <Table.Row>
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <Cabin>{maxCapacity}</Cabin>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <spam>-</spam>
+      )}
+      <div>
+        <button onClick={handleDuplicate} disabled={isWorking}>
+          <HiSquare2Stack />
+        </button>
+        <UpdateCabin disabled={isWorking} cabin={cabin} />
+        <DeleteCabin disabled={isWorking} onConfirm={() => deleteCabin(id)} />
+      </div>
+    </Table.Row>
   );
 }
 
