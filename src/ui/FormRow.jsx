@@ -52,8 +52,13 @@ const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 
+  @media (max-width: 768px) {
+    grid-column: 1 / -1; /* Span all columns in grid */
+  }
+
   @media (max-width: 640px) {
     margin-top: 0.4rem;
+    width: 100%; /* Ensure it fills full width in flex layout */
   }
 `;
 

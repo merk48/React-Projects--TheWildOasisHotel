@@ -11,15 +11,20 @@ const StyledSidebar = styled.aside`
   flex-direction: column;
   gap: 3.2rem;
 
+  @media (max-width: 768px) {
+    padding: 2.4rem 1.6rem;
+  }
+
   @media (max-width: 640px) {
     position: fixed;
     top: 0;
     left: 0;
     height: 100dvh;
     width: 20rem;
+    padding: 2rem 1.2rem;
     transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")});
     transition: transform 0.3s ease-in-out;
-    z-index: 50;
+    z-index: 2000;
   }
 `;
 

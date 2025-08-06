@@ -24,11 +24,14 @@ const Form = styled.form`
     props.type === "modal" &&
     css`
       width: 80rem;
-
       @media (max-width: 1024px) {
         width: 100%;
       }
     `}
 `;
+
+Form.defaultProps = {
+  type: "regular",
+};
 
 export default Form;

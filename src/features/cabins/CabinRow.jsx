@@ -12,6 +12,7 @@ export const TableRow = styled.div`
   column-gap: 2.4rem;
   align-items: center;
   padding: 1.4rem 2.4rem;
+  min-width: 600px;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
@@ -23,13 +24,12 @@ export const TableRow = styled.div`
   }
 
   @media (max-width: 640px) {
-    min-width: 600px;
     padding: 0.8rem 1.2rem;
   }
 `;
 export const Img = styled.img`
   display: block;
-  width: 6.4rem;
+  min-width: 6.4rem;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
