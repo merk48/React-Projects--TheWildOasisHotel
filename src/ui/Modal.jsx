@@ -98,15 +98,3 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
-
-// return createPortal(
-//     <Overla onClick={close}>
-//       <StyledModal  onClick={(e) => e.stopPropagation()}>
-//         <Button onClick={close}>
-//           <HiXMark />
-//         </Button>
-//         <div>{cloneElement(children, { onCloseModal: close })}</div>
-//       </StyledModal>
-//     </Overla>,
-//     document.body // for reusability
-//   );

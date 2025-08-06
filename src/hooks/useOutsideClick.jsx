@@ -16,3 +16,7 @@ export default function useOutsideClick(handler, listenCapturing = true) {
 
   return { ref };
 }
+
+// Way 2
+//     <Overlay onClick={close}>
+//       <StyledModal  onClick={(e) => e.stopPropagation()}>

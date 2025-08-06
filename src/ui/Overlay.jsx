@@ -10,14 +10,4 @@ const Overlay = styled.div`
   ${(props) => props.type === "small"}
 `;
 
-const Backdrop = styled.div`
-  @media (max-width: 640px) {
-    display: block;
-    position: fixed;
-    inset: 0; /* top/right/bottom/left: 0 */
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 40;
-  }
-`;
-
 export default Overlay;

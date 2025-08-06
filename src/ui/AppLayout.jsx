@@ -49,8 +49,8 @@ function AppLayout() {
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={setIsSidebarOpen}
       />
-      <Sidebar isOpen={isSidebarOpen} />
-      {isSidebarOpen && <Overlay onClick={() => setIsSidebarOpen(false)} />}
+      <Sidebar isOpen={isSidebarOpen} onClose={setIsSidebarOpen} />
+      {isSidebarOpen && <Overlay />}
       <Main>
         <Container>
           <ModalProvider>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import useOutsideClick from "../hooks/useOutsideClick";
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
@@ -28,9 +29,11 @@ const StyledSidebar = styled.aside`
   }
 `;
 
-function Sidebar({ isOpen }) {
+function Sidebar({ isOpen, onClose }) {
+  const { ref } = useOutsideClick(onClose, true);
+
   return (
-    <StyledSidebar $isOpen={isOpen}>
+    <StyledSidebar ref={ref} $isOpen={isOpen}>
       <Logo />
       <MainNav />
     </StyledSidebar>
