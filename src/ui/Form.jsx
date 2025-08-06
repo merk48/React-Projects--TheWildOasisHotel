@@ -4,7 +4,7 @@ const Form = styled.form`
   overflow: hidden;
   font-size: 1.4rem;
   ${(props) =>
-    props.type !== "modal" &&
+    props.type === "regular" &&
     css`
       padding: 2.4rem 4rem;
       background-color: var(--color-grey-0);
@@ -24,11 +24,14 @@ const Form = styled.form`
     props.type === "modal" &&
     css`
       width: 80rem;
-
       @media (max-width: 1024px) {
         width: 100%;
       }
     `}
 `;
+
+Form.defaultProps = {
+  type: "regular",
+};
 
 export default Form;

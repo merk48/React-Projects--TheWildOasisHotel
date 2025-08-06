@@ -4,6 +4,8 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Main from "./Main";
+import Overlay from "./Overlay";
+import ModalProvider from "../contexts/modalContext";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -27,15 +29,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-`;
+  padding: 0 2.4rem;
 
-const Backdrop = styled.div`
+  @media (max-width: 768px) {
+    gap: 2.5rem;
+  }
+
   @media (max-width: 640px) {
-    display: block;
-    position: fixed;
-    inset: 0; /* top/right/bottom/left: 0 */
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 40;
+    gap: 1.8rem;
   }
 `;
 
@@ -48,11 +49,13 @@ function AppLayout() {
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={setIsSidebarOpen}
       />
-      <Sidebar isOpen={isSidebarOpen} />
-      {isSidebarOpen && <Backdrop onClick={() => setIsSidebarOpen(false)} />}
+      <Sidebar isOpen={isSidebarOpen} onClose={setIsSidebarOpen} />
+      {isSidebarOpen && <Overlay />}
       <Main>
         <Container>
-          <Outlet />
+          <ModalProvider>
+            <Outlet />
+          </ModalProvider>
         </Container>
       </Main>
     </StyledAppLayout>
