@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { readSettingsKey } from "../constants";
+import { readSettingsKey } from "../../../utils/queryConstants";
 import { getSettings } from "../../../services/apiSettings";
 
 export function useSettings() {

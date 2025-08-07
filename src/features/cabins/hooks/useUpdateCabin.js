@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { readCabinsKey, updateCabinKey } from "../constants";
+import { readCabinsKey, updateCabinKey } from "../../../utils/queryConstants";
 import { updateCabin as updateCabinApi } from "../../../services/apiCabins";
 import toast from "react-hot-toast";
 

@@ -16,7 +16,7 @@ const StyledHeader = styled.header`
     border: none;
     cursor: pointer;
 
-    @media (min-width: 640px) {
+    @media (min-width: 768px) {
       display: none;
     }
   }

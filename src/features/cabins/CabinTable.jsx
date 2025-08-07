@@ -4,6 +4,7 @@ import { useCabins } from "./hooks/useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 
 function CabinTable() {
   const { isLoading, cabins } = useCabins();
@@ -54,6 +55,8 @@ function CabinTable() {
   const finalList = currentSort
     ? [...filtered].sort(sortFns[currentSort])
     : filtered;
+
+  if (!cabins) return <Empty resource="cabins" />;
 
   return (
     <Menus>

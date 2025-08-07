@@ -1,5 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { readSettingsKey, updateSettingKey } from "../constants";
+import {
+  readSettingsKey,
+  updateSettingKey,
+} from "../../../utils/queryConstants";
 import { updateSetting as updateSettingApi } from "../../../services/apiSettings";
 import toast from "react-hot-toast";
 

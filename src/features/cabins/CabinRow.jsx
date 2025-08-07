@@ -3,8 +3,6 @@ import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { formatCurrency } from "./../../utils/helpers";
-import UpdateCabin from "./UpdateCabin";
-import DeleteCabin from "./DeleteCabin";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
@@ -58,8 +56,15 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
-  const { id, name, maxCapacity, image, discount, description, regularPrice } =
-    cabin;
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    image,
+    discount,
+    description,
+    regularPrice,
+  } = cabin;
 
   const isWorking = isDeleting || isCreating;
 
@@ -90,8 +95,8 @@ function CabinRow({ cabin }) {
           <span>-</span>
         )}
         <Menus.Menu>
-          <Menus.Toggle id={id} />
-          <Menus.List id={id}>
+          <Menus.Toggle id={cabinId} />
+          <Menus.List id={cabinId}>
             <Menus.Button
               disabled={isWorking}
               icon={<HiSquare2Stack />}
@@ -101,13 +106,13 @@ function CabinRow({ cabin }) {
             </Menus.Button>
 
             {/* // Modal open compound component */}
-            <Modal.Open opens={`edit-cabin-form-${id}`}>
+            <Modal.Open opens={`edit-cabin-form-${cabinId}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             </Modal.Open>
 
             {/* // Modal open compound component */}
-            <Modal.Open opens={`delete-cabin-form-${id}`}>
+            <Modal.Open opens={`delete-cabin-form-${cabinId}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiTrash />} disabled={isWorking}>
                 Delete
@@ -116,14 +121,14 @@ function CabinRow({ cabin }) {
           </Menus.List>
 
           {/* // Rest of modal compound component */}
-          <Modal.Window name={`edit-cabin-form-${id}`}>
+          <Modal.Window name={`edit-cabin-form-${cabinId}`}>
             <CreateUpdateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
 
-          <Modal.Window name={`delete-cabin-form-${id}`}>
+          <Modal.Window name={`delete-cabin-form-${cabinId}`}>
             <ConfirmDelete
               resourceName="cabin"
-              onConfirm={() => deleteCabin(id)}
+              onConfirm={() => deleteCabin(cabinId)}
               disabled={isWorking}
             />
           </Modal.Window>

@@ -3,7 +3,12 @@ import { bookingsTableName } from "../utils/queryConstants";
 import supabase from "./supabase";
 
 export async function readBookings() {
-  const { data, error } = await supabase.from(bookingsTableName).select("*");
+  const { data, error } = await supabase
+    .from(bookingsTableName)
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, email)",
+      { count: "exact" }
+    );
 
   if (error) {
     console.error(error);

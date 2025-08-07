@@ -23,12 +23,13 @@ const CommonRow = styled.div`
 
   @media (max-width: 1024px) {
     grid-template-columns: ${(p) => p.columnsMd || p.columns};
-    column-gap: 1.6rem;
+    column-gap: 1.8rem;
+    min-width: 700px;
   }
 
   @media (max-width: 640px) {
     grid-template-columns: ${(p) => p.columnsSm || p.columnsMd || p.columns};
-    column-gap: 1.2rem;
+    column-gap: 1.4rem;
     padding: 0.8rem 1.2rem;
     min-width: 600px;
   }
