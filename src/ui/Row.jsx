@@ -16,6 +16,29 @@ const Row = styled.div`
       flex-direction: column;
       gap: 1.6rem;
     `}
+
+     ${(props) =>
+    props.type === "mix" &&
+    css`
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1.6rem;
+      }
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1.6rem;
+      }
+    `}
 `;
 
 Row.defaultProps = {
