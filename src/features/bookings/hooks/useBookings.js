@@ -21,13 +21,18 @@ function useBookings() {
       : //Todo
         { field: "totalPrice", value: filterValue2, method: "gte" };
 
+  const currentSort = searchParams.get("sortBy") || "startDate-desc";
+
+  const [field, direction] = currentSort.split("-");
+  const sortBy = { field, direction };
+  console.log(sortBy);
   const {
     isLoading,
     data: bookings,
     error,
   } = useQuery({
-    queryKey: [readBookingsKey, filter],
-    queryFn: () => readBookings({ filters: [filter, filter2] }),
+    queryKey: [readBookingsKey, filter, sortBy],
+    queryFn: () => readBookings({ filters: [filter, filter2], sortBy: sortBy }),
   });
 
   return { isLoading, bookings, error };

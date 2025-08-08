@@ -12,9 +12,11 @@ export async function readBookings({ filters, sortBy }) {
   if (filters.length > 0)
     filters.map(
       (filter) =>
-        filter !== null &&
+        filter &&
         (query = query[filter?.method || "eq"](filter?.field, filter?.value))
     );
+  console.log(sortBy);
+  if (sortBy) query = query.order(sortBy.field);
 
   const { data, error } = await query;
 
