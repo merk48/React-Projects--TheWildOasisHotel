@@ -31,12 +31,16 @@ function SortSelect({
   placeholder = "Sort by...",
   ...props
 }) {
-  const [current, handleChange] = useUrl(sortField);
+  const [current, setSort] = useUrl(sortField, {
+    type: "string",
+    defaultValue: "",
+    // resetPageOnChange: true // default
+  });
 
   return (
     <StyledSelect
-      value={current}
-      onChange={(e) => handleChange(e.target.value)}
+      value={current ?? ""}
+      onChange={(e) => setSort(e.target.value)}
       {...props}
     >
       <SortOption value="" disabled>
