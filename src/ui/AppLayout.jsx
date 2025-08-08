@@ -29,7 +29,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  padding: 0 2.4rem;
 
   @media (max-width: 768px) {
     gap: 2.5rem;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import Uploader from "../data/Uploader";
 import useOutsideClick from "../hooks/useOutsideClick";
 
 const StyledSidebar = styled.aside`
@@ -36,6 +37,7 @@ function Sidebar({ isOpen, onClose }) {
     <StyledSidebar ref={ref} $isOpen={isOpen}>
       <Logo />
       <MainNav />
+      <Uploader />
     </StyledSidebar>
   );
 }

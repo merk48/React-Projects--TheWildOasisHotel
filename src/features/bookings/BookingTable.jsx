@@ -2,7 +2,6 @@ import BookingRow from "./BookingRow";
 import Empty from "../../ui/Empty";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { TableColumns, TableColumnsSm } from "../../utils/uiConstants";
 import useBookings from "./hooks/useBookings";
 import Spinner from "../../ui/Spinner";
 
