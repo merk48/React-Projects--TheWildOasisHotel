@@ -2,16 +2,19 @@ import { getToday } from "../utils/helpers";
 import { bookingsTableName } from "../utils/queryConstants";
 import supabase from "./supabase";
 
-export async function readBookings({ filter, sortBy }) {
+export async function readBookings({ filters, sortBy }) {
   let query = supabase
     .from(bookingsTableName)
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, email)"
     );
-  console.log(filter);
 
-  if (filter !== null)
-    query = query.eq("status", "unconfirmed").eq(filter.field, filter.value);
+  if (filters.length > 0)
+    filters.map(
+      (filter) =>
+        filter !== null &&
+        (query = query[filter?.method || "eq"](filter?.field, filter?.value))
+    );
 
   const { data, error } = await query;
 
