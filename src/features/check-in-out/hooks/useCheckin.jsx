@@ -11,10 +11,11 @@ function useCheckin() {
 
   const { isPending: isCheckingIn, mutate: checkIn } = useMutation({
     mutationKey: [checkInBookingKey],
-    mutationFn: ({ id }) =>
+    mutationFn: ({ id, breakfast }) =>
       updateBooking(id, {
         status: BOOKING_CONFIG.statusOptions.CHECKED_IN,
         isPaid: true,
+        ...breakfast,
       }),
     onSuccess: (data) => {
       toast.success(`Booking #${data.id} successfully checked in`);
