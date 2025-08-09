@@ -1,14 +1,15 @@
-import React from "react";
 import styled from "styled-components";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 import { useUrl } from "../hooks/useUrl";
 import { PAGE_SIZE } from "../config";
 
 const StyledPagination = styled.div`
-  width: 100%;
+  min-width: 700px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 `;
 
 const Info = styled.div`
@@ -18,12 +19,19 @@ const Info = styled.div`
   & span {
     font-weight: 600;
   }
+
+  @media (max-width: 640px) {
+    font-size: 1.2rem;
+    margin-left: 0;
+  }
 `;
 
 const Buttons = styled.div`
   display: flex;
   gap: 0.6rem;
   align-items: center;
+  flex-wrap: wrap;
+  margin-right: 3rem;
 `;
 
 const PaginationButton = styled.button`
@@ -41,6 +49,7 @@ const PaginationButton = styled.button`
   padding: 0.6rem 1.2rem;
   transition: all 0.2s;
   cursor: pointer;
+  white-space: nowrap;
 
   &:disabled {
     opacity: 0.5;
@@ -55,6 +64,15 @@ const PaginationButton = styled.button`
   &:hover:not(:disabled) {
     background-color: var(--color-brand-600);
     color: var(--color-brand-50);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+
+    & span {
+      display: none; /* Hide text like "Previous"/"Next" on very small screens */
+    }
   }
 `;
 

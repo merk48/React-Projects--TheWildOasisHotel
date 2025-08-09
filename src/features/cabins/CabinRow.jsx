@@ -15,8 +15,8 @@ export const Img = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.5) translateX(-7px);
-
+  transform: scale(1.5) translateX(-5px);
+  border-radius: 0.5rem;
   @media (max-width: 640px) {
     width: 5rem;
   }
