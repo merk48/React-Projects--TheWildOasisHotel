@@ -15,6 +15,8 @@ export const readBookingByIdKey = "bookingDetails";
 export const deleteBookingKey = "delete-booking";
 export const createBookingKey = "create-booking";
 export const updateBookingKey = "update-booking";
+export const checkInBookingKey = "check-in-booking";
+export const checkOutBookingKey = "check-out-booking";
 
 // Settings
 export const settingsTableName = "settings";

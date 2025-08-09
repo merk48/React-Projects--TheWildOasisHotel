@@ -11,7 +11,7 @@ export function useBookingDetails() {
     data: booking,
     error,
   } = useQuery({
-    queryKey: [readBookingByIdKey],
+    queryKey: [readBookingByIdKey, id],
     queryFn: () => readBookingById(id),
     retry: false,
   });
