@@ -1,6 +1,11 @@
 import { getToday } from "../utils/helpers";
 import { bookingsTableName } from "../utils/queryConstants";
 import supabase from "./supabase";
+import {
+  applyFiltersToQuery,
+  applySortToQuery,
+  applyPaginationToQuery,
+} from "../utils/supabaseQueryHelpers";
 
 export async function readBookings({
   filters = [],
@@ -14,51 +19,9 @@ export async function readBookings({
       { count: "exact" }
     );
 
-  // apply filters (skip falsy entries)
-  filters.filter(Boolean).forEach((filter) => {
-    const method = (filter.method || "eq").toString();
-    const field = filter.field;
-    const value = filter.value;
-
-    // handle a few common special cases
-    if (method === "in" && Array.isArray(value)) {
-      query = query.in(field, value);
-    } else if (
-      (method === "like" || method === "ilike") &&
-      typeof value === "string"
-    ) {
-      // Supabase has .like and .ilike helpers; prefer ilike for case-insensitive
-      if (method === "ilike" && typeof query.ilike === "function") {
-        query = query.ilike(field, value);
-      } else {
-        query = query.like(field, value);
-      }
-    } else {
-      // default to calling the method name (eq, gte, lte, etc.)
-      if (typeof query[method] === "function") {
-        query = query[method](field, value);
-      } else {
-        // fallback to eq if method unknown
-        query = query.eq(field, value);
-      }
-    }
-  });
-
-  // sorting
-  if (sortBy && sortBy.field) {
-    const ascending =
-      String(sortBy.direction || "desc").toLowerCase() === "asc";
-    query = query.order(sortBy.field, { ascending });
-  }
-
-  // pagination
-  if (pagination) {
-    const page = Math.max(1, Number(pagination.page) || 1);
-    const size = Math.max(1, Number(pagination.size) || 10);
-    const from = (page - 1) * size;
-    const to = from + size - 1; // <-- fixed from your earlier bug
-    query = query.range(from, to);
-  }
+  query = applyFiltersToQuery(query, filters);
+  query = applySortToQuery(query, sortBy);
+  query = applyPaginationToQuery(query, pagination);
 
   const { data, count, error } = await query;
 

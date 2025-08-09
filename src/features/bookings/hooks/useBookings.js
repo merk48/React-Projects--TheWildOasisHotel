@@ -1,69 +1,107 @@
-// src/hooks/useBookings.js
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { readBookings } from "../../../services/apiBookings";
 import { readBookingsKey } from "../../../utils/queryConstants";
 import { useSearchParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { PAGE_SIZE } from "../../../config";
 import {
-  buildFiltersFromConfig,
   buildSortFromParam,
   buildPaginationFromParams,
 } from "../../../utils/tableUrlHelpers";
 
+import { getTotalPages, prefetchPage } from "../../../utils/paginationHelpers";
+import useBookingFilters from "../hooks/useBookingFilters";
+import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
+
 function useBookings() {
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  // centralized mapping for filter params -> filter objects
-  const filtersConfig = {
-    status: (v) =>
-      !v || v === "all" ? null : { field: "status", value: v, method: "eq" },
-    totalPrice: (v) =>
-      !v || v === "all"
-        ? null
-        : { field: "totalPrice", value: Number(v), method: "gte" },
-  };
+  // [1] FILTERS
+  const { filters, status: statusParam } = useBookingFilters();
 
-  const filters = useMemo(
-    () => buildFiltersFromConfig(searchParams, filtersConfig),
-    [searchParams.toString()]
-  );
+  // [2] SORT
   const { field, direction } = useMemo(
-    () => buildSortFromParam(searchParams, { defaultSort: "startDate-desc" }),
+    () =>
+      buildSortFromParam(searchParams, {
+        defaultSort: BOOKING_CONFIG.sort.default,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchParams.toString()]
   );
-  const sortBy = useMemo(() => ({ field, direction }), [field, direction]);
+  const sortField = field;
+  const sortDirection = direction;
+
+  // [3] PAGINaTION
   const pagination = useMemo(
     () => buildPaginationFromParams(searchParams, { size: PAGE_SIZE }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchParams.toString()]
   );
+  const pageParam = Number(pagination.page || 1);
+  const pageSize = Number(pagination.size);
 
-  const statusParam = searchParams.get("status") || null;
-  const priceParam = searchParams.get("totalPrice") || null;
-  const pageParam = pagination.page;
+  const filtersKey = useMemo(() => JSON.stringify(filters || []), [filters]);
 
-  const { isLoading, data, error } = useQuery({
+  // [4] main query
+  const { isLoading, data, error, isFetching } = useQuery({
     queryKey: [
       readBookingsKey,
+      filtersKey,
       statusParam,
-      priceParam,
-      field,
-      direction,
+      sortField,
+      sortDirection,
       pageParam,
     ],
     queryFn: () =>
       readBookings({
         filters,
-        sortBy,
+        sortBy: { field: sortField, direction: sortDirection },
         pagination,
       }),
-    keepPreviousData: true,
+    // keepPreviousData: true, // smoother UX when paginating
   });
 
   const bookings = data?.data ?? [];
-  const count = data?.count ?? 0;
+  const count = Number(data?.count ?? 0);
 
-  return { isLoading, bookings, count, error };
+  // [5] prefetch next page when there is one
+  useEffect(() => {
+    const totalPages = getTotalPages(count, pageSize);
+    const nextPage = pageParam + 1;
+
+    if (nextPage <= totalPages) {
+      const nextKey = [
+        readBookingsKey,
+        filtersKey,
+        statusParam,
+        sortField,
+        sortDirection,
+        nextPage,
+      ];
+
+      prefetchPage(queryClient, nextKey, () =>
+        readBookings({
+          filters,
+          sortBy: { field: sortField, direction: sortDirection },
+          pagination: { ...pagination, page: nextPage },
+        })
+      );
+    }
+  }, [
+    queryClient,
+    count,
+    pageParam,
+    pageSize,
+    filtersKey,
+    statusParam,
+    sortField,
+    sortDirection,
+    filters,
+    pagination,
+  ]);
+
+  return { isLoading, isFetching, bookings, count, error };
 }
 
 export default useBookings;
