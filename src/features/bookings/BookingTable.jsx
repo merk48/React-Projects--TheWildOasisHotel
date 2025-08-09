@@ -10,20 +10,18 @@ import { PAGE_SIZE } from "../../config";
 function BookingTable() {
   const { isLoading, bookings, count } = useBookings();
   if (isLoading) return <Spinner />;
-  console.log(bookings);
-  console.log(count);
 
   if (!bookings) return <Empty resource="bookings" />;
   return (
     <Menus>
-      <Table columns="0.6fr 1.8fr 2fr 0.8fr 1fr">
+      <Table columns="0.7fr 2fr 2fr 1.4fr 1fr" minWidth={700} minWidthSm={650}>
         <Table.Header>
-          <div>Cabin</div>
-          <div>Guest</div>
-          <div>Dates</div>
-          <div>Status</div>
-          <div>Amount</div>
-          <div></div>
+          <Table.HeaderCell>Cabin</Table.HeaderCell>
+          <Table.HeaderCell>Guest</Table.HeaderCell>
+          <Table.HeaderCell>Dates</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell>Amount</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
         </Table.Header>
 
         <Table.Body
