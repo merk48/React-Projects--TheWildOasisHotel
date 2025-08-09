@@ -8,6 +8,8 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBookingDetails } from "../bookings/hooks/useBookingDetails";
+import Spinner from "../../ui/Spinner";
 
 const Box = styled.div`
   /* Box */
@@ -20,7 +22,8 @@ const Box = styled.div`
 function CheckinBooking() {
   const moveBack = useMoveBack();
 
-  const booking = {};
+  const { isLoading, booking } = useBookingDetails();
+  if (isLoading) return <Spinner />;
 
   const {
     id: bookingId,

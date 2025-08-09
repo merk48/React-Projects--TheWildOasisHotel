@@ -27,6 +27,7 @@ const sortOptions = [
 ];
 
 export const BOOKING_CONFIG = {
+  statusOptions: STATUS,
   filters: {
     status: {
       field: "status", // backend field name
@@ -54,6 +55,7 @@ export const BOOKING_CONFIG = {
       [STATUS.CHECKED_IN]: "green",
       [STATUS.CHECKED_OUT]: "silver",
     },
+
     dateFormats: {
       display: "MMM dd yyyy",
     },
