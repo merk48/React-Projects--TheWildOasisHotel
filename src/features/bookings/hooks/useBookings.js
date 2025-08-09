@@ -1,44 +1,65 @@
+// src/hooks/useBookings.js
 import { useQuery } from "@tanstack/react-query";
 import { readBookings } from "../../../services/apiBookings";
 import { readBookingsKey } from "../../../utils/queryConstants";
 import { useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { PAGE_SIZE } from "../../../config";
+import {
+  buildFiltersFromConfig,
+  buildSortFromParam,
+  buildPaginationFromParams,
+} from "../../../utils/tableUrlHelpers";
 
 function useBookings() {
   const [searchParams] = useSearchParams();
-  // Filters
-  // Sort
-  // Pagination
-  const filterValue = searchParams.get("status");
-  const filterValue2 = searchParams.get("totalPrice");
 
-  const filter =
-    !filterValue || filterValue === "all"
-      ? null
-      : //Todo
-        { field: "status", value: filterValue, method: "eq" };
+  // centralized mapping for filter params -> filter objects
+  const filtersConfig = {
+    status: (v) =>
+      !v || v === "all" ? null : { field: "status", value: v, method: "eq" },
+    totalPrice: (v) =>
+      !v || v === "all"
+        ? null
+        : { field: "totalPrice", value: Number(v), method: "gte" },
+  };
 
-  const filter2 =
-    !filterValue2 || filterValue2 === "all"
-      ? null
-      : //Todo
-        { field: "totalPrice", value: filterValue2, method: "gte" };
-
-  const currentSort = searchParams.get("sortBy") || "startDate-desc";
-
-  const [field, direction] = currentSort.split("-");
+  const filters = useMemo(
+    () => buildFiltersFromConfig(searchParams, filtersConfig),
+    [searchParams.toString()]
+  );
+  const { field, direction } = useMemo(
+    () => buildSortFromParam(searchParams, { defaultSort: "startDate-desc" }),
+    [searchParams.toString()]
+  );
   const sortBy = useMemo(() => ({ field, direction }), [field, direction]);
-  const page = searchParams.get("page") || "1";
-  const pagination = useMemo(() => ({ page: +page, size: PAGE_SIZE }), [page]);
+  const pagination = useMemo(
+    () => buildPaginationFromParams(searchParams, { size: PAGE_SIZE }),
+    [searchParams.toString()]
+  );
+
+  const statusParam = searchParams.get("status") || null;
+  const priceParam = searchParams.get("totalPrice") || null;
+  const pageParam = pagination.page;
 
   const { isLoading, data, error } = useQuery({
-    queryKey: [readBookingsKey, filter, sortBy, page],
+    queryKey: [
+      readBookingsKey,
+      statusParam,
+      priceParam,
+      field,
+      direction,
+      pageParam,
+    ],
     queryFn: () =>
-      readBookings({ filters: [filter, filter2], sortBy: sortBy, pagination }),
+      readBookings({
+        filters,
+        sortBy,
+        pagination,
+      }),
+    keepPreviousData: true,
   });
 
-  // After loading
   const bookings = data?.data ?? [];
   const count = data?.count ?? 0;
 
