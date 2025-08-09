@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 import { useUrl } from "../hooks/useUrl";
+import { PAGE_SIZE } from "../config";
 
 const StyledPagination = styled.div`
   width: 100%;
@@ -84,7 +85,7 @@ function getPageRange(current, totalPages, maxButtons = 5) {
  */
 export default function Pagination({
   count = 0,
-  pageSize = 10,
+  pageSize = PAGE_SIZE,
   pageParamName = "page",
   maxButtons = 5,
   onPageChange,

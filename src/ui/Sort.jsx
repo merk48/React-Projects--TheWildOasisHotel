@@ -29,12 +29,14 @@ function SortSelect({
   options,
   sortField = "sortBy",
   placeholder = "Sort by...",
+  defaultValue = "",
+  writeDefaultToUrl = false,
   ...props
 }) {
   const [current, setSort] = useUrl(sortField, {
     type: "string",
-    defaultValue: "",
-    // resetPageOnChange: true // default
+    defaultValue,
+    writeDefaultToUrl,
   });
 
   return (
@@ -43,10 +45,6 @@ function SortSelect({
       onChange={(e) => setSort(e.target.value)}
       {...props}
     >
-      <SortOption value="" disabled>
-        {placeholder}
-      </SortOption>
-
       {options.map((opt) => (
         <SortOption key={opt.value} value={opt.value}>
           {opt.label}

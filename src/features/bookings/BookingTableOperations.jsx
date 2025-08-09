@@ -21,11 +21,15 @@ function BookingTableOperations() {
 
   return (
     <TableOperations>
-      <Filter filterField="status">
+      <Filter filterField="status" defaultValue={statusOptions[0].value}>
         <Filter.Group options={statusOptions} />
       </Filter>
 
-      <Sort.Select options={sortOptions} type="white" />
+      <Sort.Select
+        options={sortOptions}
+        defaultValue={sortOptions[0].value}
+        type="white"
+      />
     </TableOperations>
   );
 }

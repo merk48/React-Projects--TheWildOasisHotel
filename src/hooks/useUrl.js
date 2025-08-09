@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 /**
@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
  *  - defaultValue: default typed value when param missing (default: null)
  *  - pageParamName: the page param key (default: 'page')
  *  - resetPageOnChange: whether changing this param should reset page to 1 (default: true)
+ *  - writeDefaultToUrl: if true, write defaultValue into the URL when the param is missing (default: false)
  *
  * Returns: [value, setValue, searchParams]
  * - value: parsed/typed value
@@ -21,6 +22,7 @@ export function useUrl(paramKey, options = {}) {
     defaultValue = null,
     pageParamName = "page",
     resetPageOnChange = true,
+    writeDefaultToUrl = false,
   } = options;
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,6 +50,38 @@ export function useUrl(paramKey, options = {}) {
 
   const value = useMemo(() => parse(raw), [raw, type, defaultValue]);
 
+  // If requested, write the default into the URL once when the param is missing.
+  useEffect(() => {
+    if (!writeDefaultToUrl) return;
+    if (raw !== null) return; // param already present, nothing to do
+
+    // compute string form of defaultValue; if it's null/undefined/"" -> skip
+    const s = stringify(defaultValue);
+    if (s === null || s === "") return;
+
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set(paramKey, s);
+
+      // keep page reset behaviour consistent when writing defaults for other filters
+      if (resetPageOnChange && paramKey !== pageParamName) {
+        params.set(pageParamName, "1");
+      }
+
+      return params;
+    });
+    // only run on mount / when raw/flags/defaultValue change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    raw,
+    writeDefaultToUrl,
+    defaultValue,
+    paramKey,
+    pageParamName,
+    resetPageOnChange,
+    setSearchParams,
+  ]);
+
   const updateValue = useCallback(
     (updater) => {
       setSearchParams((prev) => {
@@ -71,7 +105,14 @@ export function useUrl(paramKey, options = {}) {
         return params;
       });
     },
-    [paramKey, pageParamName, resetPageOnChange, setSearchParams]
+    [
+      setSearchParams,
+      parse,
+      paramKey,
+      stringify,
+      resetPageOnChange,
+      pageParamName,
+    ]
   );
 
   return [value, updateValue, searchParams];

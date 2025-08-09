@@ -52,12 +52,16 @@ const FilterContext = createContext({
   setFilter: () => {},
 });
 
-export function Filter({ children, filterField }) {
-  // make sure it's always a string for consistent comparisons
+export function Filter({
+  children,
+  filterField,
+  defaultValue = "",
+  writeDefaultToUrl = false,
+}) {
   const [current, setFilter] = useUrl(filterField, {
     type: "string",
-    defaultValue: "",
-    // resetPageOnChange: true // default true in hook; set to false if you don't want that
+    writeDefaultToUrl,
+    defaultValue,
   });
 
   return (

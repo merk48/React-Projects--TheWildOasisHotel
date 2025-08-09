@@ -17,21 +17,25 @@ function CabinTableOperations() {
   const sortOptions = [
     { value: "name-asc", label: "Name (A → Z)" },
     { value: "name-desc", label: "Name (Z → A)" },
-    { value: "price-asc", label: "Price (Low → High)" },
-    { value: "price-desc", label: "Price (High → Low)" },
-    { value: "capacity-asc", label: "Capacity (Low → High)" },
-    { value: "capacity-desc", label: "Capacity (High → Low)" },
+    { value: "price-asc", label: "Price (low first)" },
+    { value: "price-desc", label: "Price (high first)" },
+    { value: "capacity-asc", label: "Capacity (low first)" },
+    { value: "capacity-desc", label: "Capacity (high first)" },
   ];
   return (
     <TableOperations>
-      <Filter filterField="discount">
+      <Filter filterField="discount" defaultValue={discountOptions[0].value}>
         <Filter.Group options={discountOptions} />
       </Filter>
-      <Filter filterField="price">
+      <Filter filterField="price" defaultValue={priceOptions[0].value}>
         <Filter.Group options={priceOptions} />
       </Filter>
 
-      <Sort.Select options={sortOptions} type="white" />
+      <Sort.Select
+        options={sortOptions}
+        defaultValue={sortOptions[0].value}
+        type="white"
+      />
     </TableOperations>
   );
 }
