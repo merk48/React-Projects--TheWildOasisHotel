@@ -14,7 +14,11 @@ function BookingTable() {
   if (!bookings) return <Empty resource="bookings" />;
   return (
     <Menus>
-      <Table columns="0.7fr 2fr 2fr 1.4fr 1fr" minWidth={700} minWidthSm={650}>
+      <Table
+        columns="0.7fr 2fr 2fr 1.4fr 1fr .2fr"
+        minWidth={700}
+        minWidthSm={650}
+      >
         <Table.Header>
           <Table.HeaderCell>Cabin</Table.HeaderCell>
           <Table.HeaderCell>Guest</Table.HeaderCell>

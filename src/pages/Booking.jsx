@@ -1,5 +1,10 @@
+import BookingDetail from "../features/bookings/BookingDetail";
+
 function Booking() {
-  return <div>dfdfdfdfdddfdf</div>;
+  return <BookingDetail />;
 }
 
 export default Booking;
+
+// no sideeffect in pages
+// no fetch data in pages

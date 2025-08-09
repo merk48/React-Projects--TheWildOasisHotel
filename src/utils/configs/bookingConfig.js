@@ -48,6 +48,16 @@ export const BOOKING_CONFIG = {
     param: PARAMS.SORT, // url param name
     default: DEFAULT_SORT,
   },
+  ui: {
+    statusTagColors: {
+      [STATUS.UNCONFIRMED]: "blue",
+      [STATUS.CHECKED_IN]: "green",
+      [STATUS.CHECKED_OUT]: "silver",
+    },
+    dateFormats: {
+      display: "MMM dd yyyy",
+    },
+  },
 };
 
 /*

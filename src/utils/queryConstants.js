@@ -11,6 +11,7 @@ export const updateCabinKey = "update-cabin";
 export const bookingsBucketStorage = "booking-images";
 export const bookingsTableName = "bookings";
 export const readBookingsKey = "bookings";
+export const readBookingByIdKey = "bookingDetails";
 export const deleteBookingKey = "delete-booking";
 export const createBookingKey = "create-booking";
 export const updateBookingKey = "update-booking";
