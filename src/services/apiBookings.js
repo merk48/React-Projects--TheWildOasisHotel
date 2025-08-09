@@ -33,7 +33,7 @@ export async function readBookings({
   return { data: data ?? [], count: Number(count ?? 0) };
 }
 
-export async function readBooking(id) {
+export async function readBookingById(id) {
   const { data, error } = await supabase
     .from(bookingsTableName)
     .select("*, cabins(*), guests(*)")
