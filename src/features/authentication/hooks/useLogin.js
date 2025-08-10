@@ -18,7 +18,7 @@ export function useLogin() {
         queryClient.setQueryData([readUserKey], data.user);
       }
 
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     },
     onError: (err) => toast.error(err.message),
   });

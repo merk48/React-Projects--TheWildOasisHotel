@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { HiBars3BottomRight, HiBars3 } from "react-icons/hi2";
 import Button from "./Button";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeader = styled.header`
   padding: 1.2rem 4.8rem;
@@ -25,7 +26,7 @@ const StyledHeader = styled.header`
 function Header({ isSidebarOpen, onToggleSidebar }) {
   return (
     <StyledHeader>
-      <span>header</span>
+      <Logout />
       <Button
         variation="secondary"
         size="small"
