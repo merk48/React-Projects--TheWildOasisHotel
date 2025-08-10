@@ -46,6 +46,22 @@ const Heading = styled.h1`
         font-size: 1.4rem;
       }
     `}
+
+    ${(props) =>
+    props.as === "ch1" &&
+    css`
+      font-size: 3rem;
+      font-weight: 600;
+      text-align: center;
+
+      @media (max-width: 768px) {
+        font-size: 2.4rem;
+      }
+
+      @media (max-width: 640px) {
+        font-size: 2rem;
+      }
+    `}
 `;
 
 export default Heading;
