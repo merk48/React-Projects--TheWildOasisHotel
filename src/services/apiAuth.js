@@ -14,5 +14,18 @@ export async function login({ email, password }) {
   console.log(data);
   return data;
 }
-//admin@example.com
-//Pass123@
+
+export async function readLoggedInUser() {
+  const { data: session } = await supabase.auth.getSession();
+
+  if (!session.session) return null;
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+
+  return data?.user;
+}
