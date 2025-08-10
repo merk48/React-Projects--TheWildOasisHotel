@@ -100,9 +100,6 @@ function BookingDetail() {
             />
           </Modal.Window>
         </Modal>
-        <Button variation="danger" onClick={moveBack}>
-          Back
-        </Button>
       </ButtonGroup>
     </>
   );

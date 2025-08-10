@@ -5,6 +5,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
+import AddCabin from "./AddCabin";
 
 function CabinTable() {
   const { isLoading, cabins } = useCabins();
@@ -77,6 +78,10 @@ function CabinTable() {
           data={finalList}
           render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
         />
+
+        <Table.Footer>
+          <AddCabin />
+        </Table.Footer>
       </Table>
     </Menus>
   );
