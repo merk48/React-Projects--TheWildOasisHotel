@@ -7,10 +7,18 @@ const StyledTable = styled.div`
   background-color: var(--color-grey-0);
   border-radius: 7px;
   display: block;
-  overflow-x: auto;
+  min-width: ${(p) =>
+    typeof p.$minWidth === "number"
+      ? `${p.$minWidth}px`
+      : p.$minWidth || "700px"};
+  height: 100%;
+  height: 100%;
 
   @media (max-width: 640px) {
-    margin: 0 -1.2rem;
+    min-width: ${(p) =>
+      typeof p.$minWidthSm === "number"
+        ? `${p.$minWidthSm}px`
+        : p.$minWidthSm ?? "600px"};
   }
 `;
 
@@ -19,18 +27,16 @@ const CommonRow = styled.div`
   grid-template-columns: ${(p) => p.columns};
   column-gap: 2.4rem;
   align-items: center;
-  min-width: 550px;
 
   @media (max-width: 1024px) {
     grid-template-columns: ${(p) => p.columnsMd || p.columns};
-    column-gap: 1.6rem;
+    column-gap: 1.8rem;
   }
 
   @media (max-width: 640px) {
     grid-template-columns: ${(p) => p.columnsSm || p.columnsMd || p.columns};
-    column-gap: 1.2rem;
+    column-gap: 1.4rem;
     padding: 0.8rem 1.2rem;
-    min-width: 600px;
   }
 `;
 
@@ -75,17 +81,38 @@ export const StyledRow = styled(CommonRow)`
   }
 `;
 
+const CellBase = styled.div`
+  min-width: 0; /* allows the column to shrink instead of expanding grid */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+/* header cell reuses same layout but with header styles */
+export const HeaderCell = styled(CellBase)`
+  /* header cell-specific styling is applied at header row level,
+     but you can add here if needed */
+`;
+
+/* body cell */
+export const Cell = styled(CellBase)`
+  /* body cell specific styles (font-size etc can be inherited from StyledRow) */
+`;
+
 const StyledBody = styled.section`
+  flex: 1; /* take all remaining space */
+  min-height: 300px; /* good height even if few rows */
   margin: 0.4rem 0;
 `;
 
 const Footer = styled.footer`
+  border-top: 1px solid var(--color-grey-200);
+  padding: 1rem;
   background-color: var(--color-grey-50);
   display: flex;
-  justify-content: center;
   padding: 1.2rem;
+  min-width: 100%;
 
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
   &:not(:has(*)) {
     display: none;
   }
@@ -102,10 +129,19 @@ const Empty = styled.p`
 const TableContext = createContext();
 
 // 2.
-function Table({ children, columns, columnsMd, columnsSm }) {
+function Table({
+  children,
+  columns,
+  columnsMd,
+  columnsSm,
+  minWidth,
+  minWidthSm,
+}) {
   return (
     <TableContext.Provider value={{ columns, columnsMd, columnsSm }}>
-      <StyledTable role="table">{children}</StyledTable>
+      <StyledTable role="table" $minWidth={minWidth} $minWidthSm={minWidthSm}>
+        {children}
+      </StyledTable>
     </TableContext.Provider>
   );
 }
@@ -148,5 +184,7 @@ Table.Header = Header;
 Table.Body = Body;
 Table.Row = Row;
 Table.Footer = Footer;
+Table.Cell = Cell;
+Table.HeaderCell = HeaderCell;
 
 export default Table;

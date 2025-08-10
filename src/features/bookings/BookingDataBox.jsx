@@ -13,11 +13,9 @@ import { Flag } from "../../ui/Flag";
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
 const StyledBookingDataBox = styled.section`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-
   overflow: hidden;
 `;
 
@@ -49,10 +47,47 @@ const Header = styled.header`
     font-size: 2rem;
     margin-left: 4px;
   }
+
+  @media (max-width: 1024px) {
+    padding: 1.6rem 2.4rem;
+    font-size: 1.6rem;
+
+    svg {
+      height: 2.8rem;
+      width: 2.8rem;
+    }
+
+    & span {
+      font-size: 1.8rem;
+    }
+  }
+
+  /* Stack header content on mobile */
+  @media (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.2rem 1.6rem;
+
+    & > p {
+      width: 100%;
+      font-size: 1.2rem;
+      margin: 0;
+    }
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+
+  @media (max-width: 1024px) {
+    padding: 2.4rem 2.4rem 1rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1.2rem 1.6rem 0.8rem;
+  }
 `;
 
 const Guest = styled.div`
@@ -65,6 +100,25 @@ const Guest = styled.div`
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
+  }
+
+  /* allow wrapping on small screens */
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+
+    & > p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+  }
+
+  /* Flag sizing */
+  img {
+    width: 2.2rem;
+    height: auto;
   }
 `;
 
@@ -92,6 +146,19 @@ const Price = styled.div`
     width: 2.4rem;
     color: currentColor !important;
   }
+
+  /* Stack on narrow screens */
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+
+    & p:last-child {
+      text-transform: none;
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 const Footer = styled.footer`
@@ -99,8 +166,13 @@ const Footer = styled.footer`
   font-size: 1.2rem;
   color: var(--color-grey-500);
   text-align: right;
-`;
 
+  @media (max-width: 640px) {
+    padding: 1rem 1.6rem;
+    text-align: left;
+    font-size: 1.1rem;
+  }
+`;
 // A purely presentational component
 function BookingDataBox({ booking }) {
   const {

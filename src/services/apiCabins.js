@@ -1,7 +1,4 @@
-import {
-  cabinsBucketStorage,
-  cabinsTableName,
-} from "../features/cabins/constants";
+import { cabinsBucketStorage, cabinsTableName } from "../utils/queryConstants";
 import { createFilePath, getFilenameFromUrl } from "./helper";
 import supabase from "./supabase";
 

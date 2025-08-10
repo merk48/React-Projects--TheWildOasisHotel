@@ -47,13 +47,25 @@ const StyledFilterButton = styled.button`
   }
 `;
 
-const FilterContext = createContext();
+const FilterContext = createContext({
+  current: "",
+  setFilter: () => {},
+});
 
-export function Filter({ children, filterField }) {
-  const [current, handleClick] = useUrl(filterField);
+export function Filter({
+  children,
+  filterField,
+  defaultValue = "",
+  writeDefaultToUrl = false,
+}) {
+  const [current, setFilter] = useUrl(filterField, {
+    type: "string",
+    writeDefaultToUrl,
+    defaultValue,
+  });
 
   return (
-    <FilterContext.Provider value={{ handleClick, current }}>
+    <FilterContext.Provider value={{ setFilter, current }}>
       <StyledFilter role="group">{children}</StyledFilter>
     </FilterContext.Provider>
   );
@@ -72,12 +84,12 @@ export function Group({ filterField, options }) {
 }
 
 export function FilterButton({ value, children }) {
-  const { handleClick, current } = useContext(FilterContext);
+  const { setFilter, current } = useContext(FilterContext);
   const isActive = current === value;
 
   return (
     <StyledFilterButton
-      onClick={() => handleClick(value)}
+      onClick={() => setFilter(isActive ? "" : value)}
       active={isActive}
       disabled={isActive}
     >

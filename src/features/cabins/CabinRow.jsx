@@ -3,8 +3,6 @@ import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { formatCurrency } from "./../../utils/helpers";
-import UpdateCabin from "./UpdateCabin";
-import DeleteCabin from "./DeleteCabin";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
@@ -17,8 +15,8 @@ export const Img = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.5) translateX(-7px);
-
+  transform: scale(1.5) translateX(-5px);
+  border-radius: 0.5rem;
   @media (max-width: 640px) {
     width: 5rem;
   }
@@ -58,8 +56,15 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
-  const { id, name, maxCapacity, image, discount, description, regularPrice } =
-    cabin;
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    image,
+    discount,
+    description,
+    regularPrice,
+  } = cabin;
 
   const isWorking = isDeleting || isCreating;
 
@@ -78,8 +83,8 @@ function CabinRow({ cabin }) {
   }
 
   return (
-    <Modal>
-      <Table.Row>
+    <Table.Row>
+      <Modal>
         <Img src={image} />
         <Cabin>{name}</Cabin>
         <Cabin>{maxCapacity}</Cabin>
@@ -90,8 +95,8 @@ function CabinRow({ cabin }) {
           <span>-</span>
         )}
         <Menus.Menu>
-          <Menus.Toggle id={id} />
-          <Menus.List id={id}>
+          <Menus.Toggle id={cabinId} />
+          <Menus.List id={cabinId}>
             <Menus.Button
               disabled={isWorking}
               icon={<HiSquare2Stack />}
@@ -101,35 +106,35 @@ function CabinRow({ cabin }) {
             </Menus.Button>
 
             {/* // Modal open compound component */}
-            <Modal.Open opens={`edit-cabin-form-${id}`}>
+            <Modal.Open opens={`edit-cabin-form-${cabinId}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
             </Modal.Open>
 
             {/* // Modal open compound component */}
-            <Modal.Open opens={`delete-cabin-form-${id}`}>
+            <Modal.Open opens={`delete-cabin-${cabinId}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiTrash />} disabled={isWorking}>
                 Delete
               </Menus.Button>
             </Modal.Open>
           </Menus.List>
-
-          {/* // Rest of modal compound component */}
-          <Modal.Window name={`edit-cabin-form-${id}`}>
-            <CreateUpdateCabinForm cabinToEdit={cabin} />
-          </Modal.Window>
-
-          <Modal.Window name={`delete-cabin-form-${id}`}>
-            <ConfirmDelete
-              resourceName="cabin"
-              onConfirm={() => deleteCabin(id)}
-              disabled={isWorking}
-            />
-          </Modal.Window>
         </Menus.Menu>
-      </Table.Row>
-    </Modal>
+
+        {/* // Rest of modal compound component */}
+        <Modal.Window name={`edit-cabin-form-${cabinId}`}>
+          <CreateUpdateCabinForm cabinToEdit={cabin} />
+        </Modal.Window>
+
+        <Modal.Window name={`delete-cabin-${cabinId}`}>
+          <ConfirmDelete
+            resourceName="cabin"
+            onConfirm={() => deleteCabin(cabinId)}
+            disabled={isWorking}
+          />
+        </Modal.Window>
+      </Modal>
+    </Table.Row>
   );
 }
 

@@ -17,19 +17,18 @@ const StyledAppLayout = styled.div`
     grid-template-columns: 20rem 1fr;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
   }
 `;
 
 const Container = styled.div`
-  max-width: 120rem;
+  /* max-width: 120rem; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  padding: 0 2.4rem;
 
   @media (max-width: 768px) {
     gap: 2.5rem;

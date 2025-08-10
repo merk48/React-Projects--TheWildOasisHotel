@@ -29,20 +29,22 @@ function SortSelect({
   options,
   sortField = "sortBy",
   placeholder = "Sort by...",
+  defaultValue = "",
+  writeDefaultToUrl = false,
   ...props
 }) {
-  const [current, handleChange] = useUrl(sortField);
+  const [current, setSort] = useUrl(sortField, {
+    type: "string",
+    defaultValue,
+    writeDefaultToUrl,
+  });
 
   return (
     <StyledSelect
-      value={current}
-      onChange={(e) => handleChange(e.target.value)}
+      value={current ?? ""}
+      onChange={(e) => setSort(e.target.value)}
       {...props}
     >
-      <SortOption value="" disabled>
-        {placeholder}
-      </SortOption>
-
       {options.map((opt) => (
         <SortOption key={opt.value} value={opt.value}>
           {opt.label}

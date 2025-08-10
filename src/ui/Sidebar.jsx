@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import Uploader from "../data/Uploader";
 import useOutsideClick from "../hooks/useOutsideClick";
 
 const StyledSidebar = styled.aside`
@@ -13,19 +14,19 @@ const StyledSidebar = styled.aside`
   gap: 3.2rem;
 
   @media (max-width: 768px) {
-    padding: 2.4rem 1.6rem;
-  }
-
-  @media (max-width: 640px) {
     position: fixed;
     top: 0;
     left: 0;
     height: 100dvh;
-    width: 20rem;
-    padding: 2rem 1.2rem;
+    padding: 2.4rem 1.6rem;
     transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")});
     transition: transform 0.3s ease-in-out;
     z-index: 2000;
+  }
+
+  @media (max-width: 640px) {
+    width: 20rem;
+    padding: 2rem 1.2rem;
   }
 `;
 
@@ -36,6 +37,7 @@ function Sidebar({ isOpen, onClose }) {
     <StyledSidebar ref={ref} $isOpen={isOpen}>
       <Logo />
       <MainNav />
+      <Uploader />
     </StyledSidebar>
   );
 }
