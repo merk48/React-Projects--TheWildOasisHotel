@@ -29,6 +29,7 @@ export const updateSettingKey = "update-setting";
 // Auth
 export const loginKey = "login";
 export const logoutKey = "logout";
+export const signUpKey = "sign-up";
 // Users
 export const readUsersKey = "users";
 export const readUserKey = "user";
