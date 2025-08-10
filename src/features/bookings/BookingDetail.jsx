@@ -13,6 +13,7 @@ import { useBookingDetails } from "./hooks/useBookingDetails";
 import Spinner from "../../ui/Spinner";
 import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 import { useNavigate } from "react-router-dom";
+import useCheckout from "../check-in-out/hooks/useCheckout";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ function BookingDetail() {
   const navigate = useNavigate();
   const { isLoading, booking } = useBookingDetails();
 
+  const { isCheckingOut, checkOut } = useCheckout();
   const moveBack = useMoveBack();
 
   if (isLoading) return <Spinner />;
@@ -54,13 +56,19 @@ function BookingDetail() {
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
-        {/* Second Guard */}
+
         {status === BOOKING_CONFIG.statusOptions.UNCONFIRMED && (
           <Button
             variation="secondary"
             onClick={() => navigate(`/checkin/${id}`)}
           >
             Check In
+          </Button>
+        )}
+
+        {status === BOOKING_CONFIG.statusOptions.CHECKED_IN && (
+          <Button onClick={() => checkOut(id)} disabled={isCheckingOut}>
+            Check out
           </Button>
         )}
 
