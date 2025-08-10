@@ -83,8 +83,8 @@ function CabinRow({ cabin }) {
   }
 
   return (
-    <Modal>
-      <Table.Row>
+    <Table.Row>
+      <Modal>
         <Img src={image} />
         <Cabin>{name}</Cabin>
         <Cabin>{maxCapacity}</Cabin>
@@ -112,29 +112,29 @@ function CabinRow({ cabin }) {
             </Modal.Open>
 
             {/* // Modal open compound component */}
-            <Modal.Open opens={`delete-cabin-form-${cabinId}`}>
+            <Modal.Open opens={`delete-cabin-${cabinId}`}>
               {/* // context menu component */}
               <Menus.Button icon={<HiTrash />} disabled={isWorking}>
                 Delete
               </Menus.Button>
             </Modal.Open>
           </Menus.List>
-
-          {/* // Rest of modal compound component */}
-          <Modal.Window name={`edit-cabin-form-${cabinId}`}>
-            <CreateUpdateCabinForm cabinToEdit={cabin} />
-          </Modal.Window>
-
-          <Modal.Window name={`delete-cabin-form-${cabinId}`}>
-            <ConfirmDelete
-              resourceName="cabin"
-              onConfirm={() => deleteCabin(cabinId)}
-              disabled={isWorking}
-            />
-          </Modal.Window>
         </Menus.Menu>
-      </Table.Row>
-    </Modal>
+
+        {/* // Rest of modal compound component */}
+        <Modal.Window name={`edit-cabin-form-${cabinId}`}>
+          <CreateUpdateCabinForm cabinToEdit={cabin} />
+        </Modal.Window>
+
+        <Modal.Window name={`delete-cabin-${cabinId}`}>
+          <ConfirmDelete
+            resourceName="cabin"
+            onConfirm={() => deleteCabin(cabinId)}
+            disabled={isWorking}
+          />
+        </Modal.Window>
+      </Modal>
+    </Table.Row>
   );
 }
 

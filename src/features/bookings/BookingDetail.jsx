@@ -14,6 +14,10 @@ import Spinner from "../../ui/Spinner";
 import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 import { useNavigate } from "react-router-dom";
 import useCheckout from "../check-in-out/hooks/useCheckout";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Modal from "../../ui/Modal";
+import { HiTrash } from "react-icons/hi2";
+import { useDeleteBooking } from "./hooks/useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -33,6 +37,9 @@ function BookingDetail() {
   const { isLoading, booking } = useBookingDetails();
 
   const { isCheckingOut, checkOut } = useCheckout();
+  const { isDeleting, deleteBooking } = useDeleteBooking();
+  const isWorking = isCheckingOut || isDeleting;
+
   const moveBack = useMoveBack();
 
   if (isLoading) return <Spinner />;
@@ -61,17 +68,38 @@ function BookingDetail() {
           <Button
             variation="secondary"
             onClick={() => navigate(`/checkin/${id}`)}
+            disabled={isWorking}
           >
             Check In
           </Button>
         )}
 
         {status === BOOKING_CONFIG.statusOptions.CHECKED_IN && (
-          <Button onClick={() => checkOut(id)} disabled={isCheckingOut}>
+          <Button onClick={() => checkOut(id)} disabled={isWorking}>
             Check out
           </Button>
         )}
+        <Modal>
+          <Modal.Open opens={`delete-booking-${id}`}>
+            <Button variation="danger" icon={<HiTrash />}>
+              Delete booking
+            </Button>
+          </Modal.Open>
 
+          <Modal.Window name={`delete-booking-${id}`}>
+            <ConfirmDelete
+              resourceName="booking"
+              onConfirm={() => {
+                deleteBooking(id, {
+                  onSuccess() {
+                    navigate(-1);
+                  },
+                });
+              }}
+              disabled={isWorking}
+            />
+          </Modal.Window>
+        </Modal>
         <Button variation="danger" onClick={moveBack}>
           Back
         </Button>
