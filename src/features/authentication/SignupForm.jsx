@@ -15,8 +15,8 @@ function SignupForm() {
     getValues,
     handleSubmit,
   } = useForm();
-
-  const { isCreating, SignUp } = useSignUp();
+  console.log(errors);
+  const { isSigningUp, SignUp } = useSignUp();
 
   const basicValidations = (fieldName) => {
     return {
@@ -28,7 +28,7 @@ function SignupForm() {
     SignUp(
       { email, password, fullName, avatar: "" },
       {
-        onSettled: reset,
+        onSettled: () => reset(),
       }
     );
   }
@@ -44,7 +44,7 @@ function SignupForm() {
           {...register("fullName", {
             ...basicValidations("fullName"),
           })}
-          disabled={isCreating}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -59,7 +59,7 @@ function SignupForm() {
               message: "Please provide a valid email address",
             },
           })}
-          disabled={isCreating}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -77,7 +77,7 @@ function SignupForm() {
               message: "Password needs a minimun of 8 characters",
             },
           })}
-          disabled={isCreating}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -89,14 +89,14 @@ function SignupForm() {
             ...basicValidations("passwordConfirm"),
             validate: (value) => value === getValues().password,
           })}
-          disabled={isCreating}
+          disabled={isSigningUp}
         />
       </FormRow>
 
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
-          Cancel
+          Reset
         </Button>
         <Button>Create new user</Button>
       </FormRow>

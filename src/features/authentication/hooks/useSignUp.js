@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const useSignUp = function () {
   const navigate = useNavigate();
 
-  const { isPending: isCreating, mutate: SignUp } = useMutation({
+  const { isPending: isSigningUp, mutate: SignUp } = useMutation({
     mutationKey: [signUpKey],
     mutationFn: signUpApi,
     onSuccess: () => {
@@ -21,5 +21,5 @@ export const useSignUp = function () {
     onError: (err) => toast.error(err.message),
   });
 
-  return { isCreating, SignUp };
+  return { isSigningUp, SignUp };
 };
