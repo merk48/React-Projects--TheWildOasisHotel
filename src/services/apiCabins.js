@@ -1,5 +1,14 @@
-import { cabinsBucketStorage, cabinsTableName } from "../utils/queryConstants";
-import { createFilePath, getFilenameFromUrl } from "./helper";
+import {
+  cabinsName,
+  cabinsBucketStorage,
+  cabinsTableName,
+} from "../utils/queryConstants";
+import {
+  createFilename,
+  deleteFile,
+  getFilenameFromUrl,
+  uploadFileAndGetPublicUrl,
+} from "./helper";
 import supabase from "./supabase";
 
 export async function readCabins() {
@@ -14,100 +23,113 @@ export async function readCabins() {
 }
 
 export async function createCabin(newCabin, isCopy = false) {
-  let imagePath;
-  let imageName;
+  let imageUrl = null;
+  let uploadedFileName = null;
 
-  if (typeof newCabin.image === "string") {
-    // It's a copy: use existing URL
-    imagePath = newCabin.image;
-  } else {
-    // New file uploaded
-    const fileData = createFilePath(cabinsBucketStorage, newCabin.image);
-    imagePath = fileData.filePath;
-    imageName = fileData.fileName;
-  }
-
-  // 1. Create cabin
-  const { data, error } = await supabase
-    .from(cabinsTableName)
-    .insert([{ ...newCabin, image: imagePath }])
-    .select()
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error(`Cabin could not be created`);
-  }
-
-  // 2. Upload image only if it's a new file (not a copy)
-  if (!isCopy && typeof newCabin.image !== "string") {
-    const { error: storageError } = await uploadFile(
-      cabinsBucketStorage,
-      imageName,
-      newCabin.image
-    );
-
-    if (storageError) {
-      // 3. Delete the cabin
-      await deleteCabin(data.id);
-
-      console.error(storageError);
-      throw new Error(
-        `Cabin image could not be uploaded and the cabin was not created`
+  try {
+    // If newCabin.image is a file (object), upload it first
+    if (!isCopy && typeof newCabin.image !== "string") {
+      const fileName = createFilename(cabinsName, newCabin.image.name);
+      const publicUrl = await uploadFileAndGetPublicUrl(
+        cabinsBucketStorage,
+        fileName,
+        newCabin.image
       );
+      imageUrl = publicUrl;
+      uploadedFileName = fileName;
+    } else {
+      // copy or existing url
+      imageUrl = newCabin.image;
     }
+
+    // 1) Insert DB row with the imageUrl
+    const { data, error } = await supabase
+      .from(cabinsTableName)
+      .insert([{ ...newCabin, image: imageUrl }])
+      .select()
+      .single();
+
+    if (error) {
+      // cleanup uploaded file if insert failed
+      if (uploadedFileName) {
+        await deleteFile(cabinsBucketStorage, uploadedFileName);
+      }
+      console.error(error);
+      throw new Error("Cabin could not be created");
+    }
+
+    return data;
+  } catch (err) {
+    // ensure any uploaded artifact gets cleaned up (best-effort)
+    if (uploadedFileName) {
+      await deleteFile(cabinsBucketStorage, uploadedFileName);
+    }
+    throw err;
   }
-  return data;
 }
 
 export async function updateCabin(updatedCabin, id) {
   const isNewImage = typeof updatedCabin.image === "object";
+  let newImageUrl = updatedCabin.image; // default to existing string
+  let uploadedFileName = null;
+  let oldFileName = null;
 
-  let imagePath;
+  try {
+    // fetch current cabin to know the old image
+    const { data: existing, error: fetchError } = await supabase
+      .from(cabinsTableName)
+      .select("image")
+      .eq("id", id)
+      .single();
+    if (fetchError) {
+      console.error(fetchError);
+      throw new Error("Could not fetch existing cabin");
+    }
+    const oldImageUrl = existing?.image;
+    oldFileName = getFilenameFromUrl(oldImageUrl);
 
-  if (isNewImage) {
-    ({ filePath: imagePath } = createFilePath(
-      cabinsBucketStorage,
-      updatedCabin.image
-    ));
-  } else imagePath = updatedCabin.image;
-
-  // 1. Update the cabin
-  const { data, error } = await supabase
-    .from(cabinsTableName)
-    .update({ ...updatedCabin, image: imagePath })
-    .eq("id", id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error(`Cabin could not be updated`);
-  }
-
-  // 2. If a new image file was uploaded, upload it to storage
-  if (isNewImage) {
-    const imageName = imagePath.split("/").at(-1);
-
-    const { error: storageError } = await uploadFile(
-      cabinsBucketStorage,
-      imageName,
-      updatedCabin.image
-    );
-
-    if (storageError) {
-      console.error(storageError);
-      throw new Error(
-        `Cabin image could not be uploaded, but the cabin was updated`
+    // If new file uploaded, upload and get public url first
+    if (isNewImage) {
+      const fileName = createFilename(cabinsName, updatedCabin.image.name);
+      const publicUrl = await uploadFileAndGetPublicUrl(
+        cabinsBucketStorage,
+        fileName,
+        updatedCabin.image
       );
+      newImageUrl = publicUrl;
+      uploadedFileName = fileName;
     }
 
-    // then delete old one:
-    const oldName = getFilenameFromUrl(updatedCabin.image);
-    await supabase.storage.from(cabinsBucketStorage).remove([oldName]);
-  }
+    // Update DB with the new image url (or same url if not changed)
+    const { data, error } = await supabase
+      .from(cabinsTableName)
+      .update({ ...updatedCabin, image: newImageUrl })
+      .eq("id", id)
+      .select()
+      .single();
 
-  return data;
+    if (error) {
+      // on DB error, cleanup uploaded file
+      if (uploadedFileName) {
+        await deleteFile(cabinsBucketStorage, uploadedFileName);
+      }
+      console.error(error);
+      throw new Error("Cabin could not be updated");
+    }
+
+    // success: if we uploaded a new file and there was an old one - delete the old file
+    if (uploadedFileName && oldFileName) {
+      await deleteFile(cabinsBucketStorage, oldFileName);
+    }
+
+    return data;
+  } catch (err) {
+    // cleanup any uploaded artifact on error
+    if (uploadedFileName) {
+      await deleteFile(cabinsBucketStorage, uploadedFileName);
+    }
+    throw err;
+  }
 }
 
 export async function deleteCabin(id) {
@@ -117,12 +139,4 @@ export async function deleteCabin(id) {
     console.error(error);
     throw new Error(`Cabin with id ${id} could not be deleted`);
   }
-}
-
-async function uploadFile(bucketStorageName, fileName, file) {
-  const { data, error } = await supabase.storage
-    .from(bucketStorageName)
-    .upload(fileName, file);
-
-  return { data, error };
 }

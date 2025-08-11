@@ -24,13 +24,18 @@ const Avatar = styled.img`
 function UserAvatar() {
   const { user } = useUser();
   const { fullName, avatar } = user.user_metadata;
-
   return (
     <StyledUserAvatar>
       <Avatar
         src={avatar || "default-user.jpg"}
         alt={`Avatar of ${fullName}`}
+        onError={(e) => {
+          console.error("Avatar failed to load:", avatar);
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = "default-user.jpg"; // place a fallback in public/
+        }}
       />
+
       <span>{fullName}</span>
     </StyledUserAvatar>
   );

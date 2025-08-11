@@ -1,6 +1,7 @@
 // Supabase
 // Cabin
 export const cabinsBucketStorage = "cabin-images";
+export const cabinsName = "cabin";
 export const cabinsTableName = "cabins";
 export const readCabinsKey = "cabins";
 export const deleteCabinKey = "delete-cabin";
@@ -31,6 +32,8 @@ export const loginKey = "login";
 export const logoutKey = "logout";
 export const signUpKey = "sign-up";
 // Users
+export const avatarBucketStorage = "avatars";
+export const avatarName = "avatar";
 export const readUsersKey = "users";
 export const readUserKey = "user";
 export const deleteUseringKey = "delete-user";
