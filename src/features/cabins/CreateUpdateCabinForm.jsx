@@ -55,8 +55,10 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     // log error
   }
 
-  const basicValidations = {
-    required: "This field is required",
+  const basicValidations = (fieldName) => {
+    return {
+      required: `${fieldName} field is required`,
+    };
   };
 
   return (
@@ -70,7 +72,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           id="name"
           disabled={isWorking}
           {...register("name", {
-            ...basicValidations,
+            ...basicValidations("name"),
           })}
         />
       </FormRow>

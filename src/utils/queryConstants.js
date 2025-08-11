@@ -15,6 +15,7 @@ export const readBookingByIdKey = "bookingDetails";
 export const deleteBookingKey = "delete-booking";
 export const createBookingKey = "create-booking";
 export const updateBookingKey = "update-booking";
+// Check-in-out
 export const checkInBookingKey = "check-in-booking";
 export const checkOutBookingKey = "check-out-booking";
 
@@ -24,3 +25,14 @@ export const readSettingsKey = "settings";
 export const deleteSettingKey = "delete-setting";
 export const createSettingKey = "create-setting";
 export const updateSettingKey = "update-setting";
+
+// Auth
+export const loginKey = "login";
+export const logoutKey = "logout";
+export const signUpKey = "sign-up";
+// Users
+export const readUsersKey = "users";
+export const readUserKey = "user";
+export const deleteUseringKey = "delete-user";
+export const createUseringKey = "create-user";
+export const updateUseringKey = "update-user";
