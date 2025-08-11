@@ -3,6 +3,8 @@ import Logo from "./Logo";
 import MainNav from "./MainNav";
 import Uploader from "../data/Uploader";
 import useOutsideClick from "../hooks/useOutsideClick";
+import Overlay from "./Overlay";
+import { useSidebar } from "../contexts/sidebarContext";
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
@@ -30,15 +32,19 @@ const StyledSidebar = styled.aside`
   }
 `;
 
-function Sidebar({ isOpen, onClose }) {
-  const { ref } = useOutsideClick(onClose, true);
+function Sidebar() {
+  const { isModalSidebarOpen, closeSidebar } = useSidebar();
+  const { ref } = useOutsideClick(closeSidebar, true);
 
   return (
-    <StyledSidebar ref={ref} $isOpen={isOpen}>
-      <Logo />
-      <MainNav />
-      <Uploader />
-    </StyledSidebar>
+    <>
+      <StyledSidebar ref={ref} $isOpen={isModalSidebarOpen}>
+        <Logo />
+        <MainNav />
+        <Uploader />
+      </StyledSidebar>
+      {isModalSidebarOpen && <Overlay />}
+    </>
   );
 }
 

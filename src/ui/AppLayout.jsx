@@ -6,6 +6,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Overlay from "./Overlay";
 import ModalProvider from "../contexts/modalContext";
+import SidebarProvider from "../contexts/sidebarContext";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -40,16 +41,13 @@ const Container = styled.div`
 `;
 
 function AppLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   return (
     <StyledAppLayout>
-      <Header
-        isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={setIsSidebarOpen}
-      />
-      <Sidebar isOpen={isSidebarOpen} onClose={setIsSidebarOpen} />
-      {isSidebarOpen && <Overlay />}
+      <SidebarProvider>
+        <Header />
+        <Sidebar />
+      </SidebarProvider>
+
       <Main>
         <Container>
           <ModalProvider>

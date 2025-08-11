@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { HiBars3BottomRight, HiBars3 } from "react-icons/hi2";
 import Button from "./Button";
 import Logout from "../features/authentication/Logout";
+import HeaderMenu from "./HeaderMenu";
+import { useSidebar } from "../contexts/sidebarContext";
 
 const StyledHeader = styled.header`
   padding: 1.2rem 4.8rem;
@@ -23,18 +25,10 @@ const StyledHeader = styled.header`
   }
 `;
 
-function Header({ isSidebarOpen, onToggleSidebar }) {
+function Header() {
   return (
     <StyledHeader>
-      <Logout />
-      <Button
-        variation="secondary"
-        size="small"
-        onClick={onToggleSidebar}
-        className="toggle-button"
-      >
-        {isSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
-      </Button>
+      <HeaderMenu />
     </StyledHeader>
   );
 }
