@@ -9,6 +9,16 @@ import { useSidebar } from "../contexts/sidebarContext";
 const StyledHeaderMenu = styled.ul`
   display: flex;
   gap: 0.4rem;
+
+  .toggle-button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-right: auto;
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
 `;
 
 function HeaderMenu() {
@@ -17,6 +27,11 @@ function HeaderMenu() {
 
   return (
     <StyledHeaderMenu>
+      <li>
+        <ButtonIcon onClick={openSidebar} className="toggle-button">
+          {isModalSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
+        </ButtonIcon>
+      </li>
       <li>
         <ButtonIcon onClick={() => navigate("/account")}>
           <HiOutlineUser />
@@ -27,11 +42,6 @@ function HeaderMenu() {
       </li> */}
       <li>
         <Logout />
-      </li>
-      <li>
-        <ButtonIcon onClick={openSidebar} className="toggle-button">
-          {isModalSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
-        </ButtonIcon>
       </li>
     </StyledHeaderMenu>
   );

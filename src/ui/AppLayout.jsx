@@ -47,7 +47,6 @@ function AppLayout() {
         <Header />
         <Sidebar />
       </SidebarProvider>
-
       <Main>
         <Container>
           <ModalProvider>
