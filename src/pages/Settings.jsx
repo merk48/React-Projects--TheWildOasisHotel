@@ -6,7 +6,9 @@ function Settings() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Settings</Heading>
+        <Heading as="h1" variant="h1">
+          Settings
+        </Heading>
       </Row>
       <UpdateSettingsForm />
     </>

@@ -6,7 +6,9 @@ function NewUsers() {
   return (
     <>
       <Row type="mix">
-        <Heading as="h1">Create a new user</Heading>
+        <Heading as="h1" variant="h1">
+          Create a new user
+        </Heading>
       </Row>
       <Row>
         <SignupForm />

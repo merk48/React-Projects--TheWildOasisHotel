@@ -7,7 +7,9 @@ function Cabins() {
   return (
     <>
       <Row type="mix">
-        <Heading as="h1">All cabins</Heading>
+        <Heading as="h1" variant="h1">
+          All cabins
+        </Heading>
         <CabinTableOperations />
       </Row>
       <Row>

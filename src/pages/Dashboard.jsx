@@ -4,7 +4,9 @@ import Row from "../ui/Row";
 function Dashboard() {
   return (
     <Row type="horizontal">
-      <Heading as="h1">Dashboard</Heading>
+      <Heading as="h1" variant="h1">
+        Dashboard
+      </Heading>
       <p>TEST</p>
     </Row>
   );

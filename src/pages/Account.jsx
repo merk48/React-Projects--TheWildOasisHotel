@@ -7,13 +7,17 @@ function Account() {
   return (
     <>
       <Row type="mix">
-        <Heading as="h1">Update your account</Heading>
+        <Heading as="h1" variant="h1">
+          Update your account
+        </Heading>
       </Row>
       <Row>
         <UpdateUserDataForm />
       </Row>
       <Row type="vertical">
-        <Heading as="h2">Your password</Heading>
+        <Heading as="h2" variant="h2">
+          Your password
+        </Heading>
         <UpdatePasswordForm />
       </Row>
     </>
