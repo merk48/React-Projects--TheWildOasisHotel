@@ -55,10 +55,12 @@ export function Filter({
   children,
   filterField,
   defaultValue = "",
+  resetPageOnChange = true,
   writeDefaultToUrl = false,
 }) {
   const [current, setFilter] = useUrl(filterField, {
     type: "string",
+    resetPageOnChange,
     writeDefaultToUrl,
     defaultValue,
   });

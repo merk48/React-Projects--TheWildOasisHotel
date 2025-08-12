@@ -7,7 +7,11 @@ function DashboardFilter() {
     { value: "90", label: "Last 90 days" },
   ];
   return (
-    <Filter filterField="last" defaultValue={filterOptions[0].value}>
+    <Filter
+      filterField="last"
+      defaultValue={filterOptions[0].value}
+      resetPageOnChange={false}
+    >
       <Filter.Group options={filterOptions} />
     </Filter>
   );
