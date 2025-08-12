@@ -1,5 +1,4 @@
 import { createContext, useContext } from "react";
-import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useUrl } from "../hooks/useUrl";
 
