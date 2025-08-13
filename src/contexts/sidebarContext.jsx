@@ -1,25 +1,39 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-const sidebarContext = createContext();
+const SidebarContext = createContext();
 
-function SidebarProvider({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function SidebarProvider({ children }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    function handleResize() {
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+      if (desktop) {
+        setIsSidebarOpen(false);
+      }
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <sidebarContext.Provider
+    <SidebarContext.Provider
       value={{
-        isModalSidebarOpen: isOpen,
-        closeSidebar: () => setIsOpen(false),
-        openSidebar: () => setIsOpen(true),
+        isSidebarOpen,
+        setIsSidebarOpen,
+        isDesktop,
       }}
     >
       {children}
-    </sidebarContext.Provider>
+    </SidebarContext.Provider>
   );
 }
 
-function useSidebar() {
-  const context = useContext(sidebarContext);
+export function useSidebar() {
+  const context = useContext(SidebarContext);
 
   if (context === undefined)
     throw new Error("Cannot access sidebar context outside its provider.");
@@ -27,5 +41,4 @@ function useSidebar() {
   return context;
 }
 
-export { useSidebar };
 export default SidebarProvider;

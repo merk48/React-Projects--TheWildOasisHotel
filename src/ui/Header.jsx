@@ -42,13 +42,18 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  const { isModalSidebarOpen, openSidebar } = useSidebar();
+  const { isSidebarOpen, setIsSidebarOpen, isDesktop } = useSidebar();
 
   return (
     <StyledHeader>
-      <ButtonIcon onClick={openSidebar} className="toggle-button">
-        {isModalSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
-      </ButtonIcon>
+      {!isDesktop && (
+        <ButtonIcon
+          onClick={() => setIsSidebarOpen(true)}
+          className="toggle-button"
+        >
+          {isSidebarOpen ? <HiBars3BottomRight /> : <HiBars3 />}
+        </ButtonIcon>
+      )}
       <UserAvatar />
       <HeaderMenu />
     </StyledHeader>
