@@ -7,3 +7,9 @@ export const DARK_MODE_CLASS = "dark-mode";
 
 // Local Storage keys
 export const DARK_MODE_KEY = "isDarkMode";
+
+// Pagination
+export const PAGE_SIZE = 10;
+export const PAGE_NUM = 1;
+
+export const DATE_FORMAT = "MMM dd yyyy";

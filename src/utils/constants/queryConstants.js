@@ -1,4 +1,4 @@
-// Supabase
+// React query and mutation keys
 // Cabin
 export const cabinsBucketStorage = "cabin-images";
 export const cabinsName = "cabin";
@@ -14,8 +14,9 @@ export const bookingsTableName = "bookings";
 export const readBookingsKey = "bookings";
 export const readBookingByIdKey = "bookingDetails";
 export const deleteBookingKey = "delete-booking";
-export const createBookingKey = "create-booking";
-export const updateBookingKey = "update-booking";
+// export const createBookingKey = "create-booking";
+// export const updateBookingKey = "update-booking";
+
 // Dashboard
 export const readRecentBookingsKey = "bookings-by-date";
 export const readRecentStaysKey = "stays-by-date";
@@ -27,19 +28,18 @@ export const checkOutBookingKey = "check-out-booking";
 // Settings
 export const settingsTableName = "settings";
 export const readSettingsKey = "settings";
-export const deleteSettingKey = "delete-setting";
-export const createSettingKey = "create-setting";
 export const updateSettingKey = "update-setting";
 
-// Auth
+// Auths
 export const loginKey = "login";
 export const logoutKey = "logout";
 export const signUpKey = "sign-up";
+
 // Users
 export const avatarBucketStorage = "avatars";
 export const avatarName = "avatar";
-export const readUsersKey = "users";
+// export const readUsersKey = "users";
 export const readUserKey = "user";
-export const deleteUseringKey = "delete-user";
+// export const deleteUseringKey = "delete-user";
 export const createUseringKey = "create-user";
 export const updateUseringKey = "update-user";
