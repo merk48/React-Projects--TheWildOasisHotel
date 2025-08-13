@@ -41,7 +41,7 @@ function SalesChart({ bookings, numDays }) {
       }, 0),
       extrasSales: bookings.reduce((acc, cur) => {
         return (acc += isSameDay(date, new Date(cur.created_at))
-          ? cur.extraPrice
+          ? cur.extrasPrice
           : 0);
       }, 0),
     };
