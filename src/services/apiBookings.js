@@ -6,6 +6,7 @@ import {
   applySortToQuery,
   applyPaginationToQuery,
 } from "../utils/supabaseQueryHelpers";
+import { BOOKING_CONFIG } from "../utils/configs/bookingConfig";
 
 export async function readBookings({
   filters = [],
@@ -87,7 +88,11 @@ export async function getStaysTodayActivity() {
     .from(bookingsTableName)
     .select("*, guests(fullName, nationality, countryFlag)")
     .or(
-      `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+      `and(status.eq.${
+        BOOKING_CONFIG.statusOptions.UNCONFIRMED
+      },startDate.eq.${getToday()}),and(status.eq.${
+        BOOKING_CONFIG.statusOptions.CHECKED_IN
+      },endDate.eq.${getToday()})`
     )
     .order("created_at");
 

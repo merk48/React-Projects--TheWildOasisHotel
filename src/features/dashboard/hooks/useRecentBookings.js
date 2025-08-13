@@ -5,7 +5,9 @@ import { useUrl } from "../../../hooks/useUrl";
 import { subDays } from "date-fns";
 
 function useRecentBookings() {
-  const [numDays] = useUrl("last");
+  const [numDays] = useUrl("last", {
+    defaultValue: "7",
+  });
 
   const queryDate = subDays(new Date(), numDays).toISOString();
 

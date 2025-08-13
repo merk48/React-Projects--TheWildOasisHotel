@@ -6,7 +6,9 @@ import { subDays } from "date-fns";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
 function useRecentStays() {
-  const [numDays] = useUrl("last");
+  const [numDays] = useUrl("last", {
+    defaultValue: "7",
+  });
 
   const queryDate = subDays(new Date(), numDays).toISOString();
 
