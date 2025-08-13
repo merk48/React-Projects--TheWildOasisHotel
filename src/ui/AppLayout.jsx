@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Main from "./Main";
-import Overlay from "./Overlay";
-import ModalProvider from "../contexts/modalContext";
 import SidebarProvider from "../contexts/sidebarContext";
 
 const StyledAppLayout = styled.div`
@@ -49,9 +46,7 @@ function AppLayout() {
       </SidebarProvider>
       <Main>
         <Container>
-          <ModalProvider>
-            <Outlet />
-          </ModalProvider>
+          <Outlet />
         </Container>
       </Main>
     </StyledAppLayout>
