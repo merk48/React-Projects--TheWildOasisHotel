@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import useCheckout from "../check-in-out/hooks/useCheckout";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
+import Empty from "../../ui/Empty";
 import { HiTrash } from "react-icons/hi2";
 import { useDeleteBooking } from "./hooks/useDeleteBooking";
 
@@ -34,7 +35,7 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const navigate = useNavigate();
-  const { isLoading, booking } = useBookingDetails();
+  const { isLoading, booking, error } = useBookingDetails();
 
   const { isCheckingOut, checkOut } = useCheckout();
   const { isDeleting, deleteBooking } = useDeleteBooking();
@@ -43,6 +44,9 @@ function BookingDetail() {
   const moveBack = useMoveBack();
 
   if (isLoading) return <Spinner />;
+
+  if (!booking) return <Empty resource="Booking" />;
+
   const { status, id } = booking;
 
   return (

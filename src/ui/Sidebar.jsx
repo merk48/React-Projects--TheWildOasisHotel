@@ -41,7 +41,7 @@ function Sidebar() {
       <StyledSidebar ref={ref} $isOpen={isModalSidebarOpen}>
         <Logo />
         <MainNav />
-        <Uploader />
+        {/* <Uploader /> */}
       </StyledSidebar>
       {isModalSidebarOpen && <Overlay />}
     </>
