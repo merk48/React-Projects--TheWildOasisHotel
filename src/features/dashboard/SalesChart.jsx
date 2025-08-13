@@ -1,7 +1,5 @@
-// SalesChart.jsx
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
-import { useEffect, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -13,6 +11,8 @@ import {
 } from "recharts";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import { useDarkMode } from "../../contexts/DarkModeContext";
+import useViewportWidth from "../../hooks/useViewportWidth";
+import { useMemo } from "react";
 
 const StyledSalesChart = styled.div`
   /* Use your DashboardBox styles (I kept it simple here) */
@@ -42,25 +42,6 @@ const StyledSalesChart = styled.div`
     overflow: visible;
   }
 `;
-
-/**
- * Helper: returns viewport width (basic)
- */
-function useViewportWidth() {
-  const [width, setWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
-  );
-
-  useEffect(() => {
-    function onResize() {
-      setWidth(window.innerWidth);
-    }
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  return width;
-}
 
 function SalesChart({ bookings = [], numDays = 7 }) {
   const { isDarkMode } = useDarkMode();
