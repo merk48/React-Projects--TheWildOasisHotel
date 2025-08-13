@@ -20,6 +20,7 @@ export const deleteBookingKey = "delete-booking";
 // Dashboard
 export const readRecentBookingsKey = "bookings-by-date";
 export const readRecentStaysKey = "stays-by-date";
+export const readTodayActivities = "today-activity";
 
 // Check-in-out
 export const checkInBookingKey = "check-in-booking";

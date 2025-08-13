@@ -13,7 +13,7 @@ export function useCheckin() {
     mutationKey: [checkInBookingKey],
     mutationFn: ({ id, breakfast }) =>
       updateBooking(id, {
-        status: BOOKING_CONFIG.statusOptions.CHECKED_IN,
+        status: BOOKING_CONFIG.STATUS.CHECKED_IN,
         isPaid: true,
         ...breakfast,
       }),

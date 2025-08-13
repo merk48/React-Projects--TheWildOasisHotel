@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { readLoggedInUser } from "../../../services/apiAuth";
-import { readUserKey } from "../../../utils/queryConstants";
+import { readUserKey } from "../../../utils/constants/queryConstants";
+import { AUTHENTICATED_KEYWORD } from "../../../utils/helpers/supabaseQueryHelpers";
 
 export function useUser() {
   const {
@@ -16,7 +17,9 @@ export function useUser() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const isAuthenticated = Boolean(user?.role === "authenticated" || user?.id);
+  const isAuthenticated = Boolean(
+    user?.role === AUTHENTICATED_KEYWORD || user?.id
+  );
 
   return {
     isFetching,

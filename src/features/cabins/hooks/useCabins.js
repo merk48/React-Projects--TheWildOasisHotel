@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { readCabins } from "../../../services/apiCabins";
-import { readCabinsKey } from "../../../utils/queryConstants";
+import { readCabinsKey } from "../../../utils/constants/queryConstants";
 
 export function useCabins() {
   const {

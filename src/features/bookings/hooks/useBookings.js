@@ -1,15 +1,18 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { readBookings } from "../../../services/apiBookings";
-import { readBookingsKey } from "../../../utils/queryConstants";
+import { readBookingsKey } from "../../../utils/constants/queryConstants";
 import { useSearchParams } from "react-router-dom";
 import { useMemo, useEffect } from "react";
-import { PAGE_SIZE } from "../../../config";
+import { PAGE_SIZE } from "../../../utils/constants/uiConstants";
 import {
   buildSortFromParam,
   buildPaginationFromParams,
-} from "../../../utils/tableUrlHelpers";
+} from "../../../utils/helpers/tableUrlHelpers";
 
-import { getTotalPages, prefetchPage } from "../../../utils/paginationHelpers";
+import {
+  getTotalPages,
+  prefetchPage,
+} from "../../../utils/helpers/paginationHelpers";
 import useBookingFilters from "../hooks/useBookingFilters";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
@@ -24,7 +27,7 @@ export function useBookings() {
   const { field, direction } = useMemo(
     () =>
       buildSortFromParam(searchParams, {
-        defaultSort: BOOKING_CONFIG.sort.default,
+        defaultSort: BOOKING_CONFIG.SORT.DEFAULT,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchParams.toString()]

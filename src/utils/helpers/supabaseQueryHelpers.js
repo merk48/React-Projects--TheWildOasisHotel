@@ -13,6 +13,8 @@ export const SUPABASE_METHODS = {
   CONTAINS: "contains",
 };
 
+export const AUTHENTICATED_KEYWORD = "authenticated";
+
 export function applyFiltersToQuery(query, filters = []) {
   filters.filter(Boolean).forEach((filter) => {
     const method = filter.method || SUPABASE_METHODS.EQ;

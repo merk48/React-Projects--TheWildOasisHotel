@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { readBookingByIdKey } from "../../../utils/queryConstants";
-import { readBookingById } from "../../../services/apiBookings";
 import { useParams } from "react-router-dom";
+import { readBookingByIdKey } from "../../../utils/constants/queryConstants";
+import { readBookingById } from "../../../services/apiBookings";
 
 export function useBookingDetails() {
   const { id } = useParams();

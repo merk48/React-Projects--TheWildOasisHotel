@@ -1,25 +1,23 @@
 import { useMemo } from "react";
 import { useUrl } from "../../../hooks/useUrl";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
-import { buildFiltersFromConfig } from "../../../utils/tableUrlHelpers";
+import { buildFiltersFromConfig } from "../../../utils/helpers/tableUrlHelpers";
 
 export function useBookingFilters() {
-  // in here I defing the filters for the booking
-  const statusConfig = BOOKING_CONFIG.filters.status;
-
-  const [status, setStatus] = useUrl(statusConfig.param, {
-    defaultValue: statusConfig.default,
+  const [status, setStatus] = useUrl(BOOKING_CONFIG.FILTERS.STATUS.PARAM, {
+    defaultValue: BOOKING_CONFIG.FILTERS.STATUS.DEFAULT,
   });
 
   const filters = useMemo(
     () =>
       buildFiltersFromConfig(
-        new URLSearchParams([[statusConfig.param, status]]),
+        new URLSearchParams([[BOOKING_CONFIG.FILTERS.STATUS.PARAM, status]]),
         {
-          [statusConfig.param]: (v) => statusConfig.toFilter(v),
+          [BOOKING_CONFIG.FILTERS.STATUS.PARAM]: (v) =>
+            BOOKING_CONFIG.FILTERS.STATUS.ToFilter(v),
         }
       ),
-    [status, statusConfig]
+    [status]
   );
 
   return { status, setStatus, filters };

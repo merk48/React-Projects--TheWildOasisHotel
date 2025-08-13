@@ -11,7 +11,7 @@ export function useCheckout() {
     mutationKey: [checkOutBookingKey],
     mutationFn: (id) =>
       updateBooking(id, {
-        status: BOOKING_CONFIG.statusOptions.CHECKED_OUT,
+        status: BOOKING_CONFIG.STATUS.CHECKED_OUT,
       }),
     onSuccess: (data) => {
       toast.success(`Booking #${data.id} successfully checked out`);

@@ -28,6 +28,7 @@ const SORT_OPTIONS = [
 const DEFAULT_SORT = SORT_OPTIONS[0].value;
 
 export const BOOKING_CONFIG = {
+  STATUS,
   SORT_OPTIONS,
   FILTERS: {
     STATUS: {
@@ -35,6 +36,7 @@ export const BOOKING_CONFIG = {
       PARAM: PARAMS.BOOKING.STATUS_FILTER, // url param name
       DEFAULT: STATUS.ALL,
       OPTIONS: STATUS_OPTIONS,
+      META_DATA: {},
       ToFilter: (value) =>
         !value || value === STATUS.ALL
           ? null
