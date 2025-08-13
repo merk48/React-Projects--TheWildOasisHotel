@@ -12,7 +12,6 @@ const StyledTable = styled.div`
       ? `${p.$minWidth}px`
       : p.$minWidth || "700px"};
   height: 100%;
-  height: 100%;
 
   @media (max-width: 640px) {
     min-width: ${(p) =>
@@ -112,6 +111,7 @@ const Footer = styled.footer`
   display: flex;
   padding: 1.2rem;
   min-width: 100%;
+  justify-content: flex-end;
 
   &:not(:has(*)) {
     display: none;

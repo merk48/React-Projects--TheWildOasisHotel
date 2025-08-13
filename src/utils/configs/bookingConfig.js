@@ -61,17 +61,3 @@ export const BOOKING_CONFIG = {
     },
   },
 };
-
-/*
-,
-    {
-      field: "totalPrice",
-      param: PARAMS.BOOKING.MIN_TOTAL,
-      label: "Minimum total",
-      // produce the service filter when needed
-      toFilter: (value) =>
-        !value || value === "all"
-          ? null
-          : { field: "totalPrice", method: "gte", value: Number(value) },
-    },
-*/

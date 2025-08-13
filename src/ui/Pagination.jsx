@@ -4,7 +4,7 @@ import { useUrl } from "../hooks/useUrl";
 import { PAGE_SIZE } from "../config";
 
 const StyledPagination = styled.div`
-  min-width: 700px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
