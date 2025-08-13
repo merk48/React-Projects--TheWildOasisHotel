@@ -6,37 +6,42 @@ import TodayItem from "../../features/check-in-out/TodayItem";
 import Spinner from "../../ui/Spinner";
 
 const StyledToday = styled.div`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-  padding: 3.2rem;
+  padding: 2.4rem;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
-  grid-column: 1 / span 2;
-  padding-top: 2.4rem;
+  gap: 1.6rem;
+
+  /* On very wide screens, request the left half */
+  @media (min-width: 1200px) {
+    grid-column: 1 / span 2;
+  }
 `;
 
 const TodayList = styled.ul`
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow: auto;
+  max-height: 30vh;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 
-  /* Removing scrollbars for webkit, firefox, and ms, respectively */
   &::-webkit-scrollbar {
-    width: 0 !important;
+    width: 8px;
   }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-grey-200);
+    border-radius: 8px;
+  }
 `;
 
 const NoActivity = styled.p`
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.1rem;
   font-weight: 500;
   margin-top: 0.8rem;
 `;
-
 function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
   return (

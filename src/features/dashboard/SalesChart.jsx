@@ -1,7 +1,7 @@
+// SalesChart.jsx
 import styled from "styled-components";
-import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
-import { useDarkMode } from "../../contexts/DarkModeContext";
+import { useEffect, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -12,40 +12,89 @@ import {
   YAxis,
 } from "recharts";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import { useDarkMode } from "../../contexts/DarkModeContext";
 
-const StyledSalesChart = styled(DashboardBox)`
+const StyledSalesChart = styled.div`
+  /* Use your DashboardBox styles (I kept it simple here) */
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+  padding: 2.4rem 3.2rem;
   grid-column: 1 / -1;
+  width: 100%;
 
-  /* Hack to change grid line colors */
   & .recharts-cartesian-grid-horizontal line,
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
   }
+
+  /* responsive padding */
+  @media (max-width: 1024px) {
+    padding: 1.6rem 1.8rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.2rem 1rem;
+  }
+
+  /* make sure the svg area is visible (prevents clipping on some browsers) */
+  & svg {
+    overflow: visible;
+  }
 `;
 
-function SalesChart({ bookings, numDays }) {
+/**
+ * Helper: returns viewport width (basic)
+ */
+function useViewportWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+
+  useEffect(() => {
+    function onResize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return width;
+}
+
+function SalesChart({ bookings = [], numDays = 7 }) {
   const { isDarkMode } = useDarkMode();
+  const vw = useViewportWidth();
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays),
-    end: new Date(),
-  });
+  // data for all dates in interval
+  const allDates = useMemo(
+    () =>
+      eachDayOfInterval({
+        start: subDays(new Date(), numDays),
+        end: new Date(),
+      }),
+    [numDays]
+  );
 
-  const data = allDates.map((date) => {
-    return {
-      label: format(date, "MMM dd"),
-      totalSales: bookings.reduce((acc, cur) => {
-        return (acc += isSameDay(date, new Date(cur.created_at))
-          ? cur.totalPrice
-          : 0);
-      }, 0),
-      extrasSales: bookings.reduce((acc, cur) => {
-        return (acc += isSameDay(date, new Date(cur.created_at))
-          ? cur.extrasPrice
-          : 0);
-      }, 0),
-    };
-  });
+  const data = useMemo(
+    () =>
+      allDates.map((date) => {
+        return {
+          label: format(date, "MMM dd"), // e.g. "Aug 06"
+          totalSales: bookings.reduce((acc, cur) => {
+            return (acc += isSameDay(date, new Date(cur.created_at))
+              ? cur.totalPrice
+              : 0);
+          }, 0),
+          extrasSales: bookings.reduce((acc, cur) => {
+            return (acc += isSameDay(date, new Date(cur.created_at))
+              ? cur.extrasPrice
+              : 0);
+          }, 0),
+        };
+      }),
+    [allDates, bookings]
+  );
 
   const colors = isDarkMode
     ? {
@@ -61,26 +110,67 @@ function SalesChart({ bookings, numDays }) {
         background: "#fff",
       };
 
+  // Dynamic height: smaller on mobile, larger on desktop
+  const chartHeight = vw < 480 ? 220 : vw < 768 ? 260 : 320;
+
+  // compute how many ticks we can show without crowding
+  // target approx one tick per 80-120px of width
+  const approxTickSpacing = vw < 480 ? 80 : vw < 768 ? 90 : 120;
+  const tickCount = Math.max(
+    3,
+    Math.min(10, Math.floor(Math.max(300, vw) / approxTickSpacing))
+  );
+
+  // interval for XAxis: show roughly tickCount ticks across data.length
+  const xInterval = Math.max(0, Math.ceil(data.length / tickCount) - 1);
+
+  // rotate ticks a bit on narrow screens
+  const tickProps =
+    vw < 480
+      ? { angle: -45, textAnchor: "end", dx: -6, dy: 6 }
+      : vw < 768
+      ? { angle: -20, textAnchor: "end", dx: -4, dy: 4 }
+      : { angle: 0, textAnchor: "middle" };
+
+  // margins to ensure axes/labels don't get clipped
+  const chartMargin = {
+    top: 10,
+    right: 20,
+    left: 0,
+    bottom: vw < 480 ? 60 : 30,
+  };
+
   return (
     <StyledSalesChart>
       <Heading as="h2" variant="h2">
-        Sales from {format(allDates.at(0), "MMM dd yyyy")} &mdash;{" "}
-        {format(allDates.at(-1), "MMM dd yyyy")}{" "}
+        {data.length
+          ? `Sales from ${format(allDates.at(0), "MMM dd yyyy")} — ${format(
+              allDates.at(-1),
+              "MMM dd yyyy"
+            )}`
+          : "Sales"}
       </Heading>
-      <ResponsiveContainer height={300} width="100%">
-        <AreaChart data={data}>
+
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <AreaChart data={data} margin={chartMargin}>
           <XAxis
             dataKey="label"
-            tick={{ fill: colors.text }}
+            tick={{ fill: colors.text, fontSize: vw < 480 ? 11 : 12 }}
             tickLine={{ stroke: colors.text }}
+            interval={xInterval}
+            {...tickProps}
           />
           <YAxis
             unit="$"
-            tick={{ fill: colors.text }}
+            tick={{ fill: colors.text, fontSize: vw < 480 ? 11 : 12 }}
             tickLine={{ stroke: colors.text }}
+            width={64}
           />
           <CartesianGrid strokeDasharray="4" />
-          <Tooltip contentStyle={{ backgroundColor: colors.background }} />
+          <Tooltip
+            contentStyle={{ backgroundColor: colors.background }}
+            formatter={(value) => (value ? `$${value}` : "$0")}
+          />
           <Area
             dataKey="totalSales"
             type="monotone"
@@ -89,6 +179,7 @@ function SalesChart({ bookings, numDays }) {
             strokeWidth={2}
             name="Total sales"
             unit="$"
+            isAnimationActive={false}
           />
           <Area
             dataKey="extrasSales"
@@ -98,6 +189,7 @@ function SalesChart({ bookings, numDays }) {
             strokeWidth={2}
             name="Extras sales"
             unit="$"
+            isAnimationActive={false}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -106,38 +198,3 @@ function SalesChart({ bookings, numDays }) {
 }
 
 export default SalesChart;
-
-/*
-const fakeData = [
-  { label: "Jan 09", totalSales: 480, extrasSales: 20 },
-  { label: "Jan 10", totalSales: 580, extrasSales: 100 },
-  { label: "Jan 11", totalSales: 550, extrasSales: 150 },
-  { label: "Jan 12", totalSales: 600, extrasSales: 50 },
-  { label: "Jan 13", totalSales: 700, extrasSales: 150 },
-  { label: "Jan 14", totalSales: 800, extrasSales: 150 },
-  { label: "Jan 15", totalSales: 700, extrasSales: 200 },
-  { label: "Jan 16", totalSales: 650, extrasSales: 200 },
-  { label: "Jan 17", totalSales: 600, extrasSales: 300 },
-  { label: "Jan 18", totalSales: 550, extrasSales: 100 },
-  { label: "Jan 19", totalSales: 700, extrasSales: 100 },
-  { label: "Jan 20", totalSales: 800, extrasSales: 200 },
-  { label: "Jan 21", totalSales: 700, extrasSales: 100 },
-  { label: "Jan 22", totalSales: 810, extrasSales: 50 },
-  { label: "Jan 23", totalSales: 950, extrasSales: 250 },
-  { label: "Jan 24", totalSales: 970, extrasSales: 100 },
-  { label: "Jan 25", totalSales: 900, extrasSales: 200 },
-  { label: "Jan 26", totalSales: 950, extrasSales: 300 },
-  { label: "Jan 27", totalSales: 850, extrasSales: 200 },
-  { label: "Jan 28", totalSales: 900, extrasSales: 100 },
-  { label: "Jan 29", totalSales: 800, extrasSales: 300 },
-  { label: "Jan 30", totalSales: 950, extrasSales: 200 },
-  { label: "Jan 31", totalSales: 1100, extrasSales: 300 },
-  { label: "Feb 01", totalSales: 1200, extrasSales: 400 },
-  { label: "Feb 02", totalSales: 1250, extrasSales: 300 },
-  { label: "Feb 03", totalSales: 1400, extrasSales: 450 },
-  { label: "Feb 04", totalSales: 1500, extrasSales: 500 },
-  { label: "Feb 05", totalSales: 1400, extrasSales: 600 },
-  { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
-];
-
-*/
