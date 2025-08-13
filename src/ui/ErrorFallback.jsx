@@ -1,5 +1,8 @@
 // src/ui/ErrorFallback.jsx (or wherever you keep it)
 import styled from "styled-components";
+import Heading from "./Heading";
+import GlobalStyles from "../styles/GlobalStyles";
+import Button from "./Button";
 
 const StyledErrorFallback = styled.main`
   min-height: 100vh;
@@ -50,14 +53,24 @@ const Box = styled.div`
 
 export default function ErrorFallback({
   title = "Something went wrong",
-  children,
+  error,
+  resetErrorBoundary,
 }) {
   return (
-    <StyledErrorFallback>
-      <Box>
-        <h1>{title}</h1>
-        <p>{children || "An unexpected error occurred."}</p>
-      </Box>
-    </StyledErrorFallback>
+    <>
+      <GlobalStyles />
+      <StyledErrorFallback>
+        <Box>
+          <Heading as="h1" variant="h1">
+            {title}
+          </Heading>
+
+          <p>{error?.message}</p>
+          <Button variant="primary" size="large" onClick={resetErrorBoundary}>
+            Try again
+          </Button>
+        </Box>
+      </StyledErrorFallback>
+    </>
   );
 }

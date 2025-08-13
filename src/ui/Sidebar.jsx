@@ -33,17 +33,17 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
-  const { isModalSidebarOpen, closeSidebar } = useSidebar();
-  const { ref } = useOutsideClick(closeSidebar, true);
+  const { isSidebarOpen, setIsSidebarOpen, isDesktop } = useSidebar();
+  const { ref } = useOutsideClick(() => setIsSidebarOpen(false), true);
 
   return (
     <>
-      <StyledSidebar ref={ref} $isOpen={isModalSidebarOpen}>
+      <StyledSidebar ref={ref} $isOpen={isSidebarOpen}>
         <Logo />
         <MainNav />
-        <Uploader />
+        {/* <Uploader /> */}
       </StyledSidebar>
-      {isModalSidebarOpen && <Overlay />}
+      {isSidebarOpen && !isDesktop && <Overlay />}
     </>
   );
 }

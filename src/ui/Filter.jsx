@@ -1,5 +1,4 @@
 import { createContext, useContext } from "react";
-import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useUrl } from "../hooks/useUrl";
 
@@ -56,10 +55,12 @@ export function Filter({
   children,
   filterField,
   defaultValue = "",
+  resetPageOnChange = true,
   writeDefaultToUrl = false,
 }) {
   const [current, setFilter] = useUrl(filterField, {
     type: "string",
+    resetPageOnChange,
     writeDefaultToUrl,
     defaultValue,
   });

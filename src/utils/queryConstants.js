@@ -16,6 +16,10 @@ export const readBookingByIdKey = "bookingDetails";
 export const deleteBookingKey = "delete-booking";
 export const createBookingKey = "create-booking";
 export const updateBookingKey = "update-booking";
+// Dashboard
+export const readRecentBookingsKey = "bookings-by-date";
+export const readRecentStaysKey = "stays-by-date";
+
 // Check-in-out
 export const checkInBookingKey = "check-in-booking";
 export const checkOutBookingKey = "check-out-booking";

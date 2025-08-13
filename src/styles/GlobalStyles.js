@@ -40,6 +40,12 @@ const GlobalStyles = createGlobalStyle`
 
   --image-grayscale: 0;
   --image-opacity: 100%;
+
+   --scrollbar-width: 8px;
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb: rgba(0,0,0,0.25);
+  --scrollbar-thumb-hover: rgba(0,0,0,0.4);
+  --scrollbar-radius: 12px;
 }
   
 
@@ -79,6 +85,12 @@ const GlobalStyles = createGlobalStyle`
 
   --image-grayscale: 10%;
   --image-opacity: 90%;
+
+   --scrollbar-width: 8px;
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb: rgba(255,255,255,0.25);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.4);
+  --scrollbar-radius: 12px;
   }
 
  /* Crimson Shades */
@@ -107,6 +119,9 @@ const GlobalStyles = createGlobalStyle`
   --border-radius-md: 7px;
   --border-radius-lg: 9px;
 
+
+
+  
 }
 
 *,
@@ -118,6 +133,38 @@ const GlobalStyles = createGlobalStyle`
 
   /* Creating animations for dark mode */
   transition: background-color 0.3s, border 0.3s;
+}
+
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+/* WebKit browsers */
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--scrollbar-thumb), rgba(0,0,0,0.15));
+  border-radius: var(--scrollbar-radius);
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
+}
+
+:root.dark-mode *::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--scrollbar-thumb), rgba(255,255,255,0.15));
+  box-shadow: inset 0 0 2px rgba(255,255,255,0.2);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 html {
