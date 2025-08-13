@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase from "../../services/supabase";
 
 /**
  * Optional debug helper: get metadata for a stored object

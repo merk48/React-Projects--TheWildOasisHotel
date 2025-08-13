@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "../config";
+import { PAGE_SIZE } from "../constants/uiConstants";
 
 /**
  * buildFiltersFromConfig(searchParams, config)
