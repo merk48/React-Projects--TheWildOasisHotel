@@ -25,7 +25,7 @@ function useRecentStays() {
       stay.status === BOOKING_CONFIG.statusOptions.CHECKED_OUT
   );
 
-  return { isLoadingStays, stays, confirmedStays, errorStays };
+  return { isLoadingStays, stays, confirmedStays, errorStays, numDays };
 }
 
 export default useRecentStays;
