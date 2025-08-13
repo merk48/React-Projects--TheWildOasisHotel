@@ -1,11 +1,11 @@
-import { getToday } from "../utils/helpers";
-import { bookingsTableName } from "../utils/queryConstants";
+import { getToday } from "../utils/helpers/dateHelpers";
+import { bookingsTableName } from "../utils/constants/queryConstants";
 import supabase from "./supabase";
 import {
   applyFiltersToQuery,
   applySortToQuery,
   applyPaginationToQuery,
-} from "../utils/supabaseQueryHelpers";
+} from "../utils/helpers/supabaseQueryHelpers";
 import { BOOKING_CONFIG } from "../utils/configs/bookingConfig";
 
 export async function readBookings({

@@ -1,4 +1,4 @@
-import { settingsTableName } from "../utils/queryConstants";
+import { settingsTableName } from "../utils/constants/queryConstants";
 import supabase from "./supabase";
 
 export async function getSettings() {

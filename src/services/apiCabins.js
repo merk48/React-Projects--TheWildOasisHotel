@@ -1,15 +1,15 @@
+import supabase from "./supabase";
 import {
   cabinsName,
   cabinsBucketStorage,
   cabinsTableName,
-} from "../utils/queryConstants";
+} from "../utils/constants/queryConstants";
 import {
   createFilename,
   deleteFile,
   getFilenameFromUrl,
   uploadFileAndGetPublicUrl,
-} from "./helper";
-import supabase from "./supabase";
+} from "../utils/helpers/fileHelper";
 
 export async function readCabins() {
   const { data, error } = await supabase.from(cabinsTableName).select("*");
