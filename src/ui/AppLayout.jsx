@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Main from "./Main";
-import SidebarProvider from "../contexts/sidebarContext";
+import SidebarProvider from "../contexts/SidebarContext";
 
 const StyledAppLayout = styled.div`
   display: grid;

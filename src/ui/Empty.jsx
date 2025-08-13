@@ -1,4 +1,3 @@
-// src/ui/Empty.jsx
 import styled from "styled-components";
 
 const EmptyMsg = styled.p`

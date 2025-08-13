@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi2";
 import { useUrl } from "../hooks/useUrl";
-import { PAGE_SIZE } from "../config";
+import { PAGE_SIZE } from "../utils/constants/uiConstants";
 
 const StyledPagination = styled.div`
   width: 100%;

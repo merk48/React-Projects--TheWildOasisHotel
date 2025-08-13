@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
-import Uploader from "../data/Uploader";
-import useOutsideClick from "../hooks/useOutsideClick";
+// import Uploader from "../data/Uploader";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 import Overlay from "./Overlay";
-import { useSidebar } from "../contexts/sidebarContext";
+import { useSidebar } from "../contexts/SidebarContext";
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;

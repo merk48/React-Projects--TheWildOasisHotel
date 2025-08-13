@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import HeaderMenu from "./HeaderMenu";
 import UserAvatar from "../features/authentication/UserAvatar";
-import { useSidebar } from "../contexts/sidebarContext";
+import { useSidebar } from "../contexts/SidebarContext";
 import ButtonIcon from "./ButtonIcon";
 import { HiBars3, HiBars3BottomRight } from "react-icons/hi2";
 
