@@ -33,7 +33,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       updateCabin(
         { newCabinData: { ...data, image }, id: editId },
         {
-          onSuccess: (data) => {
+          onSuccess: () => {
             reset();
             onCloseModal?.();
           },
@@ -43,7 +43,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: (data) => {
+          onSuccess: () => {
             reset();
             onCloseModal?.();
           },
@@ -53,6 +53,12 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
   function onError(errors) {
     // log error
+  }
+
+  function handleReset() {
+    if (isEditSession && Object.keys(editValues).length > 0) {
+      reset(editValues); // update the form with edit values
+    }
   }
 
   const basicValidations = (fieldName) => {
@@ -149,7 +155,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         <Button variation="secondary" onClick={onCloseModal}>
           Cancel
         </Button>
-        <Button variation="secondary" type="reset">
+        <Button onClick={handleReset} variation="secondary" type="button">
           Reset
         </Button>
         <Button disabled={isWorking}>
