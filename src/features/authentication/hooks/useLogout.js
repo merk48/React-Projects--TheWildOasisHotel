@@ -4,7 +4,7 @@ import { logoutKey } from "../../../utils/queryConstants";
 import toast from "react-hot-toast";
 import { logout as logoutApi } from "../../../services/apiAuth";
 
-function useLogout() {
+export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -21,5 +21,3 @@ function useLogout() {
 
   return { logout, isLoggingOut };
 }
-
-export default useLogout;

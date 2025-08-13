@@ -13,7 +13,7 @@ import { getTotalPages, prefetchPage } from "../../../utils/paginationHelpers";
 import useBookingFilters from "../hooks/useBookingFilters";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
-function useBookings() {
+export function useBookings() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -103,5 +103,3 @@ function useBookings() {
 
   return { isLoading, isFetching, bookings, count, error };
 }
-
-export default useBookings;

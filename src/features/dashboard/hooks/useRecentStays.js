@@ -5,7 +5,7 @@ import { useUrl } from "../../../hooks/useUrl";
 import { subDays } from "date-fns";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
-function useRecentStays() {
+export function useRecentStays() {
   const [numDays] = useUrl("last", {
     defaultValue: "7",
   });
@@ -29,5 +29,3 @@ function useRecentStays() {
 
   return { isLoadingStays, stays, confirmedStays, errorStays, numDays };
 }
-
-export default useRecentStays;

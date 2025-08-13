@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /**
  * Helper: returns viewport width (basic)
  */
-export default function useViewportWidth() {
+export function useViewportWidth() {
   const [width, setWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   );

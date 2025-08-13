@@ -4,7 +4,7 @@ import { updateBooking } from "../../../services/apiBookings";
 import toast from "react-hot-toast";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
-function useCheckout() {
+export function useCheckout() {
   const queryClient = useQueryClient();
 
   const { isPending: isCheckingOut, mutate: checkOut } = useMutation({
@@ -25,5 +25,3 @@ function useCheckout() {
   });
   return { isCheckingOut, checkOut };
 }
-
-export default useCheckout;

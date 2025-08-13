@@ -4,7 +4,7 @@ import { readRecentBookingsKey } from "../../../utils/queryConstants";
 import { useUrl } from "../../../hooks/useUrl";
 import { subDays } from "date-fns";
 
-function useRecentBookings() {
+export function useRecentBookings() {
   const [numDays] = useUrl("last", {
     defaultValue: "7",
   });
@@ -22,5 +22,3 @@ function useRecentBookings() {
 
   return { isLoadingBooks, bookings, errorBooks, numDays };
 }
-
-export default useRecentBookings;

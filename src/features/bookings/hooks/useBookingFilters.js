@@ -3,7 +3,7 @@ import { useUrl } from "../../../hooks/useUrl";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 import { buildFiltersFromConfig } from "../../../utils/tableUrlHelpers";
 
-export default function useBookingFilters() {
+export function useBookingFilters() {
   // in here I defing the filters for the booking
   const statusConfig = BOOKING_CONFIG.filters.status;
 

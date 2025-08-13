@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 import { useNavigate } from "react-router-dom";
 
-function useCheckin() {
+export function useCheckin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -35,5 +35,3 @@ function useCheckin() {
   });
   return { isCheckingIn, checkIn };
 }
-
-export default useCheckin;
