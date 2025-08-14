@@ -5,6 +5,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupSchema } from "../../utils/validations/schemas";
 
 // Email regex: /\S+@\S+\.\S+/
 
@@ -13,17 +15,12 @@ function SignupForm() {
     register,
     reset,
     formState: { errors },
-    getValues,
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(signupSchema),
+  });
 
   const { isSigningUp, SignUp } = useSignUp();
-
-  const basicValidations = (fieldName) => {
-    return {
-      required: `${fieldName} field is required`,
-    };
-  };
 
   function onSubmit({ email, password, fullName }) {
     SignUp(
@@ -33,18 +30,14 @@ function SignupForm() {
       }
     );
   }
-  function onError(errors) {
-    // log error
-  }
+
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Full name" error={errors?.fullName?.message}>
         <Input
           type="text"
           id="fullName"
-          {...register("fullName", {
-            ...basicValidations("fullName"),
-          })}
+          {...register("fullName")}
           disabled={isSigningUp}
         />
       </FormRow>
@@ -53,13 +46,7 @@ function SignupForm() {
         <Input
           type="email"
           id="email"
-          {...register("email", {
-            ...basicValidations("email"),
-            patters: {
-              value: /\S+@\S+\.\S+/,
-              message: "Please provide a valid email address",
-            },
-          })}
+          {...register("email")}
           disabled={isSigningUp}
         />
       </FormRow>
@@ -71,13 +58,7 @@ function SignupForm() {
         <Input
           type="password"
           id="password"
-          {...register("password", {
-            ...basicValidations("password"),
-            minLength: {
-              value: 8,
-              message: "Password needs a minimun of 8 characters",
-            },
-          })}
+          {...register("password")}
           disabled={isSigningUp}
         />
       </FormRow>
@@ -86,10 +67,7 @@ function SignupForm() {
         <Input
           type="password"
           id="passwordConfirm"
-          {...register("passwordConfirm", {
-            ...basicValidations("passwordConfirm"),
-            validate: (value) => value === getValues().password,
-          })}
+          {...register("passwordConfirm")}
           disabled={isSigningUp}
         />
       </FormRow>
@@ -98,7 +76,9 @@ function SignupForm() {
         <Button variation="secondary" type="reset">
           Reset
         </Button>
-        <Button>{isSigningUp ? <SpinnerMini /> : "Create new user"}</Button>
+        <Button disabled={isSigningUp}>
+          {isSigningUp ? <SpinnerMini /> : "Create new user"}
+        </Button>
       </FormRow>
     </Form>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useUser } from "./hooks/useUser";
 import { useUpdateUser } from "./hooks/useUpdateUser";
 import Button from "../../ui/Button";
@@ -7,9 +7,10 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { useForm } from "react-hook-form";
+import { userSchema } from "../../utils/validations/schemas";
 
 function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
       email,
@@ -19,56 +20,68 @@ function UpdateUserDataForm() {
 
   const { updateUser, isUpdating } = useUpdateUser();
 
-  const [fullName, setFullName] = useState(currentFullName);
-  const [avatar, setAvatar] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchema),
+    defaultValues: {
+      fullName: currentFullName || "",
+      avatar: null,
+    },
+  });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!fullName) return;
-    updateUser(
-      { fullName, avatar },
-      {
-        onSuccess: () => {
-          setAvatar(null);
-          e.target.reset();
-        },
-      }
-    );
-  }
+  const onSubmit = (data) => {
+    const avatarFile =
+      typeof data.avatar === "string" ? data.avatar : data.avatar?.[0] || null;
 
-  function HandleCancel() {
-    setFullName(currentFullName);
-    setAvatar(null);
-  }
+    // Only update if something changed
+    if (data.fullName !== currentFullName || avatarFile) {
+      updateUser(
+        { fullName: data.fullName, avatar: avatarFile },
+        {
+          onSuccess: () => reset({ fullName: data.fullName, avatar: null }),
+        }
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    reset({ fullName: currentFullName, avatar: null });
+  };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Email address">
         <Input value={email} disabled />
       </FormRow>
-      <FormRow label="Full name">
+
+      <FormRow label="Full name" error={errors?.fullName?.message}>
         <Input
           type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
           id="fullName"
           disabled={isUpdating}
+          {...register("fullName")}
         />
       </FormRow>
-      <FormRow label="Avatar image">
+
+      <FormRow label="Avatar image" error={errors?.avatar?.message}>
         <FileInput
           id="avatar"
           accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
           disabled={isUpdating}
+          {...register("avatar")}
         />
       </FormRow>
+
       <FormRow>
         <Button
           type="reset"
           variation="secondary"
           disabled={isUpdating}
-          onClick={HandleCancel}
+          onClick={handleCancel}
         >
           Reset
         </Button>

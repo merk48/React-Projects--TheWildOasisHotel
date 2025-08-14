@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { useUpdateCabin } from "./hooks/useUpdateCabin";
 import Input from "../../ui/Input";
@@ -8,6 +9,7 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { cabinSchema } from "../../utils/validations/schemas";
 
 function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
@@ -24,6 +26,8 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     getValues,
     formState: { errors },
   } = useForm({
+    resolver: yupResolver(cabinSchema),
+    context: { isEditSession },
     defaultValues: isEditSession ? editValues : {},
   });
 
@@ -62,12 +66,6 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     }
   }
 
-  const basicValidations = (fieldName) => {
-    return {
-      required: `${fieldName} field is required`,
-    };
-  };
-
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -78,9 +76,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           type="text"
           id="name"
           disabled={isWorking}
-          {...register("name", {
-            ...basicValidations("name"),
-          })}
+          {...register("name")}
         />
       </FormRow>
       <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
@@ -88,13 +84,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           type="number"
           id="maxCapacity"
           disabled={isWorking}
-          {...register("maxCapacity", {
-            ...basicValidations,
-            min: {
-              value: 1,
-              message: "Capacity should be at least 1",
-            },
-          })}
+          {...register("maxCapacity")}
         />
       </FormRow>
       <FormRow label="Regular price" error={errors?.regularPrice?.message}>
@@ -103,13 +93,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           id="regularPrice"
           disabled={isWorking}
           defaultValue={0}
-          {...register("regularPrice", {
-            ...basicValidations,
-            min: {
-              value: 50,
-              message: "Price should be start at least from 50",
-            },
-          })}
+          {...register("regularPrice")}
         />
       </FormRow>
       <FormRow label="Discount" error={errors?.discount?.message}>
@@ -118,12 +102,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           id="discount"
           disabled={isWorking}
           defaultValue={0}
-          {...register("discount", {
-            ...basicValidations,
-            validate: (value) =>
-              value <= getValues().regularPrice ||
-              "Discount should be less than resular price!",
-          })}
+          {...register("discount")}
         />
       </FormRow>
       <FormRow
@@ -135,9 +114,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           disabled={isWorking}
           id="description"
           defaultValue=""
-          {...register("description", {
-            ...basicValidations,
-          })}
+          {...register("description")}
         />
       </FormRow>
       <FormRow label="Cabin photo" error={errors?.image?.message}>
@@ -146,9 +123,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           disabled={isWorking}
           type="file"
           accept="image/*"
-          {...register("image", {
-            required: isEditSession ? false : "This field is required",
-          })}
+          {...register("image")}
         />
       </FormRow>
 
