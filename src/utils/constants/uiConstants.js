@@ -12,4 +12,5 @@ export const DARK_MODE_KEY = "isDarkMode";
 export const PAGE_SIZE = 10;
 export const PAGE_NUM = 1;
 
-export const DATE_FORMAT = "MMM dd yyyy";
+export const DATE_FORMAT_FULL = "MMM dd yyyy";
+export const DATE_FORMAT_MONTH = "MMM dd"; // e.g. "Aug 06"

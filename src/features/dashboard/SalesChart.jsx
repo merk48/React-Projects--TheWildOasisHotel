@@ -13,6 +13,7 @@ import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import { useDarkMode } from "../../contexts/DarkModeContext";
 import useViewportWidth from "../../hooks/useViewportWidth";
 import { useMemo } from "react";
+import { DASHBOARD_CONFIG } from "../../utils/configs/dashboardConfig";
 
 const StyledSalesChart = styled.div`
   /* Use your DashboardBox styles (I kept it simple here) */
@@ -61,7 +62,7 @@ function SalesChart({ bookings = [], numDays = 7 }) {
     () =>
       allDates.map((date) => {
         return {
-          label: format(date, "MMM dd"), // e.g. "Aug 06"
+          label: format(date, DASHBOARD_CONFIG.UI.DATE_FORMAT),
           totalSales: bookings.reduce((acc, cur) => {
             return (acc += isSameDay(date, new Date(cur.created_at))
               ? cur.totalPrice

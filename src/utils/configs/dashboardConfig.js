@@ -1,6 +1,6 @@
 import { SUPABASE_METHODS } from "../helpers/supabaseQueryHelpers";
 import PARAMS from "../constants/urlParams";
-import { DATE_FORMAT } from "../constants/uiConstants";
+import { DATE_FORMAT_FULL, DATE_FORMAT_MONTH } from "../constants/uiConstants";
 
 // Filters
 const LAST = {
@@ -35,6 +35,6 @@ export const DASHBOARD_CONFIG = {
     },
   },
   UI: {
-    DATE_FORMAT,
+    DATE_FORMAT: DATE_FORMAT_MONTH,
   },
 };

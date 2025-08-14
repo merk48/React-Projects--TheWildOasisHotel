@@ -1,4 +1,4 @@
-import { getToday } from "../utils/helpers/dateHelpers";
+import { getToday } from "../utils/helpers/commonHelpers";
 import { bookingsTableName } from "../utils/constants/queryConstants";
 import supabase from "./supabase";
 import {

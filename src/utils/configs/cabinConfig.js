@@ -1,6 +1,6 @@
 import { SUPABASE_METHODS } from "../helpers/supabaseQueryHelpers";
 import PARAMS from "../constants/urlParams";
-import { DATE_FORMAT } from "../constants/uiConstants";
+import { DATE_FORMAT_FULL } from "../constants/uiConstants";
 
 // Filters
 const DISCOUNT = {
@@ -80,6 +80,6 @@ export const CABIN_CONFIG = {
     DEFAULT: DEFAULT_SORT,
   },
   UI: {
-    DATE_FORMAT,
+    DATE_FORMAT: DATE_FORMAT_FULL,
   },
 };

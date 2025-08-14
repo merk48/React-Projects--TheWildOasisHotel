@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import useRecentBookings from "./hooks/useRecentBookings";
+import { useRecentBookings } from "./hooks/useRecentBookings";
+import { useRecentStays } from "./hooks/useRecentStays";
+import { useCabins } from "../../features/cabins/hooks/useCabins";
 import Spinner from "./../../ui/Spinner";
-import useRecentStays from "./hooks/useRecentStays";
 import Status from "./Status";
 import SalesChart from "./SalesChart";
-import useCabins from "../../features/cabins/hooks/useCabins";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
 

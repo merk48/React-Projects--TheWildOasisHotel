@@ -5,7 +5,7 @@ import {
   HiOutlineChartBar,
 } from "react-icons/hi2";
 import Stat from "./Stat";
-import { formatCurrency } from "../../utils/helpers";
+import { formatCurrency } from "../../utils/helpers/commonHelpers";
 import styled from "styled-components";
 
 const StatusGrid = styled.div`
@@ -46,7 +46,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   // num checked in nights / all available nights (num days * num cabins)
 
   return (
-    <>
+    <StatusGrid>
       <Stat
         title="Bookings"
         color="blue"
@@ -71,7 +71,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         icon={<HiOutlineChartBar />}
         value={Math.round(occupation * 100) + "%"}
       />
-    </>
+    </StatusGrid>
   );
 }
 
