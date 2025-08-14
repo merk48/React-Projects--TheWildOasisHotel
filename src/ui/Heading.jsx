@@ -56,7 +56,7 @@ const Heading = styled.h1`
 
   /* center alignment helper */
   ${(p) =>
-    p.center &&
+    p.$center &&
     css`
       text-align: center;
     `}

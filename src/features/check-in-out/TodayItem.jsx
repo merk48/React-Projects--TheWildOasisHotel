@@ -30,11 +30,11 @@ function TodayItem({ activity }) {
 
   return (
     <StyledTodayItem>
-      <Tag type={BOOKING_CONFIG.ui.statusTagColors[status]}>
+      <Tag type={BOOKING_CONFIG.UI.STATUS_TAG_COLORS[status]}>
         {" "}
-        {status === BOOKING_CONFIG.statusOptions.UNCONFIRMED
+        {status === BOOKING_CONFIG.STATUS.UNCONFIRMED
           ? "Arriving"
-          : status === BOOKING_CONFIG.statusOptions.CHECKED_IN
+          : status === BOOKING_CONFIG.STATUS.CHECKED_IN
           ? "Departing"
           : ""}
       </Tag>
@@ -43,7 +43,7 @@ function TodayItem({ activity }) {
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
 
-      {status === BOOKING_CONFIG.statusOptions.UNCONFIRMED && (
+      {status === BOOKING_CONFIG.STATUS.UNCONFIRMED && (
         <Button
           size="small"
           variation="primary"
@@ -53,7 +53,7 @@ function TodayItem({ activity }) {
           Check in
         </Button>
       )}
-      {status === BOOKING_CONFIG.statusOptions.CHECKED_IN && (
+      {status === BOOKING_CONFIG.STATUS.CHECKED_IN && (
         <CheckoutButton bookingId={id} />
       )}
     </StyledTodayItem>

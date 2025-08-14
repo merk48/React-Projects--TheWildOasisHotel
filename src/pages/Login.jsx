@@ -46,7 +46,7 @@ function Login() {
   return (
     <LoginLayout>
       <Logo />
-      <Heading variant="h1" as="h1" center>
+      <Heading variant="h1" as="h1" $center>
         Log in to your account
       </Heading>
       <FormWrap>

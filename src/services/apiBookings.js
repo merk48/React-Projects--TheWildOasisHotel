@@ -5,6 +5,7 @@ import {
   applyFiltersToQuery,
   applySortToQuery,
   applyPaginationToQuery,
+  SUPABASE_METHODS,
 } from "../utils/helpers/supabaseQueryHelpers";
 import { BOOKING_CONFIG } from "../utils/configs/bookingConfig";
 
@@ -88,17 +89,15 @@ export async function getStaysTodayActivity() {
     .from(bookingsTableName)
     .select("*, guests(fullName, nationality, countryFlag)")
     .or(
-      `and(status.eq.${
-        BOOKING_CONFIG.statusOptions.UNCONFIRMED
-      },startDate.eq.${getToday()}),and(status.eq.${
-        BOOKING_CONFIG.statusOptions.CHECKED_IN
-      },endDate.eq.${getToday()})`
+      `and(status.${SUPABASE_METHODS.EQ}.${
+        BOOKING_CONFIG.STATUS.UNCONFIRMED
+      },startDate.${SUPABASE_METHODS.EQ}.${getToday()}),and(status.${
+        SUPABASE_METHODS.EQ
+      }.${BOOKING_CONFIG.STATUS.CHECKED_IN},endDate.${
+        SUPABASE_METHODS.EQ
+      }.${getToday()})`
     )
     .order("created_at");
-
-  // Equivalent to this. But by querying this, we only download the data we actually need, otherwise we would need ALL bookings ever created
-  // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
-  // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
 
   if (error) {
     console.error(error);
@@ -108,9 +107,6 @@ export async function getStaysTodayActivity() {
 }
 
 export async function updateBooking(id, obj) {
-  console.log(id);
-  console.log(obj);
-
   const { data, error } = await supabase
     .from(bookingsTableName)
     .update(obj)

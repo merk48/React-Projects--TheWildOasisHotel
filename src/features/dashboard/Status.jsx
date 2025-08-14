@@ -8,27 +8,6 @@ import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers/commonHelpers";
 import styled from "styled-components";
 
-const StatusGrid = styled.div`
-  display: grid;
-  gap: 1.6rem;
-  grid-auto-flow: row dense;
-
-  /* on wide screens show 4 stats in a row */
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  /* on medium (tablet) show 2 columns */
-  @media (min-width: 768px) and (max-width: 1199px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* on small screens single column */
-  @media (max-width: 767px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   // 1.
   const numBookings = bookings.length;
@@ -46,7 +25,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   // num checked in nights / all available nights (num days * num cabins)
 
   return (
-    <StatusGrid>
+    <>
       <Stat
         title="Bookings"
         color="blue"
@@ -71,7 +50,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         icon={<HiOutlineChartBar />}
         value={Math.round(occupation * 100) + "%"}
       />
-    </StatusGrid>
+    </>
   );
 }
 
