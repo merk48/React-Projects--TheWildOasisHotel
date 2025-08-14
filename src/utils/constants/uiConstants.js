@@ -14,3 +14,4 @@ export const PAGE_NUM = 1;
 
 export const DATE_FORMAT_FULL = "MMM dd yyyy";
 export const DATE_FORMAT_MONTH = "MMM dd"; // e.g. "Aug 06"
+export const DATE_TIME_FORMAT_FULL = "EEE, MMM dd yyyy";

@@ -1,13 +1,5 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
-
-import Tag from "../../ui/Tag";
-import Table from "../../ui/Table";
-
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
-import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
-import Menus from "../../ui/Menus";
 import {
   HiArrowDownOnSquare,
   HiArrowUpOnSquare,
@@ -15,10 +7,18 @@ import {
   HiTrash,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import useCheckout from "../check-in-out/hooks/useCheckout";
+import { useCheckout } from "../check-in-out/hooks/useCheckout";
+import { useDeleteBooking } from "./hooks/useDeleteBooking";
+import {
+  formatCurrency,
+  formatDistanceFromNow,
+} from "../../utils/helpers/commonHelpers";
+import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
+import Tag from "../../ui/Tag";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { useDeleteBooking } from "./hooks/useDeleteBooking";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -84,12 +84,12 @@ function BookingRow({
             &rarr; {numNights} night stay
           </span>
           <span>
-            {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-            {format(new Date(endDate), "MMM dd yyyy")}
+            {format(new Date(startDate), BOOKING_CONFIG.UI.DATE_FORMAT)} &mdash;{" "}
+            {format(new Date(endDate), BOOKING_CONFIG.UI.DATE_FORMAT)}
           </span>
         </Stacked>
 
-        <Tag type={BOOKING_CONFIG.ui.statusTagColors[status]}>
+        <Tag type={BOOKING_CONFIG.UI.STATUS_TAG_COLORS[status]}>
           {status.replace("-", " ")}
         </Tag>
 

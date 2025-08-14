@@ -4,22 +4,22 @@ import Sort from "../../ui/Sort";
 import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 
 function BookingTableOperations() {
-  const statusConfig = BOOKING_CONFIG.filters.status;
-  const sortConfig = BOOKING_CONFIG.sort;
+  const statusConfig = BOOKING_CONFIG.FILTERS.STATUS;
+  const sortConfig = BOOKING_CONFIG.SORT;
 
   return (
     <TableOperations>
       <Filter
-        filterField={statusConfig.param}
-        defaultValue={statusConfig.default}
+        filterField={statusConfig.PARAM}
+        defaultValue={statusConfig.DEFAULT}
       >
-        <Filter.Group options={statusConfig.options} />
+        <Filter.Group options={statusConfig.OPTIONS} />
       </Filter>
 
       <Sort.Select
-        options={sortConfig.options}
-        placeholder={sortConfig.param}
-        defaultValue={sortConfig.default}
+        options={sortConfig.OPTIONS}
+        placeholder={sortConfig.PARAM}
+        defaultValue={sortConfig.DEFAULT}
         type="white"
       />
     </TableOperations>

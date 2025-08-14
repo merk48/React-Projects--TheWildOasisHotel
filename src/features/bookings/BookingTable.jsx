@@ -1,11 +1,11 @@
+import { useBookings } from "./hooks/useBookings";
 import BookingRow from "./BookingRow";
 import Empty from "../../ui/Empty";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import useBookings from "./hooks/useBookings";
 import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
-import { PAGE_SIZE } from "../../config";
+import { PAGE_SIZE } from "../../utils/constants/uiConstants";
 
 function BookingTable() {
   const { isLoading, bookings, count, error } = useBookings();

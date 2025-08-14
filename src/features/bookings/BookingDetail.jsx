@@ -1,5 +1,11 @@
 import styled from "styled-components";
-
+import { HiTrash } from "react-icons/hi2";
+import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBookingDetails } from "./hooks/useBookingDetails";
+import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
+import { useNavigate } from "react-router-dom";
+import { useCheckout } from "../check-in-out/hooks/useCheckout";
+import { useDeleteBooking } from "./hooks/useDeleteBooking";
 import BookingDataBox from "./BookingDataBox";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
@@ -7,18 +13,10 @@ import Tag from "../../ui/Tag";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
-
-import { useMoveBack } from "../../hooks/useMoveBack";
-import { useBookingDetails } from "./hooks/useBookingDetails";
 import Spinner from "../../ui/Spinner";
-import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
-import { useNavigate } from "react-router-dom";
-import useCheckout from "../check-in-out/hooks/useCheckout";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
 import Empty from "../../ui/Empty";
-import { HiTrash } from "react-icons/hi2";
-import { useDeleteBooking } from "./hooks/useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -54,7 +52,7 @@ function BookingDetail() {
       <Row type="horizontal">
         <HeadingGroup>
           <Heading as="h1">Booking #{id}</Heading>
-          <Tag type={BOOKING_CONFIG.ui.statusTagColors[status]}>
+          <Tag type={BOOKING_CONFIG.UI.STATUS_TAG_COLORS[status]}>
             {booking.status.replace("-", " ")}
           </Tag>
         </HeadingGroup>

@@ -1,6 +1,9 @@
 import { SUPABASE_METHODS } from "../helpers/supabaseQueryHelpers";
 import PARAMS from "../constants/urlParams";
-import { DATE_FORMAT_FULL } from "../constants/uiConstants";
+import {
+  DATE_FORMAT_FULL,
+  DATE_TIME_FORMAT_FULL,
+} from "../constants/uiConstants";
 
 // Filters
 const STATUS = {
@@ -59,5 +62,6 @@ export const BOOKING_CONFIG = {
       [STATUS.CHECKED_OUT]: "silver",
     },
     DATE_FORMAT: DATE_FORMAT_FULL,
+    DATE_TIME_FORMAT: DATE_TIME_FORMAT_FULL,
   },
 };

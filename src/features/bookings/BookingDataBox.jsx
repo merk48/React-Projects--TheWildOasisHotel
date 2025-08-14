@@ -6,11 +6,13 @@ import {
   HiOutlineCurrencyDollar,
   HiOutlineHomeModern,
 } from "react-icons/hi2";
-
 import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
-
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import {
+  formatDistanceFromNow,
+  formatCurrency,
+} from "../../utils/helpers/commonHelpers";
+import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 
 const StyledBookingDataBox = styled.section`
   background-color: var(--color-grey-0);
@@ -202,11 +204,12 @@ function BookingDataBox({ booking }) {
         </div>
 
         <p>
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
+          {format(new Date(startDate), BOOKING_CONFIG.UI.DATE_TIME_FORMAT)} (
           {isToday(new Date(startDate))
             ? "Today"
             : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+          ) &mdash;{" "}
+          {format(new Date(endDate), BOOKING_CONFIG.UI.DATE_TIME_FORMAT)}
         </p>
       </Header>
 
@@ -250,7 +253,13 @@ function BookingDataBox({ booking }) {
       </Section>
 
       <Footer>
-        <p>Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
+        <p>
+          Booked{" "}
+          {format(
+            new Date(created_at),
+            `${BOOKING_CONFIG.UI.DATE_TIME_FORMAT}, p`
+          )}
+        </p>
       </Footer>
     </StyledBookingDataBox>
   );
