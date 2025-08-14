@@ -73,9 +73,9 @@ const GlobalStyles = createGlobalStyle`
   --color-indigo-100: #3730a3;
   --color-indigo-700: #e0e7ff;
 
-  --color-red-100: #fee2e2;
+  --color-red-100: #991b1b;
   --color-red-700: #b91c1c;
-  --color-red-800: #991b1b;
+  --color-red-800:  #fee2e2;
 
   --backdrop-color: rgba(0, 0, 0, 0.3);
 
@@ -92,16 +92,6 @@ const GlobalStyles = createGlobalStyle`
   --scrollbar-thumb-hover: rgba(255,255,255,0.4);
   --scrollbar-radius: 12px;
   }
-
- /* Crimson Shades */
---color-brand-50: #fdf2f2;   /* Soft blush */
---color-brand-100: #fde8e8;  /* Gentle rose */
---color-brand-200: #fbd5d5;  /* Light crimson */
---color-brand-500: #dc2626;  /* Bold crimson core */
---color-brand-600: #b91c1c;  /* Deep crimson */
---color-brand-700: #991b1b;  /* Strong garnet */
---color-brand-800: #7f1d1d;  /* Dark carmine */
---color-brand-900: #641414;  /* Intense oxblood */
 
   /*  Indigo */
   --color-brand-50: #eef2ff;

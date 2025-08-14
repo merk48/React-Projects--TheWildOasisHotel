@@ -1,16 +1,17 @@
-// ui/Error.js
+// ui/ErrorMessage.js
 import styled from "styled-components";
 
 const ErrorContainer = styled.div`
   text-align: center;
   padding: 2.4rem;
-  color: var(--color-red-700);
+  color: var(--color-red-800);
   background-color: var(--color-red-100);
-  border: 1px solid var(--color-red-300);
+  border: 1px solid var(--color-red-700);
   border-radius: var(--border-radius-md);
   max-width: 50rem;
   margin: 2.4rem auto;
   font-size: 1.6rem;
+  font-weight: 500;
 
   @media (max-width: 768px) {
     font-size: 1.4rem;
@@ -24,7 +25,6 @@ const ErrorContainer = styled.div`
 `;
 
 function Error({ error, fallback = "Something went wrong." }) {
-  // Accepts either an Error object or a string
   const message =
     typeof error === "string" ? error : error?.message || fallback;
 

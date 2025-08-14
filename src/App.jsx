@@ -85,38 +85,3 @@ function App() {
 }
 
 export default App;
-
-/*
-
-const StyledApp = styled.main`
-  padding: 20px;
-`;
-
- <>
-      <GlobalStyles />
-      <StyledApp>
-        <Row type="vertical">
-          <Row type="horizontal">
-            <Heading as="h1">The Wild Oasis</Heading>
-
-            <div>
-              <Heading as="h2">Check in and out</Heading>
-              <Button variation="primary" size="medium">
-                Check In
-              </Button>
-              <Button variation="secondary" size="small">
-                Check Out
-              </Button>
-            </div>
-          </Row>
-          <Row type="vertical">
-            <Heading as="h3">Form</Heading>
-            <form>
-              <Input />
-              <Input />
-            </form>
-          </Row>
-        </Row>
-      </StyledApp>
-    </>
-*/
