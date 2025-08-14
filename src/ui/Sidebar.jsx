@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
-import Uploader from "../data/Uploader";
+// import Uploader from "../data/Uploader";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import Overlay from "./Overlay";
 import { useSidebar } from "../contexts/SidebarContext";
@@ -41,7 +41,7 @@ function Sidebar() {
       <StyledSidebar ref={ref} $isOpen={isSidebarOpen}>
         <Logo />
         <MainNav />
-        <Uploader />
+        {/* <Uploader /> */}
       </StyledSidebar>
       {isSidebarOpen && !isDesktop && <Overlay />}
     </>
