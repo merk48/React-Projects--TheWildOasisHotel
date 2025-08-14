@@ -7,6 +7,7 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
@@ -152,10 +153,19 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Button variation="secondary" onClick={onCloseModal}>
+        <Button
+          variation="secondary"
+          onClick={onCloseModal}
+          disabled={isWorking}
+        >
           Cancel
         </Button>
-        <Button onClick={handleReset} variation="secondary" type="button">
+        <Button
+          onClick={handleReset}
+          variation="secondary"
+          type="button"
+          disabled={isWorking}
+        >
           Reset
         </Button>
         <Button disabled={isWorking}>

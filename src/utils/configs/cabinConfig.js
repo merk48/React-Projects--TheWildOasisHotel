@@ -10,9 +10,9 @@ const DISCOUNT = {
 };
 const PRICE = {
   ALL: "all",
-  UNDER_200: "<200",
   UNDER_300: "<300",
-  UNDER_400: "<500",
+  UNDER_500: "<500",
+  UNDER_1000: "<1000",
 };
 const CURRENCY = "$";
 
@@ -22,20 +22,21 @@ const DISCOUNT_OPTIONS = [
   { value: DISCOUNT.WITH_DISCOUNT, label: "With discount" },
   { value: DISCOUNT.NO_DISCOUNT, label: "No discount" },
 ];
+
 const PRICE_OPTIONS = [
   { value: PRICE.ALL, label: "All" },
-  { value: PRICE.UNDER_200, label: `Under 200${CURRENCY}` },
   { value: PRICE.UNDER_300, label: `Under 300${CURRENCY}` },
-  { value: PRICE.UNDER_400, label: `Under 400${CURRENCY}` },
+  { value: PRICE.UNDER_500, label: `Under 500${CURRENCY}` },
+  { value: PRICE.UNDER_1000, label: `Under 1000${CURRENCY}` },
 ];
 
 const SORT_OPTIONS = [
   { value: "name-asc", label: "Name (A → Z)" },
   { value: "name-desc", label: "Name (Z → A)" },
-  { value: "price-asc", label: "Price (low first)" },
-  { value: "price-desc", label: "Price (high first)" },
-  { value: "capacity-asc", label: "Capacity (low first)" },
-  { value: "capacity-desc", label: "Capacity (high first)" },
+  { value: "regularPrice-asc", label: "Price (low first)" },
+  { value: "regularPrice-desc", label: "Price (high first)" },
+  { value: "maxCapacity-asc", label: "Capacity (low first)" },
+  { value: "maxCapacity-desc", label: "Capacity (high first)" },
 ];
 
 // sort constant default
@@ -49,14 +50,24 @@ export const CABIN_CONFIG = {
       DEFAULT: DISCOUNT.ALL,
       OPTIONS: DISCOUNT_OPTIONS,
       META_DATA: {},
-      ToFilter: (value) =>
-        !value || value === DISCOUNT.ALL
-          ? null
-          : {
-              field: PARAMS.CABIN.DISCOUNT_FILTER,
-              method: SUPABASE_METHODS.EQ,
-              value,
-            },
+      ToFilter: (value) => {
+        if (!value || value === DISCOUNT.ALL) return null;
+
+        if (value === DISCOUNT.WITH_DISCOUNT) {
+          // discount > 0
+          return { field: "discount", method: SUPABASE_METHODS.GT, value: 0 };
+        }
+
+        if (value === DISCOUNT.NO_DISCOUNT) {
+          return {
+            field: "discount",
+            method: SUPABASE_METHODS.EQ,
+            value: 0,
+          };
+        }
+
+        return null;
+      },
     },
     PRICE: {
       FIELD: "regularPrice", // backend field name
@@ -64,14 +75,33 @@ export const CABIN_CONFIG = {
       DEFAULT: PRICE.ALL,
       OPTIONS: PRICE_OPTIONS,
       META_DATA: { CURRENCY },
-      ToFilter: (value) =>
-        !value || value === PRICE.ALL
-          ? null
-          : {
-              field: PARAMS.CABIN.PRICE_FILTER,
-              method: SUPABASE_METHODS.EQ,
-              value,
-            },
+      ToFilter: (value) => {
+        if (!value || value === PRICE.ALL) return null;
+
+        // map the string keys to numeric comparisons
+        switch (value) {
+          case PRICE.UNDER_300:
+            return {
+              field: "regularPrice",
+              method: SUPABASE_METHODS.LT,
+              value: 300,
+            };
+          case PRICE.UNDER_500:
+            return {
+              field: "regularPrice",
+              method: SUPABASE_METHODS.LT,
+              value: 500,
+            };
+          case PRICE.UNDER_1000:
+            return {
+              field: "regularPrice",
+              method: SUPABASE_METHODS.LT,
+              value: 1000,
+            };
+          default:
+            return null;
+        }
+      },
     },
   },
   SORT: {

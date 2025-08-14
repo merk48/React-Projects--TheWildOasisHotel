@@ -14,7 +14,6 @@ import {
   getTotalPages,
   prefetchPage,
 } from "../../../utils/helpers/paginationHelpers";
-import { readBookings } from "../../../services/apiBookings";
 
 export function useCabins() {
   const queryClient = useQueryClient();

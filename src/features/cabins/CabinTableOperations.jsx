@@ -24,7 +24,7 @@ function CabinTableOperations() {
       </Filter>
 
       <Sort.Select
-        options={sortConfig.PARAM}
+        options={sortConfig.OPTIONS}
         defaultValue={sortConfig.DEFAULT}
         type="white"
       />

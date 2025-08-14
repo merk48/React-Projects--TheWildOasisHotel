@@ -10,7 +10,8 @@ import { PAGE_SIZE } from "../../utils/constants/uiConstants";
 
 function CabinTable() {
   const { isLoading, cabins, count, error } = useCabins();
-
+  console.log(cabins);
+  console.log(count);
   if (isLoading) return <Spinner />;
 
   if (!cabins) return <Empty resource="cabins" />;
@@ -37,7 +38,6 @@ function CabinTable() {
 
         <Table.Footer>
           <Pagination count={count} pageSize={PAGE_SIZE} />
-          <AddCabin />
         </Table.Footer>
       </Table>
     </Menus>

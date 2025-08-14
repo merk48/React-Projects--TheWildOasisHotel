@@ -31,13 +31,12 @@ const Buttons = styled.div`
   gap: 0.6rem;
   align-items: center;
   flex-wrap: wrap;
-  margin-right: 3rem;
 `;
 
 const PaginationButton = styled.button`
   background-color: ${(props) =>
-    props.active ? "var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? "var(--color-brand-50)" : "inherit")};
+    props.$active ? "var(--color-brand-600)" : "var(--color-grey-50)"};
+  color: ${(props) => (props.$ctive ? "var(--color-brand-50)" : "inherit")};
   border: none;
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -169,7 +168,7 @@ export default function Pagination({
           <PaginationButton
             key={p}
             onClick={() => goTo(p)}
-            active={p === current}
+            $active={p === current}
             aria-current={p === current ? "page" : undefined}
           >
             {p}
