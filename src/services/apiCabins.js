@@ -10,16 +10,31 @@ import {
   getFilenameFromUrl,
   uploadFileAndGetPublicUrl,
 } from "../utils/helpers/fileHelper";
+import {
+  applyFiltersToQuery,
+  applyPaginationToQuery,
+  applySortToQuery,
+} from "../utils/helpers/supabaseQueryHelpers";
 
-export async function readCabins() {
-  const { data, error } = await supabase.from(cabinsTableName).select("*");
+export async function readCabins({
+  filters = [],
+  sortBy = null,
+  pagination = null,
+} = {}) {
+  let query = supabase.from(cabinsTableName).select("*", { count: "exact" });
+
+  query = applyFiltersToQuery(query, filters);
+  query = applySortToQuery(query, sortBy);
+  query = applyPaginationToQuery(query, pagination);
+
+  const { data, count, error } = await query;
 
   if (error) {
-    console.error(error);
+    console.error("readCabins error:", error);
     throw new Error("Cabins could not be loaded");
   }
 
-  return data;
+  return { data: data ?? [], count: Number(count ?? 0) };
 }
 
 export async function createCabin(newCabin, isCopy = false) {
