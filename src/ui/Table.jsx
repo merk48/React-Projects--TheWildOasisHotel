@@ -23,28 +23,28 @@ const StyledTable = styled.div`
 
 const CommonRow = styled.div`
   display: grid;
-  grid-template-columns: ${(p) => p.columns || "auto"};
+  grid-template-columns: ${(p) => p.$columns || "auto"};
   column-gap: 2.4rem;
   align-items: center;
 
   @media (max-width: 1024px) {
     ${(p) =>
-      p.columnsMd
-        ? `grid-template-columns: ${p.columnsMd};`
-        : p.columns
-        ? `grid-template-columns: ${p.columns};`
+      p.$columnsMd
+        ? `grid-template-columns: ${p.$columnsMd};`
+        : p.$columns
+        ? `grid-template-columns: ${p.$columns};`
         : ""}
     column-gap: 1.8rem;
   }
 
   @media (max-width: 640px) {
     ${(p) =>
-      p.columnsSm
-        ? `grid-template-columns: ${p.columnsSm};`
-        : p.columnsMd
-        ? `grid-template-columns: ${p.columnsMd};`
-        : p.columns
-        ? `grid-template-columns: ${p.columns};`
+      p.$columnsSm
+        ? `grid-template-columns: ${p.$columnsSm};`
+        : p.$columnsMd
+        ? `grid-template-columns: ${p.$columnsMd};`
+        : p.$columns
+        ? `grid-template-columns: ${p.$columns};`
         : ""}
     column-gap: 1.4rem;
     padding: 0.8rem 1.2rem;
@@ -164,9 +164,9 @@ function Header({ children }) {
     <StyledHeader
       as="header"
       role="row"
-      {...(columns && { columns })}
-      {...(columnsMd && { columnsMd })}
-      {...(columnsSm && { columnsSm })}
+      $columns={columns}
+      $columnsMd={columnsMd}
+      $columnsSm={columnsSm}
     >
       {children}
     </StyledHeader>
@@ -178,9 +178,9 @@ function Row({ children }) {
   return (
     <StyledRow
       role="row"
-      {...(columns && { columns })}
-      {...(columnsMd && { columnsMd })}
-      {...(columnsSm && { columnsSm })}
+      $columns={columns}
+      $columnsMd={columnsMd}
+      $columnsSm={columnsSm}
     >
       {children}
     </StyledRow>
