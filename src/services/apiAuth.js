@@ -3,7 +3,11 @@ import {
   avatarName,
   avatarBucketStorage,
 } from "../utils/constants/queryConstants";
-import { uploadFileAndGetPublicUrl } from "../utils/helpers/fileHelpers";
+import {
+  deleteFile,
+  getFilenameFromUrl,
+  uploadFileAndGetPublicUrl,
+} from "../utils/helpers/fileHelpers";
 
 export async function signUp({ email, password, fullName, avatar }) {
   const { data, error } = await supabase.auth.signUp({
@@ -60,36 +64,25 @@ export async function readLoggedInUser() {
 
   return data?.user;
 }
+
 export async function updateCurrentUser({ password, fullName, avatar }) {
-  // Build update payload for auth.updateUser
+  // Step 1: Build payload for auth.updateUser (password + fullName)
   const updatePayload = {};
   if (password) updatePayload.password = password;
   if (fullName)
     updatePayload.data = { ...(updatePayload.data || {}), fullName };
 
-  // 1) Update password or metadata if present
   if (Object.keys(updatePayload).length > 0) {
-    const { data: updateResult, error: updateError } =
-      await supabase.auth.updateUser(updatePayload);
+    const { error: updateError } = await supabase.auth.updateUser(
+      updatePayload
+    );
     if (updateError) {
       console.error("auth.updateUser error:", updateError);
       throw updateError;
     }
-    // continue — we don't return early because avatar might still need upload
   }
 
-  // 2) If no avatar provided, return latest user
-  if (!avatar) {
-    const { data: currentUserResult, error: userError } =
-      await supabase.auth.getUser();
-    if (userError) {
-      console.error("getUser error:", userError);
-      throw userError;
-    }
-    return currentUserResult?.user ?? null;
-  }
-
-  // 3) Avatar upload
+  // Step 2: Get the current user (for old avatar deletion and metadata updates)
   const { data: currentUserResult, error: userError } =
     await supabase.auth.getUser();
   if (userError) {
@@ -99,27 +92,45 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
   const user = currentUserResult?.user;
   if (!user) throw new Error("No authenticated user found");
 
-  const userId = user.id;
+  let newAvatarUrl = user.user_metadata?.avatar || null;
 
-  const fileName = `${avatarName}-${userId}-${Date.now()}`.replaceAll("/", ""); // deterministic unique name
+  // Step 3: Handle avatar update
+  if (avatar) {
+    const isNewAvatarFile = typeof avatar === "object"; // File or Blob
 
-  // upload + get public url
-  const publicUrl = await uploadFileAndGetPublicUrl(
-    avatarBucketStorage,
-    fileName,
-    avatar
-  );
+    if (isNewAvatarFile) {
+      // Delete old avatar if exists
+      const oldFileName = getFilenameFromUrl(user.user_metadata?.avatar);
+      if (oldFileName) {
+        try {
+          await deleteFile(avatarBucketStorage, oldFileName);
+        } catch (err) {
+          console.error("Failed to delete old avatar:", err);
+        }
+      }
 
-  // 4) save the public url into user metadata
-  const { data: dataWithAvatar, error: avatarError } =
+      // Upload new avatar
+      const fileName = `${avatarName}-${user.id}-${Date.now()}`.replaceAll(
+        "/",
+        ""
+      );
+      newAvatarUrl = await uploadFileAndGetPublicUrl(
+        avatarBucketStorage,
+        fileName,
+        avatar
+      );
+    }
+  }
+
+  // Step 4: Save avatar URL into user metadata
+  const { data: finalData, error: avatarError } =
     await supabase.auth.updateUser({
-      data: { avatar: publicUrl },
+      data: { avatar: newAvatarUrl },
     });
-
   if (avatarError) {
     console.error("updateUser set avatar error:", avatarError);
     throw avatarError;
   }
 
-  return dataWithAvatar?.user ?? null;
+  return finalData?.user ?? null;
 }
