@@ -9,7 +9,7 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { passwordSchema } from "../../utils/validations/schemas";
 
 function UpdatePasswordForm() {
-  const { register, handleSubmit, formState, getValues, reset } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(passwordSchema),
   });
 

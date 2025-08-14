@@ -1,3 +1,4 @@
+import Error from "../../ui/Error";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
@@ -22,6 +23,7 @@ function UpdateSettingsForm() {
   }
 
   if (isLoading) return <Spinner />;
+  if (error) return <Error error={error} />;
 
   return (
     <Form>

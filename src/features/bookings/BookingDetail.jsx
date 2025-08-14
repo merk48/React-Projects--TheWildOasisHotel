@@ -18,6 +18,7 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
 import Empty from "../../ui/Empty";
 import SpinnerMini from "../../ui/SpinnerMini";
+import Error from "../../ui/Error";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ function BookingDetail() {
   const moveBack = useMoveBack();
 
   if (isLoading) return <Spinner />;
-
+  if (error) return <Error error={error} />;
   if (!booking) return <Empty resource="Booking" />;
 
   const { status, id } = booking;

@@ -8,8 +8,6 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "../../utils/validations/schemas";
 
-// Email regex: /\S+@\S+\.\S+/
-
 function SignupForm() {
   const {
     register,

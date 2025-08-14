@@ -23,7 +23,6 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     register,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(cabinSchema),

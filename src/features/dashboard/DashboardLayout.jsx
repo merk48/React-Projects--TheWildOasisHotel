@@ -7,6 +7,7 @@ import Status from "./Status";
 import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import Error from "../../ui/Error";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -23,7 +24,7 @@ const StyledDashboardLayout = styled.div`
 function DashboardLayout() {
   const { isLoadingBooks, bookings, errorBooks } = useRecentBookings();
 
-  const { isLoadingStays, stays, confirmedStays, errorStays, numDays } =
+  const { isLoadingStays, confirmedStays, errorStays, numDays } =
     useRecentStays();
 
   const { isLoading: isLoadingCabins, cabins } = useCabins();
@@ -31,6 +32,8 @@ function DashboardLayout() {
   const isLoading = isLoadingBooks || isLoadingStays || isLoadingCabins;
 
   if (isLoading) return <Spinner />;
+  if (errorBooks) return <Error error={errorBooks} />;
+  if (errorStays) return <Error error={errorStays} />;
 
   return (
     <StyledDashboardLayout>

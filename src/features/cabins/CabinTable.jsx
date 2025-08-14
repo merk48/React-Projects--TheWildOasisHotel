@@ -6,12 +6,13 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import Pagination from "../../ui/Pagination";
 import { PAGE_SIZE } from "../../utils/constants/uiConstants";
+import Error from "../../ui/Error";
 
 function CabinTable() {
   const { isLoading, cabins, count, error } = useCabins();
 
   if (isLoading) return <Spinner />;
-
+  if (error) return <Error error={error} />;
   if (!cabins) return <Empty resource="cabins" />;
 
   return (

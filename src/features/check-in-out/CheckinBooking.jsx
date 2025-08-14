@@ -26,7 +26,7 @@ const Box = styled.div`
 function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
-  const { isLoading, booking } = useBookingDetails();
+  const { isLoading: isLoadingBooking, booking } = useBookingDetails();
   const { isLoading: isLoadingSettings, settings } = useSettings();
   const moveBack = useMoveBack();
 
@@ -36,8 +36,8 @@ function CheckinBooking() {
     setConfirmPaid(booking?.isPaid ?? false);
   }, [booking]);
 
-  if (isLoading || isLoadingSettings) return <Spinner />;
-  console.log(booking);
+  if (isLoadingBooking || isLoadingSettings) return <Spinner />;
+
   const {
     id: bookingId,
     guests,

@@ -6,13 +6,15 @@ import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 import { PAGE_SIZE } from "../../utils/constants/uiConstants";
+import Error from "../../ui/Error";
 
 function BookingTable() {
   const { isLoading, bookings, count, error } = useBookings();
 
   if (isLoading) return <Spinner />;
-
+  if (error) return <Error error={error} />;
   if (!bookings) return <Empty resource="bookings" />;
+
   return (
     <Menus>
       <Table
