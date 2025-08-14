@@ -3,6 +3,7 @@ import { readBookings } from "../../../services/apiBookings";
 import { readBookingsKey } from "../../../utils/constants/queryConstants";
 import { useSearchParams } from "react-router-dom";
 import { useMemo, useEffect } from "react";
+import { useBookingFilters } from "../hooks/useBookingFilters";
 import { PAGE_SIZE } from "../../../utils/constants/uiConstants";
 import {
   buildSortFromParam,
@@ -13,7 +14,6 @@ import {
   getTotalPages,
   prefetchPage,
 } from "../../../utils/helpers/paginationHelpers";
-import useBookingFilters from "../hooks/useBookingFilters";
 import { BOOKING_CONFIG } from "../../../utils/configs/bookingConfig";
 
 export function useBookings() {

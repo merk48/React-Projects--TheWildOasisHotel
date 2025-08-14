@@ -9,7 +9,7 @@ import {
   deleteFile,
   getFilenameFromUrl,
   uploadFileAndGetPublicUrl,
-} from "../utils/helpers/fileHelper";
+} from "../utils/helpers/fileHelpers";
 import {
   applyFiltersToQuery,
   applyPaginationToQuery,

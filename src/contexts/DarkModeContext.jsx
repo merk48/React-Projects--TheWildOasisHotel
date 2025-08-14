@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import useLocalStorageState from "./../hooks/useLocalStorageState";
+import { createContext, useContext, useEffect } from "react";
+import { useLocalStorageState } from "./../hooks/useLocalStorageState";
 import {
   DARK_MODE_CLASS,
   DARK_MODE_KEY,
   LIGHT_MODE_CLASS,
-} from "../utils/configs/uiConstants";
+} from "../utils/constants/uiConstants";
 
 const darkModeContext = createContext();
 

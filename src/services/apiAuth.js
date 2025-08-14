@@ -3,7 +3,7 @@ import {
   avatarName,
   avatarBucketStorage,
 } from "../utils/constants/queryConstants";
-import { uploadFileAndGetPublicUrl } from "../utils/helpers/fileHelper";
+import { uploadFileAndGetPublicUrl } from "../utils/helpers/fileHelpers";
 
 export async function signUp({ email, password, fullName, avatar }) {
   const { data, error } = await supabase.auth.signUp({

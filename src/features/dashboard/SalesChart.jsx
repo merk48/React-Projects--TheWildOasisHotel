@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import { useDarkMode } from "../../contexts/DarkModeContext";
-import useViewportWidth from "../../hooks/useViewportWidth";
+import { useViewportWidth } from "../../hooks/useViewportWidth";
 import { useMemo } from "react";
 import { DASHBOARD_CONFIG } from "../../utils/configs/dashboardConfig";
 
