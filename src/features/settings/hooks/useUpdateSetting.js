@@ -13,7 +13,7 @@ export function useUpdateSetting() {
     mutationKey: [updateSettingKey],
     mutationFn: updateSettingApi,
     onSuccess: () => {
-      toast.success("Cabin successfully edited");
+      toast.success("Settings successfully updated");
       // refetch data => invalidating cache => stale
       queryClient.invalidateQueries({
         queryKey: [readSettingsKey],

@@ -1,6 +1,13 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
 
+const TableScrollWrapper = styled.div`
+  overflow: auto;
+  min-height: 60vh;
+  padding: 0;
+  margin: 0;
+`;
+
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -11,7 +18,6 @@ const StyledTable = styled.div`
     typeof p.$minWidth === "number"
       ? `${p.$minWidth}px`
       : p.$minWidth || "700px"};
-  height: 100%;
 
   @media (max-width: 640px) {
     min-width: ${(p) =>
@@ -150,9 +156,11 @@ function Table({
 }) {
   return (
     <TableContext.Provider value={{ columns, columnsMd, columnsSm }}>
-      <StyledTable role="table" $minWidth={minWidth} $minWidthSm={minWidthSm}>
-        {children}
-      </StyledTable>
+      <TableScrollWrapper>
+        <StyledTable role="table" $minWidth={minWidth} $minWidthSm={minWidthSm}>
+          {children}
+        </StyledTable>{" "}
+      </TableScrollWrapper>
     </TableContext.Provider>
   );
 }

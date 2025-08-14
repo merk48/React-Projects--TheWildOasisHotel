@@ -126,7 +126,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow>
+      <FormRow direction="reverse">
         <Button
           variation="secondary"
           onClick={onCloseModal}

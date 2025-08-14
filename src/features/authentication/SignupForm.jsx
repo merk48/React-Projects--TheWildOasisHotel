@@ -70,7 +70,7 @@ function SignupForm() {
         />
       </FormRow>
 
-      <FormRow>
+      <FormRow direction="reverse">
         <Button variation="secondary" type="reset">
           Reset
         </Button>

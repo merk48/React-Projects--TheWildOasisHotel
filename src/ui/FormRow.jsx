@@ -29,7 +29,8 @@ const StyledFormRow = styled.div`
 
   @media (max-width: 640px) {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: ${(p) =>
+      p.$direction === "reverse" ? "column-reverse" : "column"};
     align-items: stretch;
     gap: 0.8rem;
     border: none;
@@ -62,9 +63,9 @@ const Error = styled.span`
   }
 `;
 
-function FormRow({ children, label, error }) {
+function FormRow({ children, label, error, direction }) {
   return (
-    <StyledFormRow>
+    <StyledFormRow $direction={direction}>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}

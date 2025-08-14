@@ -3,7 +3,8 @@ import styled from "styled-components";
 const StyledMain = styled.main`
   background-color: var(--color-grey-50);
   padding: 1rem 2rem;
-  overflow: scroll;
+  overflow-y: visible;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     padding: 3rem 5rem;
