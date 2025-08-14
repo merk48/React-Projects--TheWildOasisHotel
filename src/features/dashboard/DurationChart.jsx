@@ -1,13 +1,32 @@
 import styled from "styled-components";
+import Heading from "../../ui/Heading";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { useDarkMode } from "../../contexts/DarkModeContext";
 
 const ChartBox = styled.div`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
+  padding: 1.6rem 1.8rem;
 
-  padding: 2.4rem 3.2rem;
-  grid-column: 3 / span 2;
+  width: 100%;
+  /* on wide screens, place it on the right half (matching original design) */
+
+  & svg {
+    overflow: visible;
+  }
+
+  @media (min-width: 1200px) {
+    grid-column: 3 / span 2;
+    padding: 2.4rem 3.2rem;
+  }
 
   & > *:first-child {
     margin-bottom: 1.6rem;
@@ -15,6 +34,11 @@ const ChartBox = styled.div`
 
   & .recharts-pie-label-text {
     font-weight: 600;
+  }
+  @media (max-width: 420px) {
+    & .recharts-legend-wrapper {
+      display: none;
+    }
   }
 `;
 
@@ -105,8 +129,6 @@ const startDataDark = [
 ];
 
 function prepareData(startData, stays) {
-  // A bit ugly code, but sometimes this is what it takes when working with real data 😅
-
   function incArrayValue(arr, field) {
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
@@ -130,3 +152,56 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart({ confirmedStays }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+
+  return (
+    <ChartBox>
+      <Heading as="h2" variant="h2">
+        Stay duration summary
+      </Heading>
+
+      <ResponsiveContainer width="100%" height={240}>
+        <PieChart>
+          <Pie
+            data={data}
+            nameKey="duration"
+            dataKey="value"
+            innerRadius="60%" // use percent so it scales
+            outerRadius="80%" // use percent so it scales
+            cx="50%" // center horizontally
+            cy="50%"
+            paddingAngle={3}
+          >
+            {data.map((entry) => (
+              <Cell
+                fill={entry.color}
+                stroke={entry.color}
+                key={entry.duration}
+              />
+            ))}
+          </Pie>
+
+          <Tooltip />
+          <Legend
+            verticalAlign="middle"
+            align="right"
+            layout="vertical"
+            iconSize={12}
+            iconType="circle"
+            wrapperStyle={{
+              right: 12,
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartBox>
+  );
+}
+
+export default DurationChart;

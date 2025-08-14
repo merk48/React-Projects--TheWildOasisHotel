@@ -1,30 +1,26 @@
-import SortBy from "../../ui/SortBy";
 import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
+import Sort from "../../ui/Sort";
+import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 
 function BookingTableOperations() {
+  const statusConfig = BOOKING_CONFIG.FILTERS.STATUS;
+  const sortConfig = BOOKING_CONFIG.SORT;
+
   return (
     <TableOperations>
       <Filter
-        filterField="status"
-        options={[
-          { value: "all", label: "All" },
-          { value: "checked-out", label: "Checked out" },
-          { value: "checked-in", label: "Checked in" },
-          { value: "unconfirmed", label: "Unconfirmed" },
-        ]}
-      />
+        filterField={statusConfig.PARAM}
+        defaultValue={statusConfig.DEFAULT}
+      >
+        <Filter.Group options={statusConfig.OPTIONS} />
+      </Filter>
 
-      <SortBy
-        options={[
-          { value: "startDate-desc", label: "Sort by date (recent first)" },
-          { value: "startDate-asc", label: "Sort by date (earlier first)" },
-          {
-            value: "totalPrice-desc",
-            label: "Sort by amount (high first)",
-          },
-          { value: "totalPrice-asc", label: "Sort by amount (low first)" },
-        ]}
+      <Sort.Select
+        options={sortConfig.OPTIONS}
+        placeholder={sortConfig.PARAM}
+        defaultValue={sortConfig.DEFAULT}
+        type="white"
       />
     </TableOperations>
   );

@@ -1,4 +1,6 @@
+import { createContext, useContext } from "react";
 import styled, { css } from "styled-components";
+import { useUrl } from "../hooks/useUrl";
 
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
@@ -8,14 +10,24 @@ const StyledFilter = styled.div`
   padding: 0.4rem;
   display: flex;
   gap: 0.4rem;
+  @media (max-width: 768px) {
+    gap: 0.3rem;
+    padding: 0.3rem;
+  }
+
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    padding: 0.2rem;
+  }
 `;
 
-const FilterButton = styled.button`
+const StyledFilterButton = styled.button`
   background-color: var(--color-grey-0);
   border: none;
 
   ${(props) =>
-    props.active &&
+    props.$active &&
     css`
       background-color: var(--color-brand-600);
       color: var(--color-brand-50);
@@ -33,3 +45,59 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+const FilterContext = createContext({
+  current: "",
+  setFilter: () => {},
+});
+
+export function Filter({
+  children,
+  filterField,
+  defaultValue = "",
+  resetPageOnChange = true,
+  writeDefaultToUrl = false,
+}) {
+  const [current, setFilter] = useUrl(filterField, {
+    type: "string",
+    resetPageOnChange,
+    writeDefaultToUrl,
+    defaultValue,
+  });
+
+  return (
+    <FilterContext.Provider value={{ setFilter, current }}>
+      <StyledFilter role="group">{children}</StyledFilter>
+    </FilterContext.Provider>
+  );
+}
+
+export function Group({ filterField, options }) {
+  return (
+    <>
+      {options.map((opt) => (
+        <FilterButton key={opt.value} value={opt.value}>
+          {opt.label}
+        </FilterButton>
+      ))}
+    </>
+  );
+}
+
+export function FilterButton({ value, children }) {
+  const { setFilter, current } = useContext(FilterContext);
+  const isActive = current === value;
+
+  return (
+    <StyledFilterButton
+      onClick={() => setFilter(isActive ? "" : value)}
+      $active={isActive}
+      disabled={isActive}
+    >
+      {children}
+    </StyledFilterButton>
+  );
+}
+
+Filter.Group = Group;
+export default Filter;

@@ -1,35 +1,82 @@
+import { useForm } from "react-hook-form";
+import { useSignUp } from "./hooks/useSignUp";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-
-// Email regex: /\S+@\S+\.\S+/
+import SpinnerMini from "../../ui/SpinnerMini";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupSchema } from "../../utils/validations/schemas";
 
 function SignupForm() {
+  const {
+    register,
+    reset,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(signupSchema),
+  });
+
+  const { isSigningUp, SignUp } = useSignUp();
+
+  function onSubmit({ email, password, fullName }) {
+    SignUp(
+      { email, password, fullName, avatar: "" },
+      {
+        onSettled: () => reset(),
+      }
+    );
+  }
+
   return (
-    <Form>
-      <FormRow label="Full name" error={""}>
-        <Input type="text" id="fullName" />
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormRow label="Full name" error={errors?.fullName?.message}>
+        <Input
+          type="text"
+          id="fullName"
+          {...register("fullName")}
+          disabled={isSigningUp}
+        />
       </FormRow>
 
-      <FormRow label="Email address" error={""}>
-        <Input type="email" id="email" />
+      <FormRow label="Email address" error={errors?.email?.message}>
+        <Input
+          type="email"
+          id="email"
+          {...register("email")}
+          disabled={isSigningUp}
+        />
       </FormRow>
 
-      <FormRow label="Password (min 8 characters)" error={""}>
-        <Input type="password" id="password" />
+      <FormRow
+        label="Password (min 8 characters)"
+        error={errors?.password?.message}
+      >
+        <Input
+          type="password"
+          id="password"
+          {...register("password")}
+          disabled={isSigningUp}
+        />
       </FormRow>
 
-      <FormRow label="Repeat password" error={""}>
-        <Input type="password" id="passwordConfirm" />
+      <FormRow label="Repeat password" error={errors?.passwordConfirm?.message}>
+        <Input
+          type="password"
+          id="passwordConfirm"
+          {...register("passwordConfirm")}
+          disabled={isSigningUp}
+        />
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
-          Cancel
+          Reset
         </Button>
-        <Button>Create new user</Button>
+        <Button disabled={isSigningUp}>
+          {isSigningUp ? <SpinnerMini /> : "Create new user"}
+        </Button>
       </FormRow>
     </Form>
   );

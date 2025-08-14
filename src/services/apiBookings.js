@@ -1,9 +1,43 @@
-import { getToday } from "../utils/helpers";
+import { getToday } from "../utils/helpers/commonHelpers";
+import { bookingsTableName } from "../utils/constants/queryConstants";
 import supabase from "./supabase";
+import {
+  applyFiltersToQuery,
+  applySortToQuery,
+  applyPaginationToQuery,
+  SUPABASE_METHODS,
+} from "../utils/helpers/supabaseQueryHelpers";
+import { BOOKING_CONFIG } from "../utils/configs/bookingConfig";
 
-export async function getBooking(id) {
+export async function readBookings({
+  filters = [],
+  sortBy = null,
+  pagination = null,
+} = {}) {
+  let query = supabase
+    .from(bookingsTableName)
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, email)",
+      { count: "exact" }
+    );
+
+  query = applyFiltersToQuery(query, filters);
+  query = applySortToQuery(query, sortBy);
+  query = applyPaginationToQuery(query, pagination);
+
+  const { data, count, error } = await query;
+
+  if (error) {
+    console.error("readBookings error:", error);
+    throw new Error("Bookings could not be loaded");
+  }
+
+  return { data: data ?? [], count: Number(count ?? 0) };
+}
+
+export async function readBookingById(id) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from(bookingsTableName)
     .select("*, cabins(*), guests(*)")
     .eq("id", id)
     .single();
@@ -19,7 +53,7 @@ export async function getBooking(id) {
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from(bookingsTableName)
     .select("created_at, totalPrice, extrasPrice")
     .gte("created_at", date)
     .lte("created_at", getToday({ end: true }));
@@ -35,7 +69,7 @@ export async function getBookingsAfterDate(date) {
 // Returns all STAYS that are were created after the given date
 export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from(bookingsTableName)
     // .select('*')
     .select("*, guests(fullName)")
     .gte("startDate", date)
@@ -52,16 +86,18 @@ export async function getStaysAfterDate(date) {
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
   const { data, error } = await supabase
-    .from("bookings")
+    .from(bookingsTableName)
     .select("*, guests(fullName, nationality, countryFlag)")
     .or(
-      `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+      `and(status.${SUPABASE_METHODS.EQ}.${
+        BOOKING_CONFIG.STATUS.UNCONFIRMED
+      },startDate.${SUPABASE_METHODS.EQ}.${getToday()}),and(status.${
+        SUPABASE_METHODS.EQ
+      }.${BOOKING_CONFIG.STATUS.CHECKED_IN},endDate.${
+        SUPABASE_METHODS.EQ
+      }.${getToday()})`
     )
     .order("created_at");
-
-  // Equivalent to this. But by querying this, we only download the data we actually need, otherwise we would need ALL bookings ever created
-  // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
-  // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
 
   if (error) {
     console.error(error);
@@ -72,12 +108,13 @@ export async function getStaysTodayActivity() {
 
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
-    .from("bookings")
+    .from(bookingsTableName)
     .update(obj)
     .eq("id", id)
     .select()
     .single();
 
+  console.log(data);
   if (error) {
     console.error(error);
     throw new Error("Booking could not be updated");
@@ -87,7 +124,10 @@ export async function updateBooking(id, obj) {
 
 export async function deleteBooking(id) {
   // REMEMBER RLS POLICIES
-  const { data, error } = await supabase.from("bookings").delete().eq("id", id);
+  const { data, error } = await supabase
+    .from(bookingsTableName)
+    .delete()
+    .eq("id", id);
 
   if (error) {
     console.error(error);

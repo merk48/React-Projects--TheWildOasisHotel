@@ -1,8 +1,54 @@
 import styled from "styled-components";
+import { useRecentBookings } from "./hooks/useRecentBookings";
+import { useRecentStays } from "./hooks/useRecentStays";
+import { useCabins } from "../../features/cabins/hooks/useCabins";
+import Spinner from "./../../ui/Spinner";
+import Status from "./Status";
+import SalesChart from "./SalesChart";
+import DurationChart from "./DurationChart";
+import TodayActivity from "../check-in-out/TodayActivity";
+import Error from "../../ui/Error";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
-  gap: 2.4rem;
+  /* fluid columns that auto-fit; min column is 280px (adjust if you want narrower) */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.2rem;
+  grid-auto-rows: auto; /* don't force row heights */
+
+  /* keep the "desktop" composition you had on wide screens */
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
+function DashboardLayout() {
+  const { isLoadingBooks, bookings, errorBooks } = useRecentBookings();
+
+  const { isLoadingStays, confirmedStays, errorStays, numDays } =
+    useRecentStays();
+
+  const { isLoading: isLoadingCabins, cabins } = useCabins();
+
+  const isLoading = isLoadingBooks || isLoadingStays || isLoadingCabins;
+
+  if (isLoading) return <Spinner />;
+  if (errorBooks) return <Error error={errorBooks} />;
+  if (errorStays) return <Error error={errorStays} />;
+
+  return (
+    <StyledDashboardLayout>
+      <Status
+        bookings={bookings}
+        confirmedStays={confirmedStays}
+        numDays={numDays}
+        cabinCount={cabins.length}
+      />
+      <TodayActivity />
+
+      <DurationChart confirmedStays={confirmedStays} />
+      <SalesChart bookings={bookings} numDays={numDays} />
+    </StyledDashboardLayout>
+  );
+}
+
+export default DashboardLayout;

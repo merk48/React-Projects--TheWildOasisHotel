@@ -6,18 +6,18 @@ import {
   HiOutlineCurrencyDollar,
   HiOutlineHomeModern,
 } from "react-icons/hi2";
-
 import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
-
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import {
+  formatDistanceFromNow,
+  formatCurrency,
+} from "../../utils/helpers/commonHelpers";
+import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 
 const StyledBookingDataBox = styled.section`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-
   overflow: hidden;
 `;
 
@@ -30,6 +30,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 
   svg {
     height: 3.2rem;
@@ -44,27 +46,87 @@ const Header = styled.header`
     font-size: 1.8rem;
   }
 
+  & > p {
+    font-size: 1.4rem;
+  }
+
   & span {
     font-family: "Sono";
     font-size: 2rem;
     margin-left: 4px;
   }
+
+  @media (max-width: 1024px) {
+    padding: 1.6rem 2.4rem;
+    font-size: 1.6rem;
+
+    svg {
+      height: 2.8rem;
+      width: 2.8rem;
+    }
+
+    & span {
+      font-size: 1.8rem;
+    }
+  }
+
+  /* Stack header content on mobile */
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.2rem 1.6rem;
+
+    & > p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+  gap: 1rem;
+
+  @media (max-width: 1024px) {
+    padding: 2.4rem 2.4rem 1rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1.2rem 1.6rem 0.8rem;
+  }
 `;
 
 const Guest = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.5rem;
   margin-bottom: 1.6rem;
   color: var(--color-grey-500);
 
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
+  }
+
+  /* allow wrapping on small screens */
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    & > p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+  }
+
+  /* Flag sizing */
+  img {
+    width: 2.2rem;
+    height: auto;
   }
 `;
 
@@ -77,9 +139,9 @@ const Price = styled.div`
   margin-top: 2.4rem;
 
   background-color: ${(props) =>
-    props.isPaid ? "var(--color-green-100)" : "var(--color-yellow-100)"};
+    props.$isPaid ? "var(--color-green-100)" : "var(--color-yellow-100)"};
   color: ${(props) =>
-    props.isPaid ? "var(--color-green-700)" : "var(--color-yellow-700)"};
+    props.$isPaid ? "var(--color-green-700)" : "var(--color-yellow-700)"};
 
   & p:last-child {
     text-transform: uppercase;
@@ -92,6 +154,19 @@ const Price = styled.div`
     width: 2.4rem;
     color: currentColor !important;
   }
+
+  /* Stack on narrow screens */
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+
+    & p:last-child {
+      text-transform: none;
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 const Footer = styled.footer`
@@ -99,8 +174,13 @@ const Footer = styled.footer`
   font-size: 1.2rem;
   color: var(--color-grey-500);
   text-align: right;
-`;
 
+  @media (max-width: 640px) {
+    padding: 1rem 1.6rem;
+    text-align: left;
+    font-size: 1.1rem;
+  }
+`;
 // A purely presentational component
 function BookingDataBox({ booking }) {
   const {
@@ -130,11 +210,12 @@ function BookingDataBox({ booking }) {
         </div>
 
         <p>
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
+          {format(new Date(startDate), BOOKING_CONFIG.UI.DATE_TIME_FORMAT)} (
           {isToday(new Date(startDate))
             ? "Today"
             : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+          ) &mdash;{" "}
+          {format(new Date(endDate), BOOKING_CONFIG.UI.DATE_TIME_FORMAT)}
         </p>
       </Header>
 
@@ -163,7 +244,7 @@ function BookingDataBox({ booking }) {
           {hasBreakfast ? "Yes" : "No"}
         </DataItem>
 
-        <Price isPaid={isPaid}>
+        <Price $isPaid={isPaid}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
             {formatCurrency(totalPrice)}
 
@@ -178,7 +259,13 @@ function BookingDataBox({ booking }) {
       </Section>
 
       <Footer>
-        <p>Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
+        <p>
+          Booked{" "}
+          {format(
+            new Date(created_at),
+            `${BOOKING_CONFIG.UI.DATE_TIME_FORMAT}, p`
+          )}
+        </p>
       </Footer>
     </StyledBookingDataBox>
   );

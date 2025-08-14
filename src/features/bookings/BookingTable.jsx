@@ -1,20 +1,34 @@
+import { useBookings } from "./hooks/useBookings";
 import BookingRow from "./BookingRow";
+import Empty from "../../ui/Empty";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
+import { PAGE_SIZE } from "../../utils/constants/uiConstants";
+import Error from "../../ui/Error";
 
 function BookingTable() {
-  const bookings = [];
+  const { isLoading, bookings, count, error } = useBookings();
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Error error={error} />;
+  if (!bookings) return <Empty resource="bookings" />;
 
   return (
     <Menus>
-      <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
+      <Table
+        columns="0.7fr 2fr 2fr 1.4fr 1fr .2fr"
+        minWidth={700}
+        minWidthSm={650}
+      >
         <Table.Header>
-          <div>Cabin</div>
-          <div>Guest</div>
-          <div>Dates</div>
-          <div>Status</div>
-          <div>Amount</div>
-          <div></div>
+          <Table.HeaderCell>Cabin</Table.HeaderCell>
+          <Table.HeaderCell>Guest</Table.HeaderCell>
+          <Table.HeaderCell>Dates</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell>Amount</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
         </Table.Header>
 
         <Table.Body
@@ -23,6 +37,10 @@ function BookingTable() {
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+
+        <Table.Footer>
+          <Pagination count={count} pageSize={PAGE_SIZE} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
