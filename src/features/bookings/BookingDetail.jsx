@@ -24,8 +24,6 @@ const HeadingGroup = styled.div`
   align-items: center;
 
   @media (max-width: 640px) {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 0.8rem;
     width: 100%;
   }
@@ -66,7 +64,7 @@ function BookingDetail() {
           Back
         </Button>
 
-        {status === BOOKING_CONFIG.statusOptions.UNCONFIRMED && (
+        {status === BOOKING_CONFIG.STATUS.UNCONFIRMED && (
           <Button
             variation="secondary"
             onClick={() => navigate(`/checkin/${id}`)}
@@ -76,7 +74,7 @@ function BookingDetail() {
           </Button>
         )}
 
-        {status === BOOKING_CONFIG.statusOptions.CHECKED_IN && (
+        {status === BOOKING_CONFIG.STATUS.CHECKED_IN && (
           <Button onClick={() => checkOut(id)} disabled={isWorking}>
             Check out
           </Button>

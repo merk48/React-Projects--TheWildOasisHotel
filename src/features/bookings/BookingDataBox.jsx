@@ -30,6 +30,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 
   svg {
     height: 3.2rem;
@@ -42,6 +44,10 @@ const Header = styled.header`
     gap: 1.6rem;
     font-weight: 600;
     font-size: 1.8rem;
+  }
+
+  & > p {
+    font-size: 1.4rem;
   }
 
   & span {
@@ -65,7 +71,7 @@ const Header = styled.header`
   }
 
   /* Stack header content on mobile */
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,7 +79,6 @@ const Header = styled.header`
     padding: 1.2rem 1.6rem;
 
     & > p {
-      width: 100%;
       font-size: 1.2rem;
       margin: 0;
     }
@@ -82,6 +87,7 @@ const Header = styled.header`
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+  gap: 1rem;
 
   @media (max-width: 1024px) {
     padding: 2.4rem 2.4rem 1rem;
@@ -95,7 +101,7 @@ const Section = styled.section`
 const Guest = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.5rem;
   margin-bottom: 1.6rem;
   color: var(--color-grey-500);
 
@@ -107,7 +113,7 @@ const Guest = styled.div`
   /* allow wrapping on small screens */
   @media (max-width: 640px) {
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 1rem;
 
     & > p {
       white-space: nowrap;

@@ -8,7 +8,7 @@ import { BOOKING_CONFIG } from "../../utils/configs/bookingConfig";
 
 const StyledTodayItem = styled.li`
   display: grid;
-  grid-template-columns: 1fr 0.5fr 2.5fr 1fr 1fr;
+  grid-template-columns: 1fr 0.5fr 2.5fr 1fr 1.2fr;
   gap: 1.2rem;
   align-items: center;
 
