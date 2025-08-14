@@ -2,7 +2,14 @@
 
 **The Wild Oasis** is a fully responsive, production-minded admin dashboard for a boutique hotel. Built as the final project for Jonas Schmedtmann’s _Ultimate React_ course, it demonstrates modern React patterns and tooling: React Query, React Hook Form, Styled Components, Supabase (backend + auth), advanced compound components, charts, dark mode, and accessible UI.
 
-Live demo: [https://the-wild-oasis.vercel.app/login](https://the-wild-oasis.vercel.app/login)
+🚀 Live Demo
+
+The Wild Oasis Live App
+[https://the-wild-oasis.vercel.app/login](https://merk48-the-wild-oasis-hotel.netlify.app/)
+
+Demo Credentials:
+Email: admin@example.com  
+Password: Pass123@
 
 ---
 
