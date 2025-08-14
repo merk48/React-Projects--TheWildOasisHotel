@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
-import { formatCurrency } from "./../../utils/helpers";
+import { formatCurrency } from "./../../utils/helpers/commonHelpers";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
@@ -139,9 +139,3 @@ function CabinRow({ cabin }) {
 }
 
 export default CabinRow;
-//             <UpdateCabin id={id} disabled={isWorking} cabin={cabin} />
-// <DeleteCabin
-//               id={id}
-//               disabled={isWorking}
-//               onConfirm={() => deleteCabin(id)}
-//             />

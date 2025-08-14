@@ -47,7 +47,7 @@ export const CABIN_CONFIG = {
       FIELD: "discount", // backend field name
       PARAM: PARAMS.CABIN.DISCOUNT_FILTER, // url param name
       DEFAULT: DISCOUNT.ALL,
-      OPTION: DISCOUNT_OPTIONS,
+      OPTIONS: DISCOUNT_OPTIONS,
       META_DATA: {},
       ToFilter: (value) =>
         !value || value === DISCOUNT.ALL
@@ -62,7 +62,7 @@ export const CABIN_CONFIG = {
       FIELD: "regularPrice", // backend field name
       PARAM: PARAMS.CABIN.PRICE_FILTER, // url param name
       DEFAULT: PRICE.ALL,
-      OPTION: PRICE_OPTIONS,
+      OPTIONS: PRICE_OPTIONS,
       META_DATA: { CURRENCY },
       ToFilter: (value) =>
         !value || value === PRICE.ALL
