@@ -148,10 +148,43 @@ export async function updateCabin(updatedCabin, id) {
 }
 
 export async function deleteCabin(id) {
-  const { error } = await supabase.from(cabinsTableName).delete().eq("id", id);
+  // 1. Get the current cabin to find the stored image
+  const { data: cabin, error: fetchError } = await supabase
+    .from(cabinsTableName)
+    .select("image")
+    .eq("id", id)
+    .single();
 
-  if (error) {
-    console.error(error);
+  if (fetchError) {
+    console.error(fetchError);
+    throw new Error(`Could not fetch cabin with id ${id}`);
+  }
+
+  // Extract the filename from the URL
+  const fileName = getFilenameFromUrl(cabin?.image);
+
+  // 2. Delete the DB row
+  const { error: deleteError } = await supabase
+    .from(cabinsTableName)
+    .delete()
+    .eq("id", id);
+
+  if (deleteError) {
+    console.error(deleteError);
     throw new Error(`Cabin with id ${id} could not be deleted`);
   }
+
+  // 3. Delete the image from storage (best-effort)
+  if (fileName) {
+    const { error: storageError } = await deleteFile(
+      cabinsBucketStorage,
+      fileName
+    );
+    if (storageError) {
+      console.error(storageError);
+      throw new Error(`Cabin deleted but failed to delete image from storage`);
+    }
+  }
+
+  return true;
 }

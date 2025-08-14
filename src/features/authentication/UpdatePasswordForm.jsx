@@ -4,6 +4,7 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useUpdateUser } from "./hooks/useUpdateUser";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
@@ -56,7 +57,9 @@ function UpdatePasswordForm() {
         <Button onClick={reset} type="reset" variation="secondary">
           Reset
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdating}>
+          {isUpdating ? <SpinnerMini /> : "Update password"}
+        </Button>
       </FormRow>
     </Form>
   );

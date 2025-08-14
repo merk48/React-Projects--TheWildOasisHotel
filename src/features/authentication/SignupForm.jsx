@@ -4,6 +4,7 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 // Email regex: /\S+@\S+\.\S+/
 
@@ -15,7 +16,7 @@ function SignupForm() {
     getValues,
     handleSubmit,
   } = useForm();
-  console.log(errors);
+
   const { isSigningUp, SignUp } = useSignUp();
 
   const basicValidations = (fieldName) => {
@@ -97,7 +98,7 @@ function SignupForm() {
         <Button variation="secondary" type="reset">
           Reset
         </Button>
-        <Button>Create new user</Button>
+        <Button>{isSigningUp ? <SpinnerMini /> : "Create new user"}</Button>
       </FormRow>
     </Form>
   );

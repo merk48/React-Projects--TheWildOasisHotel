@@ -132,6 +132,7 @@ function BookingRow({
             resourceName="booking"
             onConfirm={() => deleteBooking(bookingId)}
             disabled={isWorking}
+            isDeleting={isWorking}
           />
         </Modal.Window>
       </Modal>

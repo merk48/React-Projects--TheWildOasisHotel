@@ -66,8 +66,5 @@ export function getFilenameFromUrl(url) {
 export async function deleteFile(bucket, fileName) {
   if (!fileName) return;
   const { error } = await supabase.storage.from(bucket).remove([fileName]);
-  if (error) {
-    console.warn("deleteFile error", error);
-    // don't throw — best-effort cleanup
-  }
+  return { error }; // always returns an object
 }

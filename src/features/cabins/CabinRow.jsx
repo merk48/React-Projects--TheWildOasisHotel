@@ -131,6 +131,7 @@ function CabinRow({ cabin }) {
             resourceName="cabin"
             onConfirm={() => deleteCabin(cabinId)}
             disabled={isWorking}
+            isDeleting={isWorking}
           />
         </Modal.Window>
       </Modal>

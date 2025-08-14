@@ -169,7 +169,13 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           Reset
         </Button>
         <Button disabled={isWorking}>
-          {isEditSession ? "Edit cabin" : "Create new cabin"}
+          {isWorking ? (
+            <SpinnerMini />
+          ) : isEditSession ? (
+            "Edit cabin"
+          ) : (
+            "Create new cabin"
+          )}
         </Button>
       </FormRow>
     </Form>

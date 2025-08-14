@@ -17,6 +17,7 @@ import Spinner from "../../ui/Spinner";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
 import Empty from "../../ui/Empty";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ function BookingDetail() {
 
   const { isCheckingOut, checkOut } = useCheckout();
   const { isDeleting, deleteBooking } = useDeleteBooking();
-  const isWorking = isCheckingOut || isDeleting;
+  const isWorking = isLoading || isCheckingOut || isDeleting;
 
   const moveBack = useMoveBack();
 
@@ -70,13 +71,13 @@ function BookingDetail() {
             onClick={() => navigate(`/checkin/${id}`)}
             disabled={isWorking}
           >
-            Check In
+            {isWorking ? <SpinnerMini /> : `Check in`}
           </Button>
         )}
 
         {status === BOOKING_CONFIG.STATUS.CHECKED_IN && (
           <Button onClick={() => checkOut(id)} disabled={isWorking}>
-            Check out
+            {isWorking ? <SpinnerMini /> : `Check out`}
           </Button>
         )}
         <Modal>
@@ -97,6 +98,7 @@ function BookingDetail() {
                 });
               }}
               disabled={isWorking}
+              isDeleting={isWorking}
             />
           </Modal.Window>
         </Modal>

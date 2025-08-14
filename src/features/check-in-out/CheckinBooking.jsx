@@ -13,6 +13,7 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import Checkbox from "../../ui/Checkbox";
 import Spinner from "../../ui/Spinner";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const Box = styled.div`
   /* Box */
@@ -107,7 +108,7 @@ function CheckinBooking() {
 
       <ButtonGroup>
         <Button onClick={handleCheckin} disabled={!confirmPaid || isCheckingIn}>
-          Check in booking #{bookingId}
+          {isCheckingIn ? <SpinnerMini /> : `Check in booking #${bookingId}`}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back

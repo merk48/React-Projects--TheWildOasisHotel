@@ -4,14 +4,12 @@ import CabinRow from "./CabinRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
-import AddCabin from "./AddCabin";
 import Pagination from "../../ui/Pagination";
 import { PAGE_SIZE } from "../../utils/constants/uiConstants";
 
 function CabinTable() {
   const { isLoading, cabins, count, error } = useCabins();
-  console.log(cabins);
-  console.log(count);
+
   if (isLoading) return <Spinner />;
 
   if (!cabins) return <Empty resource="cabins" />;
