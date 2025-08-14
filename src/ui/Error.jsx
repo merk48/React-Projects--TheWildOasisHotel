@@ -12,6 +12,11 @@ const ErrorContainer = styled.div`
   margin: 2.4rem auto;
   font-size: 1.6rem;
   font-weight: 500;
+  :root.dark-mode & {
+    color: var(--color-red-100);
+    background-color: var(--color-red-800);
+    border: 1px solid var(--color-red-300);
+  }
 
   @media (max-width: 768px) {
     font-size: 1.4rem;

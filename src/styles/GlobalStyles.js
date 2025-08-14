@@ -73,9 +73,9 @@ const GlobalStyles = createGlobalStyle`
   --color-indigo-100: #3730a3;
   --color-indigo-700: #e0e7ff;
 
-  --color-red-100: #991b1b;
+  --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
-  --color-red-800:  #fee2e2;
+  --color-red-800: #991b1b;
 
   --backdrop-color: rgba(0, 0, 0, 0.3);
 
