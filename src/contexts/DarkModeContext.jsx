@@ -34,7 +34,8 @@ function DarkModeProvider({ children }) {
   );
 }
 
-function useDarkMode() {
+// eslint-disable-next-line react-refresh/only-export-components
+export function useDarkMode() {
   const context = useContext(darkModeContext);
 
   if (context === undefined)
@@ -43,5 +44,4 @@ function useDarkMode() {
   return context;
 }
 
-export { useDarkMode };
 export default DarkModeProvider;

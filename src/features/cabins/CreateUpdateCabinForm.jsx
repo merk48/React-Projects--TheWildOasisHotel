@@ -55,9 +55,9 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       );
   }
 
-  function onError(errors) {
-    // log error
-  }
+  // function onError(errors) {
+  //   // log error
+  // }
 
   function handleReset() {
     if (isEditSession && Object.keys(editValues).length > 0) {
@@ -67,7 +67,7 @@ function CreateUpdateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onSubmit)}
       type={onCloseModal ? "moda" : "regular"}
     >
       <FormRow label="Cabin name" error={errors?.name?.message}>

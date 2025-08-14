@@ -72,6 +72,7 @@ export function Filter({
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 export function Group({ filterField, options }) {
   return (
     <>

@@ -28,6 +28,7 @@ const StyledSelect = styled.select`
 function SortSelect({
   options,
   sortField = "sortBy",
+  // eslint-disable-next-line no-unused-vars
   placeholder = "Sort by...",
   defaultValue = "",
   writeDefaultToUrl = false,

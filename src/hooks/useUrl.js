@@ -29,26 +29,32 @@ export function useUrl(paramKey, options = {}) {
 
   const raw = searchParams.get(paramKey);
 
-  const parse = (val) => {
-    if (val === null) return defaultValue;
-    if (type === "number") {
-      const n = Number(val);
-      return Number.isFinite(n) ? n : defaultValue;
-    }
-    if (type === "boolean") return val === "true";
-    if (type === "array")
-      return val === "" ? [] : String(val).split(",").filter(Boolean);
-    return String(val);
-  };
+  const parse = useCallback(
+    (val) => {
+      if (val === null) return defaultValue;
+      if (type === "number") {
+        const n = Number(val);
+        return Number.isFinite(n) ? n : defaultValue;
+      }
+      if (type === "boolean") return val === "true";
+      if (type === "array")
+        return val === "" ? [] : String(val).split(",").filter(Boolean);
+      return String(val);
+    },
+    [type, defaultValue]
+  );
 
-  const stringify = (val) => {
-    if (val === null || val === undefined) return null;
-    if (type === "array")
-      return Array.isArray(val) ? val.join(",") : String(val);
-    return String(val);
-  };
+  const stringify = useCallback(
+    (val) => {
+      if (val === null || val === undefined) return null;
+      if (type === "array")
+        return Array.isArray(val) ? val.join(",") : String(val);
+      return String(val);
+    },
+    [type]
+  );
 
-  const value = useMemo(() => parse(raw), [raw, type, defaultValue]);
+  const value = useMemo(() => parse(raw), [parse, raw]);
 
   // If requested, write the default into the URL once when the param is missing.
   useEffect(() => {
