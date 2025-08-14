@@ -5,7 +5,7 @@
 🚀 Live Demo
 
 The Wild Oasis Live App
-[https://the-wild-oasis.vercel.app](https://merk48-the-wild-oasis-hotel.netlify.app/)](https://merk48-the-wild-oasis-hotel.netlify.app/)
+[https://merk48-the-wild-oasis-hotel.netlify.app/](https://merk48-the-wild-oasis-hotel.netlify.app/)
 
 Demo Credentials:
 
